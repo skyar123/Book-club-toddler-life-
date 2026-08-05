@@ -1,0 +1,8 @@
+{
+  "name": "toddler-book-club",
+  "private": true,
+  "description": "Book club companion for The Emotional Life of the Toddler",
+  "dependencies": {
+    "@netlify/blobs": "^10.0.0"
+  }
+}

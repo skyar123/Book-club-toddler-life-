@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Emotional Life of the Toddler: Book Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Karla:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF6EC;
+    --sheet:#FFFDF8;
+    --ink:#302B27;
+    --ink-soft:#63594F;
+    --ink-mute:#726860;
+    --rule:#E3D8C5;
+    --kraft:#D9C7A8;
+    --kraft-ink:#54432A;
+    --shadow:rgba(48,43,39,.14);
+    --c:#C6CFEA;      /* chapter pastel */
+    --d:#41508A;      /* chapter deep */
+    --accent:#41508A; /* text-safe accent, swaps in dark mode */
+    --radius:14px;
+    --tap:44px;
+  }
+  html[data-theme="dark"]{
+    --paper:#17150F;
+    --sheet:#211E17;
+    --ink:#F2EBDD;
+    --ink-soft:#C0B6A6;
+    --ink-mute:#ABA091;
+    --rule:#38312A;
+    --kraft:#4B3F2B;
+    --kraft-ink:#EBDCC0;
+    --shadow:rgba(0,0,0,.5);
+  }
+  @media (prefers-color-scheme:dark){
+    html[data-theme="auto"]{
+      --paper:#17150F;
+      --sheet:#211E17;
+      --ink:#F2EBDD;
+      --ink-soft:#C0B6A6;
+      --ink-mute:#ABA091;
+      --rule:#38312A;
+      --kraft:#4B3F2B;
+      --kraft-ink:#EBDCC0;
+      --shadow:rgba(0,0,0,.5);
+    }
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Karla',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    font-size:16.5px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:120px;
+  }
+  .wrap{max-width:780px;margin:0 auto;padding:0 18px}
+  button{font-family:'Karla',sans-serif;color:inherit}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+  /* ---------- masthead ---------- */
+  .mast{padding-top:26px;padding-bottom:10px}
+  .toprow{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .kicker{
+    font-size:12.5px;letter-spacing:.15em;text-transform:uppercase;
+    font-weight:700;color:var(--ink-mute);margin:0 0 8px
+  }
+  h1{
+    font-family:'Baloo 2',ui-rounded,system-ui,sans-serif;
+    font-weight:700;font-size:clamp(29px,7.2vw,42px);line-height:1.08;
+    margin:0 0 6px;letter-spacing:-.01em;
+  }
+  h1 em{font-style:normal;display:block;color:var(--ink-soft);font-size:.5em;font-weight:600;letter-spacing:0;margin-top:7px}
+  .themebtn{
+    flex:0 0 auto;min-width:var(--tap);min-height:var(--tap);
+    border:1.5px solid var(--rule);background:transparent;border-radius:12px;
+    font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink-mute);cursor:pointer;padding:0 10px;
+  }
+  .themebtn:hover{border-color:var(--ink-mute)}
+
+  /* box of crayons progress */
+  .box{display:flex;gap:4px;align-items:flex-end;margin:18px 0 5px}
+  .box i{flex:1;height:13px;border-radius:3px;border:1.5px solid var(--rule);background:transparent}
+  .box i.on{border-color:transparent}
+  .boxlabel{font-size:13.5px;color:var(--ink-soft);margin:0}
+
+  /* ---------- crayon rack ---------- */
+  .rack{position:sticky;top:0;z-index:30;background:var(--paper);padding:10px 0 8px}
+  .rack:after{
+    content:"";position:absolute;left:0;right:0;top:100%;height:16px;
+    background:linear-gradient(var(--paper),transparent);pointer-events:none;
+  }
+  .railwrap{max-width:780px;margin:0 auto}
+  .rail{display:flex;gap:8px;overflow-x:auto;padding:6px 18px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .rail::-webkit-scrollbar{display:none}
+  .crayon{
+    flex:0 0 auto;position:relative;border:0;cursor:pointer;
+    padding:8px 30px 8px 13px;min-height:var(--tap);
+    text-align:left;
+    clip-path:polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+    border-radius:5px 0 0 5px;
+    transition:transform .18s ease, filter .18s ease;
+    filter:saturate(.8) brightness(.99);
+  }
+  .crayon:before{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(90deg,rgba(255,255,255,.55) 0 5px,transparent 5px),
+      linear-gradient(180deg,transparent 22%,rgba(255,255,255,.42) 22% 27%,transparent 27%,transparent 73%,rgba(0,0,0,.07) 73% 78%,transparent 78%);
+    pointer-events:none;
+  }
+  .crayon b{display:block;font-size:15px;font-weight:700;line-height:1.12;position:relative}
+  .crayon .ch{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;position:relative;margin-bottom:2px;opacity:.78}
+  .crayon:hover{transform:translateY(-3px)}
+  .crayon[aria-selected="true"]{transform:translateY(-6px);filter:none;box-shadow:0 6px 0 -2px var(--shadow)}
+  .crayon.plain{
+    clip-path:none;border-radius:8px;background:var(--kraft);color:var(--kraft-ink);
+    padding:8px 15px;border:1.5px solid var(--rule);
+  }
+  .crayon.plain:before{display:none}
+
+  /* ---------- sheet ---------- */
+  .sheet{
+    background:var(--sheet);border:1.5px solid var(--rule);border-radius:var(--radius);
+    overflow:hidden;margin-bottom:26px;
+    animation:rise .3s ease both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .band{height:10px;background:var(--c)}
+  .sheet-in{padding:22px 20px 26px}
+  @media(min-width:680px){.sheet-in{padding:30px 34px 36px}}
+
+  .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent);margin:0 0 10px}
+  h2{font-family:'Baloo 2',ui-rounded,sans-serif;font-weight:600;font-size:clamp(23px,5.4vw,30px);line-height:1.16;margin:0 0 4px;letter-spacing:-.005em}
+  .colorname{font-size:13.5px;color:var(--ink-soft);margin:0 0 20px;font-style:italic}
+
+  h3{
+    font-family:'Baloo 2',ui-rounded,sans-serif;font-weight:600;
+    font-size:17.5px;margin:32px 0 2px;display:inline-block;position:relative;
+  }
+  h3 svg{position:absolute;left:0;right:0;bottom:-7px;width:100%;height:7px;overflow:visible}
+  section p{margin:14px 0 0}
+
+  .aloud{background:var(--c);border-radius:12px;padding:16px 18px;margin-top:16px}
+  .aloud p{margin:0;color:#22201C}
+  .aloud .tag{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:#22201C;opacity:.68;display:block;margin-bottom:6px}
+
+  ul.ideas{list-style:none;margin:16px 0 0;padding:0}
+  ul.ideas li{border-left:4px solid var(--c);padding:2px 0 2px 14px;margin-bottom:14px}
+  ul.ideas b{font-weight:700;color:var(--accent);display:block;font-size:15.5px}
+  ul.ideas span{font-size:15.5px}
+
+  /* disclosure */
+  .fold{margin-top:14px;border:1.5px solid var(--rule);border-radius:12px;overflow:hidden}
+  .fold > summary{
+    list-style:none;cursor:pointer;padding:13px 16px;min-height:var(--tap);
+    display:flex;align-items:center;gap:10px;font-weight:700;font-size:15.5px;
+  }
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary .chev{
+    flex:0 0 auto;width:9px;height:9px;border-right:2.4px solid var(--accent);border-bottom:2.4px solid var(--accent);
+    transform:rotate(45deg);transition:transform .18s ease;margin-right:2px;
+  }
+  .fold[open] > summary .chev{transform:rotate(225deg)}
+  .fold .foldbody{padding:0 16px 16px;font-size:15.5px}
+  .fold .foldbody p{margin:0 0 12px}
+  .fold .foldbody p:last-child{margin-bottom:0}
+  .foldnote{font-size:13.5px;color:var(--ink-soft);font-weight:400;margin-left:auto;text-align:right}
+
+  /* questions */
+  .legend{font-size:13.5px;color:var(--ink-soft);margin:14px 0 2px}
+  .tier{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink-mute);margin:24px 0 4px}
+  .qrow{display:flex;gap:8px;align-items:flex-start;border-bottom:1px solid var(--rule);padding:4px 0}
+  .qrow:last-of-type{border-bottom:0}
+  .star{
+    flex:0 0 auto;width:var(--tap);height:var(--tap);border:0;background:transparent;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;border-radius:10px;
+  }
+  .star svg{width:21px;height:21px;display:block}
+  .star path{fill:none;stroke:var(--ink-mute);stroke-width:1.8px;stroke-linejoin:round}
+  .star[aria-pressed="true"] path{fill:var(--c);stroke:var(--accent);stroke-width:2px}
+  .qbtn{
+    flex:1;text-align:left;background:transparent;border:0;padding:11px 4px 11px 0;cursor:pointer;
+    font-size:16px;line-height:1.5;color:var(--ink);
+  }
+  .qbtn .qnote{display:block;font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin-top:6px}
+  .qbtn .usedtag{
+    display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+    color:var(--accent);border:1.5px solid var(--c);background:var(--c);border-radius:99px;
+    padding:1px 8px;margin-right:7px;vertical-align:1px;
+  }
+  html[data-theme="dark"] .qbtn .usedtag{color:#22201C}
+
+  /* tonight tray */
+  .tray{border:2px solid var(--c);border-radius:12px;padding:14px 16px;margin-top:16px;background:transparent}
+  .tray h4{font-family:'Baloo 2',sans-serif;font-weight:600;font-size:16px;margin:0 0 8px}
+  .tray ol{margin:0;padding-left:20px}
+  .tray li{margin-bottom:8px;font-size:15.5px}
+  .tray li:last-child{margin-bottom:0}
+  .tray .empty{margin:0;font-size:15.5px;color:var(--ink-soft)}
+
+  .quiet{border:1.5px dashed var(--c);border-radius:12px;padding:14px 16px;margin-top:16px}
+  .quiet p{margin:0;font-size:15.5px}
+  .angels{border-left:4px solid var(--c);background:transparent;padding:2px 0 2px 14px;margin-top:16px}
+  .angels p{margin:0;font-size:15.5px}
+  .permission{font-size:14.5px;color:var(--ink-soft);margin-top:10px;font-style:italic}
+
+  textarea{
+    width:100%;min-height:140px;margin-top:14px;padding:14px;
+    background:var(--sheet);border:1.5px solid var(--rule);border-radius:12px;
+    font-family:'Karla',sans-serif;font-size:16px;line-height:1.6;color:var(--ink);resize:vertical;
+  }
+  textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px var(--c)}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    min-height:var(--tap);padding:11px 16px;cursor:pointer;
+    background:transparent;border:1.5px solid var(--rule);border-radius:12px;
+    font-size:15.5px;font-weight:700;color:var(--ink-soft);
+  }
+  .btn:hover{border-color:var(--ink-mute);color:var(--ink)}
+  .btn.wide{width:100%;margin-top:14px}
+  .btn.warn{border-color:#B4553F;color:#B4553F}
+  .done[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#22201C}
+  .tick{width:21px;height:21px;flex:0 0 auto;border-radius:6px;border:2px solid currentColor;position:relative}
+  .done[aria-pressed="true"] .tick{background:var(--sheet);border-color:var(--accent)}
+  .done[aria-pressed="true"] .tick:after{
+    content:"";position:absolute;left:5px;top:1px;width:6px;height:12px;
+    border:solid var(--accent);border-width:0 2.5px 2.5px 0;transform:rotate(42deg)
+  }
+
+  .pager{display:flex;gap:10px;margin-top:26px}
+  .pager .btn{flex:1;font-size:14.5px;text-align:center;display:block;padding:12px 10px}
+  .pager .btn span{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);font-weight:700;margin-bottom:2px}
+
+  /* run sheet */
+  .flow{list-style:none;margin:16px 0 0;padding:0}
+  .flow li{border-bottom:1px solid var(--rule)}
+  .flow li:last-child{border-bottom:0}
+  .segbtn{
+    display:flex;gap:12px;align-items:baseline;width:100%;text-align:left;
+    background:transparent;border:0;padding:12px 4px;cursor:pointer;min-height:var(--tap);font-size:15.5px;
+  }
+  .segbtn .min{flex:0 0 62px;font-weight:700;color:var(--accent);font-size:13.5px;letter-spacing:.03em}
+  .segbtn:hover{background:var(--paper)}
+  .segbtn[aria-current="true"]{background:var(--c);color:#22201C;border-radius:8px}
+  .segbtn[aria-current="true"] .min{color:#22201C}
+  .toggle{display:flex;gap:8px;margin-top:16px}
+  .toggle .btn{flex:1;font-size:14.5px}
+  .toggle .btn[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#22201C}
+  ol.rules{margin:14px 0 0;padding-left:20px}
+  ol.rules li{margin-bottom:10px}
+
+  /* timer bar */
+  .timer{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:var(--ink);color:var(--paper);
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+    display:none;align-items:center;gap:12px;
+  }
+  .timer.show{display:flex}
+  .timer .clock{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:26px;letter-spacing:.02em;min-width:78px;font-variant-numeric:tabular-nums}
+  .timer .what{flex:1;font-size:13.5px;line-height:1.35;min-width:0}
+  .timer .what b{display:block;font-size:15px}
+  .timer button{
+    background:transparent;border:1.5px solid rgba(255,255,255,.4);color:var(--paper);
+    border-radius:10px;min-width:var(--tap);min-height:var(--tap);cursor:pointer;font-size:13px;font-weight:700;padding:0 10px;
+  }
+  .timer.over .clock{color:#FFC3AB}
+
+  .toast{
+    position:fixed;left:50%;transform:translateX(-50%);bottom:86px;
+    background:var(--ink);color:var(--paper);padding:9px 17px;border-radius:99px;
+    font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:60;
+  }
+  .toast.show{opacity:1}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  footer{text-align:center;color:var(--ink-soft);font-size:13px;padding:6px 0 30px}
+  footer a{color:var(--ink-soft)}
+  footer .btn{margin-top:14px;font-size:13.5px}
+
+  /* ---------- chips, inputs, votes ---------- */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{
+    font-family:'Baloo 2',sans-serif;font-weight:600;font-size:16px;
+    padding:6px 14px;border-radius:99px;background:var(--c);color:#22201C;
+    transform:rotate(var(--tilt,0deg));
+  }
+  .chip.mine{box-shadow:0 0 0 2px var(--accent)}
+  .inline{display:flex;gap:8px;margin-top:14px}
+  .inline input{
+    flex:1;min-height:var(--tap);padding:10px 14px;border-radius:12px;
+    border:1.5px solid var(--rule);background:var(--sheet);color:var(--ink);
+    font-family:'Karla',sans-serif;font-size:16px;
+  }
+  .inline input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px var(--c)}
+  .inline .btn{flex:0 0 auto}
+  .votepill{
+    display:inline-block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+    color:var(--accent);border:1.5px solid var(--accent);border-radius:99px;
+    padding:1px 9px;margin-right:7px;vertical-align:1px;
+  }
+  .rowbtns{display:flex;gap:10px;margin-top:14px}
+  .rowbtns .btn{flex:1;text-align:center;display:block}
+  .warnbox{border:1.5px solid var(--rule);border-radius:12px;padding:13px 15px;margin-top:14px;font-size:14.5px;color:var(--ink-soft)}
+  .warnbox b{color:var(--ink)}
+
+  /* ---------- angels wall ---------- */
+  .wallcard{
+    border:1.5px solid var(--rule);border-radius:14px;padding:18px 18px;margin-top:12px;
+    background:var(--sheet);font-size:17px;line-height:1.5;
+  }
+  .wallcard .from{display:block;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink-mute);margin-top:10px}
+  .wallbig{
+    border:2px solid var(--c);border-radius:16px;padding:26px 20px;margin-top:14px;min-height:190px;
+    display:flex;align-items:center;
+    font-family:'Baloo 2',sans-serif;font-weight:500;font-size:clamp(20px,5vw,27px);line-height:1.35;
+  }
+  .queue{border-left:4px solid var(--c);padding:4px 0 4px 14px;margin-top:14px}
+  .queue p{margin:0 0 10px;font-size:15.5px}
+
+  /* ---------- card deck overlay ---------- */
+  .deck{position:fixed;inset:0;z-index:80;background:var(--paper);display:none;flex-direction:column}
+  .deck.show{display:flex}
+  .deckbar{display:flex;gap:3px;padding:calc(12px + env(safe-area-inset-top)) 16px 0}
+  .deckbar i{flex:1;height:4px;border-radius:2px;background:var(--rule)}
+  .deckbar i.on{background:var(--accent)}
+  .decktop{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px 0 16px}
+  .decktop .mode{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink-mute)}
+  .deckx{min-width:var(--tap);min-height:var(--tap);border:0;background:transparent;cursor:pointer;font-size:22px;color:var(--ink-soft);line-height:1}
+  .deckstage{flex:1;display:flex;align-items:center;justify-content:center;padding:8px 22px;position:relative;overflow:hidden}
+  .card{max-width:640px;width:100%;transition:transform .22s ease, opacity .22s ease}
+  .card.out-l{transform:translateX(-115%) rotate(-7deg);opacity:0}
+  .card.out-r{transform:translateX(115%) rotate(7deg);opacity:0}
+  .card .lab{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent);margin:0 0 14px}
+  .card .big{font-family:'Baloo 2',ui-rounded,sans-serif;font-weight:600;font-size:clamp(24px,6.2vw,42px);line-height:1.2;margin:0;letter-spacing:-.005em}
+  .card .med{font-size:clamp(17px,4.3vw,23px);line-height:1.45;margin:16px 0 0;color:var(--ink-soft)}
+  .card .tiny{font-size:14.5px;line-height:1.5;margin:18px 0 0;color:var(--ink-soft);font-style:italic}
+  .tapzone{position:absolute;top:0;bottom:0;width:30%;border:0;background:transparent;cursor:pointer}
+  .tapzone.l{left:0}
+  .tapzone.r{right:0;width:44%}
+  .deckfoot{padding:10px 16px calc(16px + env(safe-area-inset-bottom));display:flex;gap:10px}
+  .deckfoot .btn{flex:1;justify-content:center;background:var(--sheet)}
+  .deckfoot .btn.yes{border-color:var(--accent);color:var(--accent)}
+  .deckcount{text-align:center;font-size:13.5px;color:var(--ink-soft);padding:0 16px 4px;margin:0}
+
+
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media print{
+    .rack,.timer,.toast,.themebtn,.box,.boxlabel,.pager,.star,footer{display:none!important}
+    body{background:#fff;color:#000;padding:0}
+    .sheet{border:none}
+    .fold[open] .foldbody,.fold .foldbody{display:block!important}
+    .fold > summary{font-weight:700}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap mast">
+  <div class="toprow">
+    <div>
+      <p class="kicker">Book club companion</p>
+      <h1>The Emotional Life of the Toddler<em>Alicia F. Lieberman, revised edition, one chapter at a time</em></h1>
+    </div>
+    <button class="themebtn" id="themebtn" aria-label="Change light and dark mode">Auto</button>
+  </div>
+  <div class="box" id="box" aria-hidden="true"></div>
+  <p class="boxlabel" id="boxlabel">Twelve sheets in the box. Start anywhere.</p>
+</div>
+
+<div class="rack">
+  <div class="railwrap">
+    <div class="rail" id="rail" role="tablist" aria-label="Sessions"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="view" role="tabpanel" tabindex="-1"></div>
+  <footer>
+    Notes save on this device only. The check-in board, question votes, and angels wall are shared with anyone using this link.
+    <br>
+    <button class="btn" id="tutorialbtn">Show the tutorial</button>
+  </footer>
+</div>
+
+<div class="timer" id="timer" role="region" aria-label="Session timer">
+  <span class="clock" id="clock">00:00</span>
+  <span class="what" id="what"><b>Segment</b><span id="whatsub">detail</span></span>
+  <button id="tpause" aria-label="Pause timer">Pause</button>
+  <button id="tnext" aria-label="Next segment">Next</button>
+  <button id="tstop" aria-label="Stop timer">Stop</button>
+</div>
+
+<div class="deck" id="deck" role="dialog" aria-modal="true" aria-label="Card deck">
+  <div class="deckbar" id="deckbar" aria-hidden="true"></div>
+  <div class="decktop">
+    <span class="mode" id="deckmode">Present</span>
+    <button class="deckx" id="deckx" aria-label="Close the deck">&times;</button>
+  </div>
+  <div class="deckstage">
+    <button class="tapzone l" id="tapl" aria-label="Previous card"></button>
+    <div class="card" id="card" role="status" aria-live="polite"></div>
+    <button class="tapzone r" id="tapr" aria-label="Next card"></button>
+  </div>
+  <p class="deckcount" id="deckcount"></p>
+  <div class="deckfoot" id="deckfoot"></div>
+</div>
+
+<div class="deck" id="tutorial" role="dialog" aria-modal="true" aria-label="Quick tour">
+  <div class="deckbar" id="tutbar" aria-hidden="true"></div>
+  <div class="decktop">
+    <span class="mode">Quick tour</span>
+    <button class="deckx" id="tutx" aria-label="Close the tour">&times;</button>
+  </div>
+  <div class="deckstage">
+    <div class="card" id="tutcard" role="status" aria-live="polite"></div>
+  </div>
+  <p class="deckcount" id="tutcount"></p>
+  <div class="deckfoot" id="tutfoot"></div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="sr" id="announce" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+
+const CH = [
+{
+  n:1, short:"Early Relationships", color:"Come Back Pink", c:"#F9C5D5", d:"#9C3E59",
+  title:"The Emotional Importance of Early Relationships",
+  send:"Chapter 1 for our first session. Come with one word for how your week has been. That is the whole prep.",
+  opener:"We are starting with the chapter that sets the terms for everything after it. Lieberman's argument is that almost nothing a toddler does is random, and that the relationship itself is what does the developmental work. Before we get into the reading, I want one word from each of you about how your week has been.",
+  summary:"Toddlerhood runs hot in both directions. The same child who is delighted by a wet leaf will also come apart over a banana that was peeled exactly the way they asked. Lieberman opens with vignettes that are hard to read as anything but chaos: a boy who bangs his head when frustrated, a hungry child who refuses every food offered, a girl who searches the room for her mother and bolts the second she finds her. Her argument is that these are not misbehavior. They are emotional communication from a nervous system with no language and no brakes yet. The anchor concept is the secure base: one reliable relationship the child can leave from and come back to. She also introduces Winnicott's good enough parent, which takes perfection off the table and shows that small ruptures, repaired, are how a child builds tolerance for frustration.",
+  ideas:[
+   ["Two feelings at once","Joy and fury run on the same wiring in a brain that cannot yet hold a contradiction."],
+   ["The secure base","Closeness is what makes exploration possible. It is not competing with independence, it is funding it."],
+   ["The role changes","A parent of an infant regulates. A parent of a toddler negotiates. That is a different job with no training."],
+   ["Good enough","Small mismatches that get repaired are the curriculum, not the failure."]
+  ],
+  contested:"The secure base is presented here as a human universal. Cross-cultural researchers push back hard on that. Heidi Keller argues that attachment theory encodes a Western middle class idea of the person, and that the single mother and child bond it assumes describes a small minority of the world's families, while most spread caregiving across a network of kin. The steadier middle position, from Mesman and colleagues, is universality without uniformity: responsiveness may well be widespread, while what it looks like and when it happens shift with the setting. Put this in front of the room before anyone uses this book to grade a family.",
+  warm:[
+   {id:"c1w1",q:"Which vignette made you wince with recognition? What did you see yourself doing?"},
+   {id:"c1w2",q:"Name one toddler behavior you have privately filed as manipulative. What changes if it is communication instead?"}
+  ],
+  deep:[
+   {id:"c1d1",q:"If defiance is developmentally necessary, what has to be true for an adult to actually believe that mid tantrum, not just agree with it in a book club?"},
+   {id:"c1d2",q:"The secure base assumes a caregiver with attention to give. What is competing for that attention in the families you know, and which of those pressures are personal versus structural?"},
+   {id:"c1d3",q:"Good enough often gets heard as permission to do less. Where is the line between good enough and neglect, and who gets to decide where it sits for a given family?"},
+   {id:"c1d4",q:"Whose child gets read as communicating and whose gets read as bad? What is driving that difference in a classroom, a clinic, a waiting room?"},
+   {id:"c1d5",q:"If a family spreads care across grandmothers, aunties, and older siblings, is the secure base missing or is our measure wrong?",note:"This is the Keller critique in one question. Push the room to say what they would actually write in a note about that family."}
+  ],
+  home:[
+   {id:"c1h1",q:"Name one moment this week where you were the secure base without doing anything at all. What made it work?"}
+  ],
+  angels:"Name one adult who made you feel completely understood when you were very small. Not a whole childhood. One moment.",
+  quiet:"Think of a time an adult stayed calm while you fell apart. What did they actually do with their body?",
+  between:"Watch for one round trip: a child leaving, exploring, and checking back. Note what the check in looked like, because it is often not eye contact."
+},
+{
+  n:2, short:"Who Is the Toddler?", color:"Second Birth Blue", c:"#C6CFEA", d:"#41508A",
+  title:"Who Is the Toddler?",
+  send:"Chapter 2 for Tuesday. It is the walking chapter. If you only get through half, get through the walking part.",
+  opener:"This chapter hangs on one milestone, and it is walking. Lieberman treats it as a psychological event rather than a motor one. Hold that in mind tonight, because most of what we deal with at two starts with a child discovering they can leave.",
+  summary:"Walking is the hinge. Independent locomotion is treated here as a second birth: the child can now put distance between themselves and you, on purpose, and the thrill of that comes packaged with real terror. So they cycle. Out to explore, back for what Mahler called emotional refueling, out again. Lieberman connects that pattern to the brain being built underneath it, where ordinary responsive interactions shape the circuits for regulation and chronic stress raises the resting baseline. The chapter also covers the toddler's discovery of their own body, including genitals and bodily products, and argues that the adult's face in those moments is the first draft of either body shame or body ease. Theory of mind starts here too, and at first it looks a lot like a child running experiments on you.",
+  ideas:[
+   ["Walking changes the geometry","Distance becomes something the child controls, which is thrilling and frightening at the same time."],
+   ["Emotional refueling","The check in is the point of the leaving. A child who never checks back is telling you something."],
+   ["Bodies and faces","Your reaction to their curiosity gets stored as a feeling about themselves, long before they have words for it."],
+   ["Other minds","The beginning of empathy is a child testing whether you have separate insides."]
+  ],
+  contested:"Two things in this chapter are live arguments, not settled facts. First, emotional refueling comes from Margaret Mahler's separation and individuation model, and infant researchers including Daniel Stern and Karlen Lyons-Ruth argue that babies are wired for relatedness from birth and never pass through the undifferentiated phase Mahler described. Fred Pine has defended a modified version. There is also a cultural objection: the model treats becoming a separate individual as the goal of maturity, which is not how every family defines a grown person. Second, the brain development material sits inside a literature that John Bruer and Jerome Kagan spent years criticizing, on the grounds that it overstates how much is fixed in the first three years and quietly relocates structural problems into individual parental failure. You can hold both: the observations are useful, the framework is contested.",
+  warm:[
+   {id:"c2w1",q:"What do you remember being told about your own body as a small child? Not the words necessarily, the tone."},
+   {id:"c2w2",q:"Where do you see refueling in the children you work with? What does it look like when it is not eye contact?"}
+  ],
+  deep:[
+   {id:"c2d1",q:"Refueling requires an adult who is findable. What does it look like when the caregiver is physically present but on a phone, or present but dissociated? Is a partial return enough?"},
+   {id:"c2d2",q:"If a toddler is testing whether you have your own feelings, they will do the thing that gets a reaction. How do we tell experiment from cruelty at this age, and why do adults reach so fast for the second reading?"},
+   {id:"c2d3",q:"Where does brain development language motivate a parent, and where does it frighten them into paralysis?",note:"The sharper version: who benefits when a hard week gets described as damage to a child's architecture? Bruer's argument is that this framing moves a public problem into a private one."},
+   {id:"c2d4",q:"Whose bodily curiosity gets treated as normal and whose gets treated as a warning sign? What is that difference actually tracking?"},
+   {id:"c2d5",q:"If separateness is not the goal in a family's culture, does this chapter still describe their child?"}
+  ],
+  home:[
+   {id:"c2h1",q:"Pick the bodily thing that most reliably gets a reaction out of you and rehearse a flat, kind response before you need it."}
+  ],
+  angels:"Who could you find when you were small? Picture the actual room and the actual person. What did finding them feel like in your body?",
+  quiet:"When you were small, who could you find when you needed to? How did you find them?",
+  between:"Count how many times in one hour a child looks back at their adult. Notice what the adult does with it."
+},
+{
+  n:3, short:"The Daily Grind", color:"Banana Peeled Wrong", c:"#FBD9A0", d:"#835C10",
+  title:"The Challenges of Being (and Raising) a Toddler",
+  send:"Chapter 3 for Tuesday. Heads up, this is the hard one. It names the exhaustion and the resentment out loud. Take care of yourself with it.",
+  opener:"This is the hard chapter, and it says out loud things people do not usually admit about raising a toddler. If some of it landed close to home, you get to decide how much of that you bring into the room tonight.",
+  summary:"Lieberman names the exhaustion, the isolation, and the resentment, and refuses to treat any of it as a character flaw. Then she reframes the word no. When a toddler says it fifty times a day, they are practicing having a will that is separate from yours, which is a developmental achievement wearing a very annoying costume. Underneath the tantrums is what she calls the wish to have it all: a toddler cannot yet hold two incompatible truths, so the banana cannot be both peeled and whole, and the collapse that follows is real grief rather than theater. The parent's job shifts from unilateral protector to partner who holds a limit and stays warm through the storm. That combination is what teaches a child that anger does not end love.",
+  ideas:[
+   ["No is scaffolding","Refusal builds the self. It is not aimed at you, even when it is pointed directly at you."],
+   ["The wish to have it all","No capacity yet for mutually exclusive options, so every either or is a loss."],
+   ["Tantrum as overflow","Desire outruns language and regulation, and the surplus comes out through the body."],
+   ["Hold the limit, hold the child","Firm and warm are not a trade off. Doing only one of them is what fails."]
+  ],
+  contested:"",
+  warm:[
+   {id:"c3w1",q:"What is your tell that you are about to lose it? Voice, jaw, breath, speed?"},
+   {id:"c3w2",q:"Which everyday limit do you find hardest to hold without getting sharp?"}
+  ],
+  deep:[
+   {id:"c3d1",q:"A dysregulated adult cannot regulate a child. What does the adult owe the child in the moment they cannot do it, and what does the system owe the adult?"},
+   {id:"c3d2",q:"Where is the line between socializing a child and breaking their will? Use something from your own week, not a hypothetical."},
+   {id:"c3d3",q:"Isolation makes limits harder to hold. What would have to change in a family's actual week, not their mindset, for boundary setting to be sustainable?"},
+   {id:"c3d4",q:"Empathy for a tantrum is easier at home than in a store. How much of our practice is shaped by who might be watching, and whose approval are we really managing?"},
+   {id:"c3d5",q:"Handing over a phone ends a tantrum in four seconds and it works. What is the honest guidance for a parent who has nothing else left that day?",note:"Nearly half of parents report using screens to manage hard behavior. The 2026 AAP framing puts calm in the middle of it as one of five things to weigh, rather than treating any use as a failure."}
+  ],
+  home:[
+   {id:"c3h1",q:"Pick one recurring battle and remove the choice you were never actually willing to honor."}
+  ],
+  angels:"Think of one adult who stayed warm with you while holding a line. What did they say? Steal the sentence.",
+  quiet:"Finish this sentence out loud: the hardest part of my day with a toddler is usually the moment when...",
+  between:"Track one tantrum from start to finish without intervening in the first thirty seconds. What did you learn about its shape?"
+},
+{
+  n:4, short:"Temperament", color:"Nobody Chose This", c:"#C2E5B0", d:"#3C6E35",
+  title:"The Question of Temperament",
+  send:"Chapter 4 for Tuesday, on temperament. Come thinking about one specific child, not children in general.",
+  opener:"Tonight we stop talking about toddlers in general and start talking about the specific child in front of you. Temperament is the part nobody chose, including the parent, and that includes the parent's own temperament too.",
+  summary:"Temperament is the biological baseline: how fast a child revs, how much sensory input they can take before it is too much, how long they need to recover. It is not destiny and it is not chosen. The tool that does the real work in this chapter is goodness of fit, from Thomas and Chess, which describes the match between the child's wiring, the caregiver's wiring, and what the environment demands. A quiet, orderly parent raising a loud, fast child is not a parenting failure and not a defective child. It is a mismatch, and the mismatch is what generates the daily friction. Reading behavior as biology rather than intent takes blame out of the room for everyone in it, which is often the first genuinely therapeutic move available.",
+  ideas:[
+   ["Temperament is baseline","It is not behavior selected to annoy you, and it does not respond to being argued with."],
+   ["Fit belongs to the pair","Goodness of fit is a property of the relationship and the setting, not a property of the child."],
+   ["Blame drops out","Once behavior reads as organic, both people stop being the problem."],
+   ["Support changes expression","Cautious can mature into thoughtful. Intense can mature into determined. The baseline stays, the shape changes."]
+  ],
+  contested:"",
+  warm:[
+   {id:"c4w1",q:"Describe your own temperament as a small child. Who in your family was the best fit for you?"},
+   {id:"c4w2",q:"Which temperament is hardest for you to be around now, as an adult?"}
+  ],
+  deep:[
+   {id:"c4d1",q:"Goodness of fit puts the problem in the pair. In real life, who gets asked to change first, and what does that cost the person who is asked?"},
+   {id:"c4d2",q:"Ghosts: what did your family punish that you now find hard to tolerate in a child? Name the behavior, not the feeling.",note:"Fraiberg's ghosts in the nursery. Ask this one and then go straight to the angels prompt below. Do not leave the room sitting in the ghost."},
+   {id:"c4d3",q:"Temperament language can protect a child or excuse an adult. How would you tell which one is happening in a case you are holding?"},
+   {id:"c4d4",q:"Some settings allow almost no range of temperament at all. When the environment is the poor fit, is it still the family's problem to solve?"}
+  ],
+  home:[
+   {id:"c4h1",q:"Name one accommodation you make automatically for an adult you love. Offer the child sized version of it this week."}
+  ],
+  angels:"Angels: who in your family got your temperament right without being asked? What did they let you do that nobody else did?",
+  quiet:"Whose temperament in your family of origin set the weather for everyone else?",
+  between:"Write down three words that describe one child's baseline. Then write three that describe yours and look at the gap."
+},
+{
+  n:5, short:"High Activity", color:"Legs Before Brakes", c:"#FFC3AB", d:"#9E4830",
+  title:"High-Activity Toddlers: Racing Ahead",
+  send:"Chapter 5 for Tuesday. Pick one specific never stops moving child to hold in mind while you read.",
+  opener:"This chapter is about the child who never stops moving. Before we start, pick one child you actually know who fits the description and keep them in mind, because we are going to test Lieberman's argument against a real kid rather than a type.",
+  summary:"For these children, movement is thinking. The world is a laboratory they take apart with their bodies, and Lieberman is firm that a high activity level is not a diagnosis. The real problem is the maturation gap: legs that can reach a busy street attached to a prefrontal cortex that cannot forecast anything yet. The adult ends up as external brakes, which is exhausting and slowly turns the entire day into prohibition. Her practical answer is to change the room rather than the child. Build spaces where movement is safe, so that no becomes rare enough to still mean something. She also notes the paradox that secure attachment produces bolder exploration, so the most confidently attached child can look like the most reckless one.",
+  ideas:[
+   ["Movement is cognition","Not a failure to settle. Taking it away removes the child's main way of learning."],
+   ["The maturation gap","Physical reach exceeds foresight by years. The gap is the danger, not the child."],
+   ["Secure attachment fuels the launch","A well anchored child explores harder, which can read as recklessness."],
+   ["Engineer the room","Design the space so the child can be themselves safely, instead of correcting all day."]
+  ],
+  contested:"",
+  warm:[
+   {id:"c5w1",q:"How many times a day do you say some version of stop? Guess now, count tomorrow."},
+   {id:"c5w2",q:"What does this child look like on a good day? Describe it without using the word behavior."}
+  ],
+  deep:[
+   {id:"c5d1",q:"If a child hears correction all day, what conclusion do they reach about themselves before they have words for it? How would that conclusion show up at seven, at fifteen?"},
+   {id:"c5d2",q:"How do you tell joyful high activity from frantic movement driven by fear?",note:"Give the room the three places to look: the quality of the movement, whether the child can settle afterward, and what happens when an adult comes close."},
+   {id:"c5d3",q:"Yes spaces assume space, money, and a landlord who allows it. What does environmental engineering look like in one room shared by five people?"},
+   {id:"c5d4",q:"High activity children get referred for evaluation earlier and more often, and the referral pattern is not evenly distributed across families. What do we do with that, as the people who write referrals?"}
+  ],
+  home:[
+   {id:"c5h1",q:"Convert one recurring no into a redesign this week. Move the object, not the child."}
+  ],
+  angels:"Who let you be loud? Who took you outside instead of asking you to settle down?",
+  quiet:"What is the most physically exhausting thirty minutes of your week with a child, and what happens in it?",
+  between:"Try one hour with the room set up so that nothing needs to be forbidden. Note what you did with the hour instead."
+},
+{
+  n:6, short:"Slow to Warm Up", color:"Edge of the Room", c:"#AEDDEB", d:"#1F6377",
+  title:"Slow-to-Warm-Up Toddlers: Taking One's Time",
+  send:"Chapter 6 for Tuesday. It is the mirror of last time: same argument, opposite child.",
+  opener:"Tonight is the mirror of last session. Same argument, opposite child. Watch for the moment Lieberman separates caution from anxiety, because that one distinction does a lot of work later in the book.",
+  summary:"These children stand at the edge of a new room and watch. They hold a leg, they scan, and they need time before they join. Lieberman separates this from clinical anxiety: waiting is an intelligent strategy for a nervous system that floods easily, and observation is participation. The parenting hazard runs in two directions. Push the child in and you produce genuine overwhelm and more withdrawal. Protect them completely and they never build tolerance. The middle path is scaffolding: stay steady, name the hesitation without shame, offer one small step at a time. Given that, these children often grow into people with unusual focus and real empathy, which is worth saying out loud to a parent who is currently embarrassed at a birthday party.",
+  ideas:[
+   ["Watching is working","The child at the edge of the room is gathering data, not failing to participate."],
+   ["Adult embarrassment drives the push","Most of the time it is the grown up's discomfort that ends the pause, not the child's."],
+   ["Scaffolding","An unshakeable base plus small, chosen steps. Both halves are required."],
+   ["Two ways to get it wrong","Flooding and shielding both stall development, and they look like opposite virtues."]
+  ],
+  contested:"American developmental writing tends to treat the outgoing child as the default and the cautious one as the case to be managed. That preference is not universal. In many communities the calm, watchful, well integrated child is the one being deliberately raised, and adults are not waiting for them to warm up at all. Before deciding a child is slow to warm, worth asking whether the family thinks anything is wrong.",
+  warm:[
+   {id:"c6w1",q:"Whose discomfort usually ends the standing at the edge moment first, the child's or the adult's?"},
+   {id:"c6w2",q:"What were you called as a child when you needed time?"}
+  ],
+  deep:[
+   {id:"c6d1",q:"What are the observable signs you have crossed from a nudge into flooding? Name the cues you would trust in a child who has already gone quiet."},
+   {id:"c6d2",q:"Shy is a label with a long tail. What does a child do with that word once adults start using it about them in front of them?"},
+   {id:"c6d3",q:"A fast, social parent raising a slow to warm child has to give something up. What exactly, and how do we support a parent who is grieving the child they pictured?"},
+   {id:"c6d4",q:"In a group setting, the cautious child is often the one who gets the least adult attention because they cause the least trouble. What does that cost them over a year?"},
+   {id:"c6d5",q:"If a family is proud of a quiet, watchful child, is slow to warm up a description or a judgment?"}
+  ],
+  home:[
+   {id:"c6h1",q:"At the next new setting, say nothing for five full minutes and watch what the child does on their own clock."}
+  ],
+  angels:"Who waited for you? Who did not make you perform for the room?",
+  quiet:"Think of a room you did not want to walk into as an adult. What would have helped?",
+  between:"Time it. How long does one child actually need before joining? Most adults guess high or low by a lot."
+},
+{
+  n:7, short:"Early Anxieties", color:"Two AM Violet", c:"#D7C4EA", d:"#5C3E8C",
+  title:"Early Anxieties",
+  send:"Chapter 7 for Tuesday, on fear. It asks as much about us as about the kids. Passing on any question is always fine.",
+  opener:"This chapter goes into fear, and it asks as much about the adults as about the children. Ghosts come up here, and so do angels. We can go wherever you want to go with that, and passing is always fine.",
+  summary:"Toddler fear has a logic. The child now knows enough to anticipate danger and disapproval, and has no way at all to argue themselves out of it, so a dog, a drain, and your angry face all register as existential. Lieberman is direct that a toddler often experiences a parent's anger as love being permanently withdrawn, which is why repair after a limit is not a nicety. She traces how the adult's own state travels: chronic anxiety or depression in a caregiver tells the child the world is unpredictable, and consistent attunement buffers against that. The chapter's most useful tool is play. Repetitive, symbolic, sometimes gruesome play lets a child move from being the one it happened to into the one running it, which is the whole mechanism.",
+  ideas:[
+   ["Anticipation without reasoning","A toddler can foresee danger but cannot talk themselves down. The fear arrives with no off switch."],
+   ["Discipline can read as abandonment","Unless the repair is explicit and physical, the child may not know the relationship survived."],
+   ["Adult states transmit","Buffering a child from your state is possible, and it is not the same as pretending you are fine."],
+   ["Mastery through play","Do not sanitize the story. The scary part is the part doing the work."]
+  ],
+  contested:"Worth naming for this group: ghosts in the nursery is Selma Fraiberg's, and angels in the nursery is Lieberman's own answer to it, published with Padrón, Van Horn and Harris in 2005. Angels are moments of being nearly perfectly understood and loved that a person can reach for later, and the argument is that those memories are part of what interrupts the cycle. There is now an interview for it and replicated findings that vivid angel memories buffer against the effects of a hard childhood. If we spend eleven weeks in the ghosts and never touch the angels, we are only teaching half of her.",
+  warm:[
+   {id:"c7w1",q:"What scary thing did you replay over and over as a child, in a game?"},
+   {id:"c7w2",q:"What are the children around you afraid of right now that adults find silly?"}
+  ],
+  deep:[
+   {id:"c7d1",q:"Why do adults interrupt frightening play? Whose anxiety does the interruption serve, and what does the child learn about which feelings are allowed in the room?"},
+   {id:"c7d2",q:"If a parent is depressed, good enough has to mean something concrete. What is the smallest reliable thing that still counts, and how do we say it without lying to the family?"},
+   {id:"c7d3",q:"Repair is what keeps discipline from reading as abandonment. What does real repair look like with a child who has no words? What does a false repair look like?"},
+   {id:"c7d4",q:"We ask parents to look at their ghosts. What do we owe them once the ghosts actually show up, in a home visit or in a group like this one?"},
+   {id:"c7d5",q:"How would you ask a parent for an angel memory in a real visit, without it sounding like a worksheet?",note:"Have someone actually say the sentence out loud. The usual shape is a specific question: who made you feel safe when you were little, and what were they doing."}
+  ],
+  home:[
+   {id:"c7h1",q:"Follow, do not fix, one round of scary play. Narrate what you see and add nothing to it."}
+  ],
+  angels:"Give this one real time tonight. Ask for one memory of being loved well as a small child, in detail: where you were, who it was, what they did. Then stop and let it sit. Do not analyze it.",
+  quiet:"When you were small, what did adults do with your fear? What did you want them to do?",
+  between:"Notice one repetitive play theme this week. Write down what the child does with the ending each time."
+},
+{
+  n:8, short:"Issues to Negotiate", color:"Whose Body Is It", c:"#F5E7A8", d:"#7A6410",
+  title:"Issues to Negotiate",
+  send:"Chapter 8 for Tuesday. Seven battlegrounds in one chapter. Come knowing which one costs you the most, we will start there.",
+  opener:"Seven battlegrounds in one chapter: separation, sleep, toileting, eating, siblings, conflict between the adults, and discipline. We are not going to cover all seven well tonight. Pick the one that costs you the most and we will start there.",
+  summary:"Lieberman's move is to refuse to treat any of these as logistics. Toileting is a question about who owns the body, which is why pushing it early turns into a standoff nobody wins. Eating goes the same way once an anxious adult starts bargaining, because refusal is the one lever a toddler always has and they will find it. Sleep is separation: a nightly request to surrender consciousness and let you out of sight, which is why ritual does work that arguing cannot. Sibling rivalry gets stripped of moral judgment and reframed as a survival calculation about whether love is finite. Conflict between the adults belongs on this list too, and it is the one people skip. The through line is bounded choice, meaning real autonomy offered inside a structure the adult is still holding.",
+  ideas:[
+   ["Bodily autonomy","What goes in and what comes out belongs to the child. Coercion there costs you the relationship and the milestone."],
+   ["Sleep is separation","Rituals lower the stakes of a transition that the immature brain reads as a small abandonment."],
+   ["Rivalry is resource panic","Not meanness. The toddler is doing math about whether there is enough of you."],
+   ["Bounded choice","Two real options inside a frame you are not negotiating. Fake choices get found out immediately."]
+  ],
+  contested:"The sleep guidance is the most culturally loaded thing in the book. Sleeping alone in a separate room is a recent, regionally specific practice, not a developmental requirement, and attachment theory's assumption of one primary caregiver has been directly challenged as a minority arrangement worldwide. When our guidance contradicts what a family's mother and grandmother did, we should be able to say which part is safety, which part is evidence, and which part is preference.",
+  warm:[
+   {id:"c8w1",q:"Which of the seven do you take most personally? Be honest."},
+   {id:"c8w2",q:"Which one did your own family handle well, and how do you know?"}
+  ],
+  deep:[
+   {id:"c8d1",q:"Toileting timelines get set by child care centers, family expectations, and money as much as by readiness. What do you do when the deadline and the child disagree?"},
+   {id:"c8d2",q:"Beliefs about sleeping alone are cultural and they are not neutral. Whose norms are baked into the advice a family has already received, and what happens when we contradict it?"},
+   {id:"c8d3",q:"Validating a toddler's rage at a new baby while stopping the hitting takes two moves at once. Script it out loud right now. Where does the sentence get hard?"},
+   {id:"c8d4",q:"Every strategy in this chapter assumes an adult with some patience in reserve. What is the honest version of this advice for a parent running on four hours of sleep?"},
+   {id:"c8d5",q:"A toddler watches the adults fight and nobody raises a hand. What have they taken in, and what do we do with that in a visit?",note:"This is the battleground the chapter includes and most guides drop. It also runs straight into safety screening, so know where you would take it before you ask it."}
+  ],
+  home:[
+   {id:"c8h1",q:"Choose one battleground, take yourself out of the enforcement role for a week, and write down what changes."}
+  ],
+  angels:"Which of these did somebody make gentle for you? Bedtime, food, your body, a sibling. Who made it gentle?",
+  quiet:"What is the most common piece of advice families get about this, and is it any good?",
+  between:"Offer one bounded choice a day in the hardest domain and track how often it lands."
+},
+{
+  n:9, short:"When Parents Divorce", color:"Short and Often", c:"#A9DFCC", d:"#206853",
+  title:"When Parents Divorce",
+  send:"Chapter 9 for Tuesday, on separation and divorce. For some of us this is not theoretical. Look after yourself with it.",
+  opener:"Tonight is separation and divorce, which for a lot of us is not theoretical. Take care of yourself in this one. Anything we say about specific families stays de-identified and stays in this room.",
+  summary:"Toddlers sit at the center of their own universe, so when a parent leaves, the child assumes they caused it and then reasons that the other parent could go too. The fallout usually looks like regression: lost toileting skills, asking for a bottle, hitting, panic at ordinary separations. Lieberman makes a hard developmental point about custody, which is that very young children cannot hold a mental image of a parent they rarely see. Frequency matters more than duration, and long gaps do real damage to the bond regardless of what the schedule says on paper. Toddlers also read tension somatically, so a silent, hostile handoff still lands in the body. What predicts the outcome is not the legal shape of the family but the consistency and calm of the care in both homes.",
+  ideas:[
+   ["Egocentric logic","The child assumes cause and then anticipates more loss. Both need answering out loud, repeatedly."],
+   ["Regression is a stress response","It calls for comfort, not consequence, and it is not manipulation."],
+   ["Frequency over duration","Short and often beats long and rare for maintaining attachment in the very young."],
+   ["The handoff is the intervention","What the child absorbs is the tension between the adults, whether or not anyone raises their voice."]
+  ],
+  contested:"",
+  warm:[
+   {id:"c9w1",q:"What questions do children ask over and over during a separation, and what do adults usually answer?"},
+   {id:"c9w2",q:"What did you notice in yourself while reading this chapter?"}
+  ],
+  deep:[
+   {id:"c9d1",q:"Standard visitation schedules were not designed for toddlers. If you had five minutes with a judge, what would you say, and what would you bring to back it up?"},
+   {id:"c9d2",q:"How do you tell a parent their child's regression is not manipulation, while the other parent is telling them the opposite?"},
+   {id:"c9d3",q:"Honest answers about an absent parent, without editorializing, is a fine line. Write the sentence you would give a two year old whose father did not show up."},
+   {id:"c9d4",q:"When one home is calm and one is not, what is actually inside a caregiver's control? How do we support them without implying they can fix the other house?"}
+  ],
+  home:[
+   {id:"c9h1",q:"Design one handoff ritual that takes under two minutes and requires nothing from the other adult."}
+  ],
+  angels:"When your own family changed shape, who stayed steady? Even one person, even briefly.",
+  quiet:"What does a child this age understand about time? Start there and work backward.",
+  between:"If you are working with a separating family, map the actual contact schedule by frequency rather than hours."
+},
+{
+  n:10, short:"Child Care", color:"Goodbye at the Door", c:"#EFD9C2", d:"#7A5433",
+  title:"The Toddler in Child Care",
+  send:"Chapter 10 for Tuesday. Two rituals, goodbye and hello. Think about the drop off you know best.",
+  opener:"This chapter is about goodbye and hello, twice a day, every day. Two rituals that look small and are not. Think about the drop off you know best while we go.",
+  summary:"Lieberman argues the emotional cost of child care is not fixed. It depends on how the transition was paced, how familiar the setting is, and whether the substitute caregivers are emotionally available. Two rituals carry the weight. Goodbye has to be clear and honest, because sneaking out to avoid a scene teaches the child that you can vanish without warning, which raises their baseline all day. Lingering anxiously sends the opposite signal, that the place is not safe. Hello is stranger. Children often ignore, cry, or hit at pickup, and that is the day's held tension being released to the safest available person. It is a sign of attachment rather than rejection, which is worth telling a parent who drives home feeling like a failure.",
+  ideas:[
+   ["Quality and pacing set the cost","The question is never child care yes or no. It is which one, how fast, and with whom."],
+   ["Never sneak out","The short term win at the door costs the child's baseline trust for the whole day."],
+   ["The pickup meltdown is a compliment","You are the safe one, so you get the part they held all day."],
+   ["Transitional objects","A tangible reminder helps the child hold onto you when you are not there."]
+  ],
+  contested:"The anxiety in this chapter assumes that care by someone other than the parent is a departure from the norm that has to be justified. For most families across most of history it is the norm, with caregiving spread across kin and older children. Reading the chapter with that in mind changes the question from how much this costs a child to which arrangements actually support a child, which is a better question anyway.",
+  warm:[
+   {id:"c10w1",q:"What does your goodbye actually sound like? Say it out loud right now."},
+   {id:"c10w2",q:"What do you do in the car after a hard drop off?"}
+  ],
+  deep:[
+   {id:"c10d1",q:"Lingering signals danger and sneaking out breaks trust. What is the third option, and what makes it so hard to perform when you are the one who feels terrible?"},
+   {id:"c10d2",q:"If pickup behavior is a release of held tension, what does it mean when a child shows nothing at all at pickup, day after day?"},
+   {id:"c10d3",q:"Parents and teachers can end up competing for a child's attachment. What are the tells, and how does a practitioner intervene without taking a side?"},
+   {id:"c10d4",q:"These recommendations assume a family can choose their center. What is the guidance when the only option available is the one with the least responsive care?"}
+  ],
+  home:[
+   {id:"c10h1",q:"Send a transitional object this week and ask the teacher what actually happened with it."}
+  ],
+  angels:"Who besides your parents took care of you? A grandmother, an auntie, a neighbor, a teacher. What did they give you that nobody else did?",
+  quiet:"Describe a goodbye you have watched that went well. What did the adult do first?",
+  between:"Watch one drop off and one pickup with no agenda, and write down the sequence in order."
+},
+{
+  n:11, short:"Staying Close, Letting Go", color:"Close and Let Go", c:"#E2C6DE", d:"#75427C",
+  title:"Conclusion: Staying Close and Letting Go",
+  send:"Last one. The conclusion for Tuesday. Second half we are talking about the whole book, so come with what you disagreed with.",
+  opener:"Last session. Lieberman ends by calling toddlerhood a rehearsal for adult life, which is a big claim and worth arguing with. We will spend the first half on the chapter and the second half on the whole book.",
+  summary:"The book closes by naming the toddler's central problem as the human one: how to be a separate person and still be held. Lieberman calls toddlerhood a laboratory for the dilemmas of adult life, and the pairing she keeps returning to, closeness and autonomy, is the same pairing people are still working on at forty. When caregiving has been responsive enough, the reactive no of a two year old matures into the confident initiative of a four year old, and the physical secure base becomes an internal one: a working belief that you are worth coming back to. That belief is what the child carries into adolescence, and it is built out of thousands of very ordinary moments that nobody was documenting at the time.",
+  ideas:[
+   ["Toddlerhood rehearses adulthood","Intimacy, autonomy, and limits get worked out first at two, in miniature."],
+   ["No matures into initiative","When it is met rather than crushed, refusal becomes the capacity to assert."],
+   ["The base gets internalized","It stops being a person in the room and becomes a belief about yourself."],
+   ["The balance never resolves","Staying close and letting go is not a stage to finish. It just keeps rebalancing."]
+  ],
+  contested:"The book's endpoint is a separate individual who can also stay close. That is one culture's picture of a finished person. Plenty of families are raising a child toward being a good member of something rather than a well bounded self, and by this book's measure that child can look under-individuated when they are exactly what their family intended.",
+  warm:[
+   {id:"c11w1",q:"What did you change while reading this book? Something concrete, not a realization."},
+   {id:"c11w2",q:"Which chapter has stayed with you, and why that one?"}
+  ],
+  deep:[
+   {id:"c11d1",q:"Trace one of your own adult patterns, asking for help, needing space, apologizing fast, back to the autonomy and closeness question. What does that pattern make possible in your work, and what does it make hard?"},
+   {id:"c11d2",q:"What in this book did you disagree with? What in your practice or your history is that disagreement protecting?"},
+   {id:"c11d3",q:"The model assumes a caregiver with some capacity to reflect. What do we offer a family where reflection is a luxury nobody can afford this month?"},
+   {id:"c11d4",q:"If you had to hand one idea from this book to a person who will never read it, which one, and how would you say it in a sentence?"},
+   {id:"c11d5",q:"Whose idea of a finished person is this book aiming at, and does it match the families on your caseload?"}
+  ],
+  home:[
+   {id:"c11h1",q:"Write the one sentence from this book you want to say to a parent next week."}
+  ],
+  angels:"Go around the room. One sentence each: a moment from your own childhood when you were loved exactly right. End the series here, not in the ghosts.",
+  quiet:"What does staying close and letting go mean in your own adult relationships, not with children?",
+  between:"Decide as a group what you are reading next, and who is picking it."
+},
+{
+  n:12, short:"Screens", color:"The Glow", c:"#CBD6D9", d:"#3F5A63", extra:true,
+  title:"Extra session: Screens and the Post-Internet Toddler",
+  send:"Bonus session on screens. No new reading, just the screen material from the revised edition. Bring your own honest screen habits, not your professional ones.",
+  opener:"This one is not a chapter. The revised edition folds screens through the book rather than parking them in one place, so we pulled them out. Ground rule for tonight, said up front: nobody in this room is going to be shamed for their own screen use or their kid's.",
+  summary:"The 1993 book did not have to think about a phone in the caregiver's hand or a tablet at the table. The revised edition adds that material throughout, dealing with devices and with parenting in a world where the internet is always on. Everything else in the book applies directly. A phone competes for exactly the attention refueling requires, which makes screens a chapter two problem before they are a screen time problem. Handing a device to a melting down toddler is a chapter three problem, because it ends the storm without teaching that anger survives contact. And a screen at pickup or drop off changes what the goodbye ritual communicates. Current pediatric guidance has moved off pure minute counting: essentially no solo screens before about eighteen months apart from video calls with family, roughly an hour a day of good content watched together for two to five year olds, and a newer framework that weighs the child, the content, whether it is being used to produce calm, what it is crowding out, and whether anyone is talking about it.",
+  ideas:[
+   ["Screens are an attention question first","A phone in the adult's hand is a refueling problem before it is a screen time problem."],
+   ["Co-viewing changes the object","Watched together and talked about, a screen becomes a shared experience. Handed over, it is a substitute for one."],
+   ["Calm is a real use, not a cheat","Using a screen to end a meltdown works. What matters is whether it is the only tool left in the house."],
+   ["What it crowds out is the measure","Sleep, movement, play, and back and forth talk are the things worth counting, not minutes."]
+  ],
+  contested:"Screen research is noisy and moves fast, and much of it cannot separate heavy screen use from the conditions that produce heavy screen use: no childcare, no help, three jobs, one room. Be careful about handing a family a number. The guidance most likely to survive is about what a screen displaces and whether an adult is in it with the child.",
+  warm:[
+   {id:"c12w1",q:"How much is your own phone in your hand around children? Guess, then check your screen time later."},
+   {id:"c12w2",q:"What is the screen rule in your house, and how often does it actually hold?"}
+  ],
+  deep:[
+   {id:"c12d1",q:"A toddler looks back to refuel and finds the adult's face lit by a phone. What did they just learn, and is it different from a parent reading a book?"},
+   {id:"c12d2",q:"Is a screen that ends a tantrum different from a snack that ends a tantrum? Make the case both ways."},
+   {id:"c12d3",q:"Screen guidance lands hardest on families with the least help. How do you give it without adding one more thing to fail at?"},
+   {id:"c12d4",q:"Some of our families use video calls to keep a child bonded to a parent who is deployed, incarcerated, working nights, or in another country. Where does that fit in the guidance we hand out?"},
+   {id:"c12d5",q:"What do we do about our own phones during a home visit?"}
+  ],
+  home:[
+   {id:"c12h1",q:"Name one specific time of day you will put your phone in another room. One. Not all day."}
+  ],
+  angels:"Who was fully present with you when you were small, before any of this existed? What did having someone's whole attention feel like?",
+  quiet:"What did adults in your childhood do instead of look at a phone, and was it any better?",
+  between:"Watch one caregiver and child with a screen in the room, and note where the adult's eyes go."
+}
+];
+
+const HOME = {
+  why:[
+   "Lieberman is not a random parenting author. Her infant and parent psychotherapy work is part of the lineage that home visiting models like ours descend from, and Child First style programs are built on the clinician plus care coordinator team structure that grew out of it. When she describes a toddler communicating through behavior, she is describing the thing our whole model is organized around.",
+   "Get the revised edition, the one with new material on screens and parenting after the internet. Page numbers differ between the 1993 and revised printings, so we will name sections rather than pages.",
+   "One structural choice worth saying out loud: this book will pull up your own childhood. Selma Fraiberg called that the ghosts in the nursery. Lieberman's own answer to Fraiberg, published with her colleagues in 2005, is the angels in the nursery, meaning specific remembered moments of being loved exactly right, which appear to buffer against the effects of a hard childhood. Every sheet here has an angels prompt. Use it. Do not spend eleven weeks in the ghosts."
+  ],
+  flow60:[
+   ["0 to 5","Arrive and land. One word each about the week. No content yet.",300],
+   ["5 to 10","Read the ground rules out loud. Yes, every time.",300],
+   ["10 to 15","The chapter in short, read aloud or summarized by whoever volunteers.",300],
+   ["15 to 25","Warm up questions. Aim for everyone speaking once before anyone speaks twice.",600],
+   ["25 to 45","Going deeper. Two questions well beats four questions fast.",1200],
+   ["45 to 52","Angels. Slow down here, and let it be quiet.",420],
+   ["52 to 60","Bring it home, then next chapter and next date.",480]
+  ],
+  flow30:[
+   ["0 to 3","One word each. Skip the rules if this group already knows them.",180],
+   ["3 to 6","Read the opener and one idea from the sheet.",180],
+   ["6 to 13","One warm up question.",420],
+   ["13 to 24","One deeper question. One. Let it run long.",660],
+   ["24 to 28","Angels prompt.",240],
+   ["28 to 30","Next date. Done.",120]
+  ],
+  rules:[
+   "This book gets personal. You can pass on any question with no explanation.",
+   "What anyone says about their own childhood stays in this room.",
+   "Anything about a family we serve stays de-identified.",
+   "We are still mandated reporters in here. If something comes up about a child's current safety, we stop the book club and handle it properly. Say this out loud so nobody is surprised by it.",
+   "Notice who is in the room. If someone here supervises you or writes your evaluation, you get to answer at whatever depth is safe for you, and that is not you failing the group.",
+   "Disagreeing with Lieberman is welcome. Say what she got wrong.",
+   "No advice unless the person asks for it."
+  ],
+  moves:[
+   ["Wait for the second silence","The first pause is people deciding whether to speak. The second one is where the real answer comes from. Count to ten before you rescue it."],
+   ["Redirect without calling anyone out","If one person is answering everything, ask the room for a different read rather than asking that person to stop."],
+   ["Save the easiest question for the quietest person","Track who has not spoken and hand them the lowest stakes question of the night."],
+   ["Pitch it to the room you have","With parents, stay with the child in front of them. With a team, push the last question in each set, which is usually the systems one."],
+   ["End on angels, not ghosts","Whatever the chapter did to the room, the angels prompt is how you close it. Do not skip it because you ran out of time. Cut a deeper question instead."]
+  ],
+  activated:[
+   "Someone will get hit by this book. Not maybe. Here is the whole move, and it is short on purpose.",
+   "Stop the flow. Say: let's pause a second. Feet on the floor, one slow breath, all of us.",
+   "Name it without opening it. Say: thank you for saying that out loud. That landed, and I am not going to make you do more with it right now.",
+   "Move the group on yourself. Do not ask a follow up question, do not go around the circle for reactions, do not let anyone else offer advice.",
+   "Find them after. Not in the parking lot in front of people. A text that night is fine.",
+   "If it keeps coming up, or if it is bigger than a book club, say so kindly and point toward real support. This is a reading group, not a treatment group, and pretending otherwise is how people get hurt."
+  ]
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const KEY='toddlerBookClub:v2', OLDKEY='toddlerBookClub:v1';
+let state={done:{},used:{},picked:{},notes:{},theme:'auto',flow:60,facilitator:false,voted:{},me:null,tutorialSeen:false};
+let current=0, saveTimer=null;
+
+/* ---- personal state: saved to this browser only, via localStorage ---- */
+function loadState(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){ Object.assign(state,JSON.parse(raw)); return; }
+  }catch(e){/* nothing saved yet, or storage unavailable */}
+  try{
+    const old=localStorage.getItem(OLDKEY);
+    if(old){
+      const p=JSON.parse(old);
+      state.done=p.done||{}; state.notes=p.notes||{};
+      const map={w:'w',d:'d',h:'h'};
+      Object.keys(p.used||{}).forEach(k=>{
+        const [n,t,i]=k.split(':');
+        if(map[t]) state.used['c'+n+t+(parseInt(i,10)+1)]=true;
+      });
+      queueSave();
+    }
+  }catch(e){/* no old data either */}
+}
+function queueSave(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(saveNow,500);
+}
+function saveNow(){
+  clearTimeout(saveTimer);
+  try{ localStorage.setItem(KEY,JSON.stringify(state)); }
+  catch(e){ toast('Could not save. Copy your notes out.'); }
+}
+
+/* ---- shared state: everyone with this link reads and writes the same data,
+   via a small Netlify Function backed by Netlify Blobs ---- */
+const SHARE_API='/api/store';
+const SK={ checkin:n=>'tbc:checkin:'+n, votes:n=>'tbc:votes:'+n, inbox:'tbc:angels:inbox', wall:'tbc:angels:wall' };
+let shareOK=true;
+async function sget(key,fallback){
+  try{
+    const r=await fetch(SHARE_API+'?key='+encodeURIComponent(key));
+    if(!r.ok) throw new Error('status '+r.status);
+    const j=await r.json();
+    shareOK=true;
+    return (j&&j.value)?JSON.parse(j.value):fallback;
+  }catch(e){ shareOK=false; return fallback; }
+}
+async function sset(key,val){
+  try{
+    const r=await fetch(SHARE_API+'?key='+encodeURIComponent(key),{
+      method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify(val)
+    });
+    if(!r.ok) throw new Error('status '+r.status);
+    shareOK=true; return true;
+  }catch(e){ shareOK=false; toast('Could not reach the shared list'); return false; }
+}
+function newId(){ return Math.random().toString(36).slice(2,10); }
+
+let toastTimer=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),1800);
+}
+function announce(msg){ document.getElementById('announce').textContent=msg; }
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function squiggle(){
+  return '<svg viewBox="0 0 200 7" preserveAspectRatio="none" aria-hidden="true">'+
+    '<path d="M1 5.2 C 26 1.6, 47 6.4, 72 3.4 S 121 1.4, 146 4.6 S 182 2.2, 199 4.2" fill="none" stroke="var(--accent)" stroke-width="3.4" stroke-linecap="round"/></svg>';
+}
+function starSVG(){
+  return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.4l2.6 5.5 6 .8-4.4 4.2 1.1 5.9-5.3-2.9-5.3 2.9 1.1-5.9L3.4 9.7l6-.8z"/></svg>';
+}
+function isDark(){
+  const t=document.documentElement.getAttribute('data-theme');
+  if(t==='dark') return true;
+  if(t==='light') return false;
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+function applyColors(ch){
+  const r=document.documentElement.style;
+  if(ch){ r.setProperty('--c',ch.c); r.setProperty('--d',ch.d); r.setProperty('--accent',isDark()?ch.c:ch.d); }
+  else{ r.setProperty('--c',isDark()?'#6B5A3E':'#D9C7A8'); r.setProperty('--d','#5C4826'); r.setProperty('--accent',isDark()?'#DCC79C':'#5C4826'); }
+}
+function pickedIn(ch){
+  const all=[...ch.warm,...ch.deep,...ch.home];
+  return all.filter(q=>state.picked[q.id]);
+}
+
+/* ============================================================
+   TIMER
+   ============================================================ */
+let T={segs:null,i:0,left:0,tick:null,running:false};
+function startFlow(segs,i){
+  T.segs=segs; T.i=i; T.left=segs[i][2]; T.running=true;
+  document.getElementById('timer').classList.add('show');
+  paintTimer(); runTick();
+  if(current===0) renderHome();
+}
+function runTick(){
+  clearInterval(T.tick);
+  T.tick=setInterval(()=>{
+    if(!T.running) return;
+    T.left--;
+    if(T.left===0 && navigator.vibrate) try{navigator.vibrate([120,60,120]);}catch(e){}
+    paintTimer();
+  },1000);
+}
+function paintTimer(){
+  const bar=document.getElementById('timer');
+  const over=T.left<0, s=Math.abs(T.left);
+  document.getElementById('clock').textContent=(over?'+':'')+String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+  bar.classList.toggle('over',over);
+  const seg=T.segs[T.i];
+  document.getElementById('what').innerHTML='<b>'+esc(seg[0])+'</b><span>'+esc(seg[1])+'</span>';
+  document.getElementById('tpause').textContent=T.running?'Pause':'Go';
+}
+function nextSeg(){
+  if(!T.segs) return;
+  if(T.i<T.segs.length-1){ T.i++; T.left=T.segs[T.i][2]; T.running=true; paintTimer(); if(current===0) renderHome(); }
+  else stopTimer();
+}
+function stopTimer(){
+  clearInterval(T.tick); T.segs=null; T.running=false;
+  document.getElementById('timer').classList.remove('show');
+  if(current===0) renderHome();
+}
+document.getElementById('tpause').addEventListener('click',()=>{T.running=!T.running;paintTimer();});
+document.getElementById('tnext').addEventListener('click',nextSeg);
+document.getElementById('tstop').addEventListener('click',stopTimer);
+
+/* ============================================================
+   RENDER: shared chrome
+   ============================================================ */
+function renderBox(){
+  const box=document.getElementById('box');
+  box.innerHTML=CH.map(ch=>{
+    const on=state.done[ch.n];
+    return '<i class="'+(on?'on':'')+'" style="background:'+(on?ch.c:'transparent')+'"></i>';
+  }).join('');
+  const n=CH.filter(ch=>state.done[ch.n]).length;
+  document.getElementById('boxlabel').textContent =
+    n===0 ? 'Twelve sheets in the box. Start anywhere.' :
+    n===1 ? 'One sheet used. Eleven still in the box.' :
+    n+' sheets used. '+(12-n)+' still in the box.';
+}
+
+function renderRail(){
+  const rail=document.getElementById('rail');
+  let html='<button class="crayon plain" role="tab" id="tab-0" aria-controls="view" aria-selected="'+(current===0)+'" tabindex="'+(current===0?0:-1)+'" data-go="0">'+
+    '<span class="ch">Start here</span><b>Run the session</b></button>';
+  html+=CH.map(ch=>
+    '<button class="crayon" role="tab" id="tab-'+ch.n+'" aria-controls="view" aria-selected="'+(current===ch.n)+'" tabindex="'+(current===ch.n?0:-1)+'" data-go="'+ch.n+'" '+
+    'style="background:'+ch.c+';color:#22201C">'+
+    '<span class="ch">'+(ch.extra?'Extra':'Ch '+ch.n)+(state.done[ch.n]?' &check;':'')+'</span><b>'+esc(ch.short)+'</b></button>').join('');
+  html+='<button class="crayon plain" role="tab" id="tab-99" aria-controls="view" aria-selected="'+(current===99)+'" tabindex="'+(current===99?0:-1)+'" data-go="99">'+
+    '<span class="ch">Together</span><b>The angels wall</b></button>';
+  rail.innerHTML=html;
+  rail.querySelectorAll('[data-go]').forEach(b=>{
+    b.addEventListener('click',()=>go(parseInt(b.dataset.go,10)));
+    b.addEventListener('keydown',e=>{
+      const order=[0,...CH.map(c=>c.n),99];
+      const at=order.indexOf(current);
+      let to=null;
+      if(e.key==='ArrowRight') to=order[Math.min(at+1,order.length-1)];
+      if(e.key==='ArrowLeft')  to=order[Math.max(at-1,0)];
+      if(e.key==='Home') to=order[0];
+      if(e.key==='End')  to=order[order.length-1];
+      if(to!==null){ e.preventDefault(); go(to); document.getElementById('tab-'+to).focus(); }
+    });
+  });
+  const act=rail.querySelector('[aria-selected="true"]');
+  if(act) act.scrollIntoView({inline:'center',block:'nearest'});
+}
+
+function go(n){
+  current=n; render();
+  const ch=CH.find(c=>c.n===n);
+  announce(n===0?'Run the session':(n===99?'The angels wall':'Session '+n+', '+ch.title));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============================================================
+   RENDER: home sheet
+   ============================================================ */
+function renderHome(){
+  applyColors(null);
+  const segs = state.flow===30 ? HOME.flow30 : HOME.flow60;
+  const running = !!T.segs;
+  const v=document.getElementById('view');
+  v.setAttribute('aria-labelledby','tab-0');
+  v.innerHTML=
+  '<div class="sheet"><div class="band"></div><div class="sheet-in">'+
+   '<p class="eyebrow">Before you start</p>'+
+   '<h2>Run the session</h2>'+
+   '<p class="colorname">Eleven chapters, one extra sheet on screens, about an hour apiece.</p>'+
+
+   '<section><h3>Why this book, for us'+squiggle()+'</h3>'+
+   HOME.why.map(p=>'<p>'+p+'</p>').join('')+'</section>'+
+
+   '<section><h3>The run sheet'+squiggle()+'</h3>'+
+   '<div class="toggle" role="group" aria-label="Session length">'+
+     '<button class="btn" data-flow="60" aria-pressed="'+(state.flow===60)+'">Sixty minutes</button>'+
+     '<button class="btn" data-flow="30" aria-pressed="'+(state.flow===30)+'">Thirty minutes</button>'+
+   '</div>'+
+   '<p class="legend">Tap any line to start a countdown for it. The timer sticks to the bottom of the screen.</p>'+
+   '<ul class="flow">'+segs.map((f,i)=>
+     '<li><button class="segbtn" data-seg="'+i+'" aria-current="'+(running&&T.i===i)+'">'+
+     '<span class="min">'+f[0]+'</span><span>'+esc(f[1])+'</span></button></li>').join('')+'</ul></section>'+
+
+   '<section><h3>Ground rules to read out'+squiggle()+'</h3>'+
+   '<ol class="rules">'+HOME.rules.map(r=>'<li>'+esc(r)+'</li>').join('')+'</ol></section>'+
+
+   '<section><h3>If someone gets activated'+squiggle()+'</h3>'+
+   '<div class="quiet"><p>'+esc(HOME.activated[0])+'</p></div>'+
+   '<ol class="rules">'+HOME.activated.slice(1).map(r=>'<li>'+esc(r)+'</li>').join('')+'</ol></section>'+
+
+   '<section><h3>Facilitator moves'+squiggle()+'</h3>'+
+   '<ul class="ideas">'+HOME.moves.map(m=>'<li><b>'+esc(m[0])+'</b><span>'+esc(m[1])+'</span></li>').join('')+'</ul></section>'+
+
+   '<section><h3>How each sheet works'+squiggle()+'</h3>'+
+   '<p>Every session gives you a line to open with, the chapter in short if someone did not finish, four ideas to hold onto, questions in three tiers, an angels prompt, and space for notes. Where the book is genuinely argued with by other researchers, there is a section saying so, because a room that has something to push against talks better than a room that agrees.</p>'+
+   '<p>Tap a question to mark it used. Tap its star to put it in tonight’s three. Pick three before the meeting, not eight. The deeper tier is written to be slow.</p></section>'+
+
+   '<section><h3>Do you run this group?'+squiggle()+'</h3>'+
+   '<p>Turn this on to moderate the angels wall and clear the check-in board. It is a role, not a lock. Anyone could switch it on, so it is here to keep people from posting each other’s memories by accident, not to keep secrets.</p>'+
+   '<button class="btn wide" id="facil" aria-pressed="'+state.facilitator+'"><span class="tick"></span>'+
+   (state.facilitator?'You run this group':'I run this group')+'</button></section>'+
+
+   '<section><h3>Take the notes with you'+squiggle()+'</h3>'+
+   '<p>Notes, progress, and starred questions save on this device only. Before you switch phones or finish the series, pull it all out.</p>'+
+   '<button class="btn wide" id="export">Build the export</button>'+
+   '<div id="exportbox"></div></section>'+
+
+   '<section><h3>Start over'+squiggle()+'</h3>'+
+   '<button class="btn wide warn" id="reset">Clear all notes and marks</button></section>'+
+  '</div></div>';
+
+  v.querySelectorAll('[data-flow]').forEach(b=>b.addEventListener('click',()=>{
+    state.flow=parseInt(b.dataset.flow,10); queueSave(); renderHome();
+  }));
+  v.querySelectorAll('[data-seg]').forEach(b=>b.addEventListener('click',()=>{
+    startFlow(segs,parseInt(b.dataset.seg,10));
+  }));
+  document.getElementById('export').addEventListener('click',buildExport);
+  const fb=document.getElementById('facil');
+  fb.classList.add('done');
+  fb.addEventListener('click',()=>{
+    state.facilitator=!state.facilitator; queueSave(); renderHome();
+    toast(state.facilitator?'Facilitator tools on':'Facilitator tools off');
+  });
+
+  const rb=document.getElementById('reset');
+  let armed=false;
+  rb.addEventListener('click',()=>{
+    if(!armed){ armed=true; rb.textContent='Tap again to clear everything'; setTimeout(()=>{armed=false;rb.textContent='Clear all notes and marks';},4000); return; }
+    state.done={};state.used={};state.picked={};state.notes={};
+    queueSave(); render(); toast('Cleared');
+  });
+}
+
+function buildExport(){
+  const lines=['THE EMOTIONAL LIFE OF THE TODDLER: book club notes','Exported '+new Date().toLocaleDateString(),''];
+  CH.forEach(ch=>{
+    const note=(state.notes[ch.n]||'').trim();
+    const used=[...ch.warm,...ch.deep,...ch.home].filter(q=>state.used[q.id]);
+    if(!note && !used.length && !state.done[ch.n]) return;
+    lines.push('----------------------------------------');
+    lines.push((ch.extra?'EXTRA':'SESSION '+ch.n)+': '+ch.title+(state.done[ch.n]?'  [done]':''));
+    if(used.length){ lines.push(''); lines.push('Questions used:'); used.forEach(q=>lines.push('  - '+q.q)); }
+    if(note){ lines.push(''); lines.push('Notes:'); lines.push(note); }
+    lines.push('');
+  });
+  if(lines.length<=3) lines.push('Nothing recorded yet.');
+  const text=lines.join('\n');
+  const box=document.getElementById('exportbox');
+  box.innerHTML='<textarea id="exporttext" readonly aria-label="Exported notes"></textarea>'+
+    '<button class="btn wide" id="copyexport">Copy to clipboard</button>';
+  document.getElementById('exporttext').value=text;
+  document.getElementById('copyexport').addEventListener('click',async()=>{
+    try{ await navigator.clipboard.writeText(text); toast('Copied'); }
+    catch(e){
+      const t=document.getElementById('exporttext'); t.focus(); t.select();
+      toast('Select all in the box and copy');
+    }
+  });
+}
+
+/* ============================================================
+   RENDER: chapter sheet
+   ============================================================ */
+function qList(ch,label,arr,tally){
+  let h='<p class="tier">'+label+'</p>';
+  arr.forEach(q=>{
+    const used=!!state.used[q.id], star=!!state.picked[q.id];
+    const v=(tally&&tally[q.id])||0;
+    h+='<div class="qrow">'+
+       '<button class="star" data-star="'+q.id+'" aria-pressed="'+star+'" aria-label="'+(star?'Remove from tonight':'Add to tonight')+'">'+starSVG()+'</button>'+
+       '<button class="qbtn" data-used="'+q.id+'" aria-pressed="'+used+'">'+
+         (used?'<span class="usedtag">Used</span>':'')+
+         (v?'<span class="votepill">'+v+' '+(v===1?'vote':'votes')+'</span>':'')+esc(q.q)+
+         (q.note?'<span class="qnote">'+esc(q.note)+'</span>':'')+
+       '</button></div>';
+  });
+  return h;
+}
+
+function renderChapter(ch){
+  applyColors(ch);
+  if(LIVE.forChapter!==ch.n){ LIVE.words=[]; LIVE.tally={}; LIVE.forChapter=ch.n; }
+  const idx=CH.indexOf(ch), prev=CH[idx-1], next=CH[idx+1];
+  const picks=pickedIn(ch);
+  const v=document.getElementById('view');
+  v.setAttribute('aria-labelledby','tab-'+ch.n);
+  v.innerHTML=
+  '<div class="sheet"><div class="band"></div><div class="sheet-in">'+
+   '<p class="eyebrow">'+(ch.extra?'Extra sheet':'Session '+ch.n+' of 11')+'</p>'+
+   '<h2>'+esc(ch.title)+'</h2>'+
+   '<p class="colorname">'+esc(ch.color)+'</p>'+
+
+   '<div class="rowbtns" style="margin-top:18px">'+
+     '<button class="btn" id="present">Present this session</button>'+
+     '<button class="btn" id="pickdeck">Pick tonight’s three</button>'+
+   '</div>'+
+
+   '<div class="aloud"><span class="tag">Open the room</span><p>'+esc(ch.opener)+'</p></div>'+
+
+   '<section><h3>One word each'+squiggle()+'</h3>'+
+   '<p class="legend">Everyone with this link types one word for how their week has been. Fifteen seconds, then read them out.</p>'+
+   '<div id="checkin"><p class="legend">Loading the room...</p></div></section>'+
+
+   '<details class="fold"><summary><span class="chev"></span>The chapter in short'+
+     '<span class="foldnote">Backup, not a substitute</span></summary>'+
+     '<div class="foldbody"><p>'+esc(ch.summary)+'</p></div></details>'+
+
+   '<section><h3>Four things to hold onto'+squiggle()+'</h3>'+
+   '<ul class="ideas">'+ch.ideas.map(i=>'<li><b>'+esc(i[0])+'</b><span>'+esc(i[1])+'</span></li>').join('')+'</ul></section>'+
+
+   (ch.contested?
+   '<details class="fold"><summary><span class="chev"></span>Where this gets argued with</summary>'+
+     '<div class="foldbody"><p>'+esc(ch.contested)+'</p></div></details>':'')+
+
+   '<section><h3>What the room wants'+squiggle()+'</h3>'+
+   '<p class="legend">Send everyone the link before the meeting. Each person votes for two questions. You still choose what actually gets asked.</p>'+
+   '<button class="btn wide" id="votedeck">Vote on questions</button>'+
+   '<div id="votes"></div></section>'+
+
+   '<section><h3>Tonight’s three'+squiggle()+'</h3>'+
+   '<div class="tray" id="tray">'+
+     (picks.length
+       ? '<h4>Starred for tonight</h4><ol>'+picks.map(q=>'<li>'+esc(q.q)+'</li>').join('')+'</ol>'
+       : '<p class="empty">Nothing starred yet. Tap the star beside three questions below, before the meeting rather than during it.</p>')+
+   '</div></section>'+
+
+   '<section><h3>Questions'+squiggle()+'</h3>'+
+   '<p class="legend">Tap a question to mark it used. Tap the star to put it in tonight’s three.</p>'+
+   qList(ch,'Warm up',ch.warm,LIVE.tally)+
+   qList(ch,'Go further',ch.deep,LIVE.tally)+
+   qList(ch,'Bring it home',ch.home,LIVE.tally)+
+   '</section>'+
+
+   '<section><h3>Angels'+squiggle()+'</h3>'+
+   '<div class="angels"><p>'+esc(ch.angels)+'</p></div>'+
+   '<p class="permission">This is the closing move, not a bonus. If time is short, cut a deeper question instead.</p></section>'+
+
+   '<section><h3>If the room goes quiet'+squiggle()+'</h3>'+
+   '<div class="quiet"><p>'+esc(ch.quiet)+'</p></div></section>'+
+
+   '<section><h3>Before next time'+squiggle()+'</h3><p>'+esc(ch.between)+'</p>'+
+   '<p class="permission">Or skip it. You are allowed. Coming back having read the chapter and rested is a complete week.</p></section>'+
+
+   '<section><h3>Send to the group'+squiggle()+'</h3>'+
+   '<div class="quiet"><p id="sendtext">'+esc(ch.send)+'</p></div>'+
+   '<button class="btn wide" id="copysend">Copy this message</button></section>'+
+
+   '<section><h3>Notes from tonight'+squiggle()+'</h3>'+
+   '<textarea id="notes" aria-label="Notes from tonight" placeholder="What came up, who said it, what to follow up on."></textarea></section>'+
+
+   '<button class="btn wide done" id="done" aria-pressed="'+(!!state.done[ch.n])+'"><span class="tick"></span>'+
+   (state.done[ch.n]?'Session done':'Mark this session done')+'</button>'+
+
+   '<div class="pager">'+
+     (prev?'<button class="btn" data-go="'+prev.n+'"><span>Previous</span>'+esc(prev.short)+'</button>':'<button class="btn" data-go="0"><span>Back to</span>Run the session</button>')+
+     (next?'<button class="btn" data-go="'+next.n+'"><span>Next</span>'+esc(next.short)+'</button>':'<button class="btn" data-go="0"><span>Back to</span>Run the session</button>')+
+   '</div>'+
+  '</div></div>';
+
+  const ta=document.getElementById('notes');
+  ta.value=state.notes[ch.n]||'';
+  ta.addEventListener('input',()=>{ state.notes[ch.n]=ta.value; queueSave(); });
+
+  function refreshTray(){
+    const p=pickedIn(ch);
+    document.getElementById('tray').innerHTML = p.length
+      ? '<h4>Starred for tonight</h4><ol>'+p.map(q=>'<li>'+esc(q.q)+'</li>').join('')+'</ol>'
+      : '<p class="empty">Nothing starred yet. Tap the star beside three questions below, before the meeting rather than during it.</p>';
+  }
+  const byId={}; [...ch.warm,...ch.deep,...ch.home].forEach(q=>byId[q.id]=q);
+
+  v.querySelectorAll('[data-used]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.used, q=byId[id];
+    if(state.used[id]) delete state.used[id]; else state.used[id]=true;
+    b.setAttribute('aria-pressed',String(!!state.used[id]));
+    b.innerHTML=(state.used[id]?'<span class="usedtag">Used</span>':'')+esc(q.q)+
+      (q.note?'<span class="qnote">'+esc(q.note)+'</span>':'');
+    queueSave();
+  }));
+
+  v.querySelectorAll('[data-star]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.star;
+    if(state.picked[id]){ delete state.picked[id]; }
+    else{
+      if(pickedIn(ch).length>=3){ toast('Three is the limit. That is the point.'); return; }
+      state.picked[id]=true;
+    }
+    b.setAttribute('aria-pressed',String(!!state.picked[id]));
+    b.setAttribute('aria-label',state.picked[id]?'Remove from tonight':'Add to tonight');
+    refreshTray(); queueSave();
+  }));
+
+  document.getElementById('copysend').addEventListener('click',async()=>{
+    try{ await navigator.clipboard.writeText(ch.send); toast('Copied'); }
+    catch(e){ toast('Copy failed, select the text above'); }
+  });
+
+  const d=document.getElementById('done');
+  d.addEventListener('click',()=>{
+    state.done[ch.n]=!state.done[ch.n];
+    if(!state.done[ch.n]) delete state.done[ch.n];
+    queueSave(); renderBox(); renderRail();
+    d.setAttribute('aria-pressed',String(!!state.done[ch.n]));
+    d.lastChild.textContent=state.done[ch.n]?'Session done':'Mark this session done';
+  });
+
+  document.getElementById('present').addEventListener('click',()=>openDeck(ch,'present'));
+  document.getElementById('pickdeck').addEventListener('click',()=>openDeck(ch,'pick'));
+  document.getElementById('votedeck').addEventListener('click',()=>openDeck(ch,'vote'));
+
+  loadLive(ch);
+
+  v.querySelectorAll('.pager [data-go]').forEach(b=>b.addEventListener('click',()=>go(parseInt(b.dataset.go,10))));
+}
+
+/* ============================================================
+   LIVE: one word check-in and question votes (shared)
+   ============================================================ */
+const LIVE={words:[],tally:{},forChapter:null};
+
+async function loadLive(ch){
+  LIVE.words = await sget(SK.checkin(ch.n),[]) || [];
+  LIVE.tally = await sget(SK.votes(ch.n),{}) || {};
+  if(current===ch.n){ paintCheckin(ch); paintVotes(ch); repaintQuestions(ch); }
+}
+
+function paintCheckin(ch){
+  const box=document.getElementById('checkin'); if(!box) return;
+  const mine=LIVE.words.find(w=>w.by===state.me);
+  const tilt=['-3deg','2deg','-1.5deg','3deg','0deg','-2.5deg'];
+  box.innerHTML=
+    (LIVE.words.length
+      ? '<div class="chips">'+LIVE.words.map((w,i)=>
+          '<span class="chip'+(w.by===state.me?' mine':'')+'" style="--tilt:'+tilt[i%6]+'">'+esc(w.w)+'</span>').join('')+'</div>'
+      : '<p class="legend">No words yet.</p>')+
+    '<div class="inline">'+
+      '<input id="wordin" maxlength="24" placeholder="'+(mine?'Change your word':'Your one word')+'" aria-label="Your one word">'+
+      '<button class="btn" id="wordgo">'+(mine?'Change':'Add')+'</button>'+
+    '</div>'+
+    '<div class="rowbtns">'+
+      '<button class="btn" id="wordrefresh">Refresh</button>'+
+      (state.facilitator?'<button class="btn warn" id="wordclear">Clear the board</button>':'')+
+    '</div>'+
+    (shareOK?'':'<p class="legend">Shared features are not reachable right now, so this is local only.</p>');
+
+  const inp=document.getElementById('wordin');
+  const submit=async()=>{
+    const w=inp.value.trim(); if(!w) return;
+    LIVE.words=LIVE.words.filter(x=>x.by!==state.me);
+    LIVE.words.push({w:w.slice(0,24),by:state.me});
+    inp.value='';
+    await sset(SK.checkin(ch.n),LIVE.words);
+    paintCheckin(ch); toast('Added');
+  };
+  document.getElementById('wordgo').addEventListener('click',submit);
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); submit(); }});
+  document.getElementById('wordrefresh').addEventListener('click',async()=>{
+    LIVE.words=await sget(SK.checkin(ch.n),[])||[]; paintCheckin(ch); toast('Refreshed');
+  });
+  const clr=document.getElementById('wordclear');
+  if(clr){ let armed=false; clr.addEventListener('click',async()=>{
+    if(!armed){ armed=true; clr.textContent='Tap again to clear'; setTimeout(()=>{armed=false;clr.textContent='Clear the board';},4000); return; }
+    LIVE.words=[]; await sset(SK.checkin(ch.n),[]); paintCheckin(ch);
+  });}
+}
+
+function paintVotes(ch){
+  const box=document.getElementById('votes'); if(!box) return;
+  const all=[...ch.warm,...ch.deep,...ch.home];
+  const ranked=all.map(q=>({q,v:LIVE.tally[q.id]||0})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v).slice(0,4);
+  const mine=(state.voted[ch.n]||[]).length;
+  box.innerHTML = ranked.length
+    ? '<div class="tray"><h4>Top of the room</h4><ol>'+ranked.map(x=>'<li>'+esc(x.q.q)+' <span class="votepill">'+x.v+'</span></li>').join('')+'</ol></div>'+
+      '<p class="legend">You have used '+mine+' of your 2 votes.</p>'
+    : '<p class="legend">No votes in yet. You have used '+mine+' of your 2.</p>';
+}
+
+function repaintQuestions(ch){
+  const v=document.getElementById('view');
+  v.querySelectorAll('[data-used]').forEach(b=>{
+    const id=b.dataset.used;
+    const q=[...ch.warm,...ch.deep,...ch.home].find(x=>x.id===id); if(!q) return;
+    const n=LIVE.tally[id]||0;
+    b.innerHTML=(state.used[id]?'<span class="usedtag">Used</span>':'')+
+      (n?'<span class="votepill">'+n+' '+(n===1?'vote':'votes')+'</span>':'')+esc(q.q)+
+      (q.note?'<span class="qnote">'+esc(q.note)+'</span>':'');
+  });
+}
+
+async function castVote(ch,id,on){
+  const mine=state.voted[ch.n]||[];
+  if(on){
+    if(mine.length>=2) return 'full';
+    mine.push(id); LIVE.tally[id]=(LIVE.tally[id]||0)+1;
+  }else{
+    const at=mine.indexOf(id); if(at<0) return 'none';
+    mine.splice(at,1); LIVE.tally[id]=Math.max(0,(LIVE.tally[id]||0)-1);
+    if(!LIVE.tally[id]) delete LIVE.tally[id];
+  }
+  state.voted[ch.n]=mine; queueSave();
+  await sset(SK.votes(ch.n),LIVE.tally);
+  return 'ok';
+}
+
+/* ============================================================
+   CARD DECK: present, pick, vote
+   ============================================================ */
+const DECK={cards:[],i:0,mode:'present',ch:null,open:false,lastFocus:null};
+
+function openDeck(ch,mode){
+  DECK.ch=ch; DECK.mode=mode; DECK.i=0; DECK.open=true; DECK.lastFocus=document.activeElement;
+  DECK.cards = mode==='present' ? presentCards(ch) : questionCards(ch);
+  document.getElementById('deckmode').textContent =
+    mode==='present'?'Read aloud':(mode==='pick'?'Pick tonight’s three':'Vote, two each');
+  const d=document.getElementById('deck');
+  d.classList.add('show'); document.body.style.overflow='hidden';
+  paintDeck(); document.getElementById('deckx').focus();
+}
+function closeDeck(){
+  DECK.open=false;
+  document.getElementById('deck').classList.remove('show');
+  document.body.style.overflow='';
+  if(DECK.lastFocus&&DECK.lastFocus.focus) DECK.lastFocus.focus();
+  if(current===DECK.ch?.n) renderChapter(DECK.ch);
+}
+
+function presentCards(ch){
+  const picks=pickedIn(ch);
+  const qs = picks.length ? picks : [ch.warm[0],ch.deep[0],ch.home[0]].filter(Boolean);
+  const cards=[
+    {lab:(ch.extra?'Extra sheet':'Session '+ch.n), big:ch.title, med:ch.color},
+    {lab:'Read this out loud', med:ch.opener, size:'med'},
+    {lab:'One word each', big:'How has your week been?', med:'One word. Everybody. No explaining it.', checkin:true}
+  ];
+  ch.ideas.forEach(i=>cards.push({lab:'Hold onto this', big:i[0], med:i[1]}));
+  qs.forEach((q,n)=>cards.push({lab:'Question '+(n+1)+' of '+qs.length, big:q.q, med:q.note||'', qid:q.id}));
+  cards.push({lab:'If the room goes quiet', med:ch.quiet, size:'med'});
+  cards.push({lab:'Angels', big:ch.angels, tiny:'This is the closing move, not a bonus. Let it be quiet after.'});
+  cards.push({lab:'Before next time', med:ch.between, tiny:'Or skip it. You are allowed. Reading the chapter and resting is a complete week.', size:'med'});
+  return cards;
+}
+function questionCards(ch){
+  const all=[...ch.warm,...ch.deep,...ch.home];
+  return all.map((q,n)=>({lab:'Question '+(n+1)+' of '+all.length, big:q.q, med:q.note||'', qid:q.id}));
+}
+
+function paintDeck(){
+  const c=DECK.cards[DECK.i]; if(!c) return closeDeck();
+  document.getElementById('deckbar').innerHTML=DECK.cards.map((x,i)=>'<i class="'+(i<=DECK.i?'on':'')+'"></i>').join('');
+  const el=document.getElementById('card');
+  el.className='card';
+  el.innerHTML=
+    (c.lab?'<p class="lab">'+esc(c.lab)+'</p>':'')+
+    (c.big?'<p class="big">'+esc(c.big)+'</p>':'')+
+    (c.med?'<p class="'+(c.size==='med'&&!c.big?'big':'med')+'">'+esc(c.med)+'</p>':'')+
+    (c.tiny?'<p class="tiny">'+esc(c.tiny)+'</p>':'')+
+    (c.checkin?'<div class="chips" id="deckchips"></div><div class="inline"><input id="deckword" maxlength="24" placeholder="Your one word" aria-label="Your one word"><button class="btn" id="deckwordgo">Add</button></div>':'');
+
+  if(c.checkin){
+    const paint=()=>{document.getElementById('deckchips').innerHTML=LIVE.words.map(w=>'<span class="chip'+(w.by===state.me?' mine':'')+'">'+esc(w.w)+'</span>').join('');};
+    paint();
+    const inp=document.getElementById('deckword');
+    const add=async()=>{
+      const w=inp.value.trim(); if(!w) return;
+      LIVE.words=LIVE.words.filter(x=>x.by!==state.me);
+      LIVE.words.push({w:w.slice(0,24),by:state.me});
+      inp.value=''; paint();
+      await sset(SK.checkin(DECK.ch.n),LIVE.words);
+    };
+    document.getElementById('deckwordgo').addEventListener('click',add);
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();add();}});
+  }
+
+  const foot=document.getElementById('deckfoot');
+  const count=document.getElementById('deckcount');
+  if(DECK.mode==='present'){
+    foot.innerHTML='<button class="btn" data-move="-1">Back</button><button class="btn yes" data-move="1">Next</button>';
+    count.textContent=(DECK.i+1)+' of '+DECK.cards.length;
+  }else if(DECK.mode==='pick'){
+    const on=!!state.picked[c.qid];
+    foot.innerHTML='<button class="btn" data-swipe="l">Skip</button>'+
+      '<button class="btn'+(on?' yes':'')+'" data-swipe="r">'+(on?'In tonight’s three':'Add to tonight')+'</button>';
+    count.textContent=pickedIn(DECK.ch).length+' of 3 chosen';
+  }else{
+    const on=(state.voted[DECK.ch.n]||[]).includes(c.qid);
+    foot.innerHTML='<button class="btn" data-swipe="l">Skip</button>'+
+      '<button class="btn'+(on?' yes':'')+'" data-swipe="r">'+(on?'Voted':'Vote for this')+'</button>';
+    count.textContent=(state.voted[DECK.ch.n]||[]).length+' of 2 votes used';
+  }
+  foot.querySelectorAll('[data-move]').forEach(b=>b.addEventListener('click',()=>move(parseInt(b.dataset.move,10))));
+  foot.querySelectorAll('[data-swipe]').forEach(b=>b.addEventListener('click',()=>swipe(b.dataset.swipe)));
+}
+
+function move(d){
+  const to=DECK.i+d;
+  if(to<0) return;
+  if(to>=DECK.cards.length) return closeDeck();
+  DECK.i=to; paintDeck();
+}
+async function swipe(dir){
+  const c=DECK.cards[DECK.i];
+  if(dir==='r'&&c.qid){
+    if(DECK.mode==='pick'){
+      if(state.picked[c.qid]) delete state.picked[c.qid];
+      else if(pickedIn(DECK.ch).length>=3){ toast('Three is the limit. That is the point.'); return; }
+      else state.picked[c.qid]=true;
+      queueSave();
+    }else{
+      const on=(state.voted[DECK.ch.n]||[]).includes(c.qid);
+      const r=await castVote(DECK.ch,c.qid,!on);
+      if(r==='full'){ toast('You have used both votes'); return; }
+    }
+  }
+  const el=document.getElementById('card');
+  el.classList.add(dir==='r'?'out-r':'out-l');
+  setTimeout(()=>move(1),160);
+}
+
+/* gestures and keys */
+let sx=null,sy=null;
+const stage=document.querySelector('.deckstage');
+stage.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+stage.addEventListener('touchend',e=>{
+  if(sx===null) return;
+  const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+  sx=null;
+  if(Math.abs(dx)<55||Math.abs(dy)>Math.abs(dx)) return;
+  if(DECK.mode==='present') move(dx<0?1:-1);
+  else swipe(dx<0?'l':'r');
+},{passive:true});
+document.getElementById('tapl').addEventListener('click',()=>move(-1));
+document.getElementById('tapr').addEventListener('click',()=>move(1));
+document.getElementById('deckx').addEventListener('click',closeDeck);
+document.addEventListener('keydown',e=>{
+  if(!DECK.open) return;
+  if(e.key==='Escape') closeDeck();
+  if(e.key==='ArrowRight') move(1);
+  if(e.key==='ArrowLeft') move(-1);
+  if(DECK.mode!=='present'){
+    if(e.key.toLowerCase()==='y') swipe('r');
+    if(e.key.toLowerCase()==='n') swipe('l');
+  }
+});
+
+/* ============================================================
+   THE ANGELS WALL
+   ============================================================ */
+let WALL={wall:[],inbox:[],at:0};
+
+async function renderWall(){
+  applyColors({c:'#F6E3B8',d:'#7E5F14'});
+  const v=document.getElementById('view');
+  v.setAttribute('aria-labelledby','tab-99');
+  v.innerHTML='<div class="sheet"><div class="band"></div><div class="sheet-in">'+
+    '<p class="eyebrow">Together</p><h2>The angels wall</h2>'+
+    '<p class="colorname">What the group is building, one week at a time.</p>'+
+    '<p class="legend">Loading...</p></div></div>';
+  WALL.wall=await sget(SK.wall,[])||[];
+  WALL.inbox=await sget(SK.inbox,[])||[];
+  if(current===99) paintWall();
+}
+
+function paintWall(){
+  const v=document.getElementById('view');
+  const w=WALL.wall, cur=w.length?w[WALL.at%w.length]:null;
+  const mineInbox=WALL.inbox.filter(x=>x.by===state.me);
+  v.innerHTML='<div class="sheet"><div class="band"></div><div class="sheet-in">'+
+   '<p class="eyebrow">Together</p>'+
+   '<h2>The angels wall</h2>'+
+   '<p class="colorname">What the group is building, one week at a time.</p>'+
+
+   '<section><h3>What this is'+squiggle()+'</h3>'+
+   '<p>Every session ends with an angels prompt. Afterwards, anyone can add one line here about a moment they were loved exactly right as a small child. By the last session the group has built a deck of them, and you can read the wall out loud to open a meeting.</p>'+
+   '<div class="warnbox"><b>Read this before you write anything.</b> Nothing here has your name on it, and that is not the same as being anonymous. This is a small team. A specific enough detail will tell people who wrote it. Write what you would be alright with a colleague hearing read out loud in the room, and nothing more than that. Lines go to the facilitator first and only appear on the wall if they post them.</div></section>'+
+
+   '<section><h3>The wall'+squiggle()+'</h3>'+
+   (cur
+    ? '<div class="wallbig">'+esc(cur.text)+'</div>'+
+      '<div class="rowbtns"><button class="btn" id="wshuffle">Another one</button><button class="btn" id="wall-all">See all '+w.length+'</button></div>'+
+      '<div id="walllist"></div>'
+    : '<p class="legend">Nothing on the wall yet. It fills up after your first angels prompt.</p>')+
+   '</section>'+
+
+   '<section><h3>Add a line'+squiggle()+'</h3>'+
+   '<textarea id="wtext" maxlength="280" aria-label="Your angel memory" placeholder="One moment. Where you were, who it was, what they did."></textarea>'+
+   '<button class="btn wide" id="wsend">Send it to the facilitator</button>'+
+   (mineInbox.length?'<p class="legend">You have '+mineInbox.length+' waiting to be posted.</p>':'')+
+   '</section>'+
+
+   (state.facilitator
+    ? '<section><h3>Waiting for you'+squiggle()+'</h3>'+
+      (WALL.inbox.length
+        ? WALL.inbox.map(x=>'<div class="wallcard">'+esc(x.text)+
+            '<div class="rowbtns"><button class="btn" data-post="'+x.id+'">Post to the wall</button>'+
+            '<button class="btn warn" data-drop="'+x.id+'">Delete</button></div></div>').join('')
+        : '<p class="legend">Nothing waiting.</p>')+
+      '</section>'
+    : '')+
+
+   '<button class="btn wide" id="wrefresh">Refresh the wall</button>'+
+  '</div></div>';
+
+  const sh=document.getElementById('wshuffle');
+  if(sh) sh.addEventListener('click',()=>{ WALL.at=Math.floor(Math.random()*WALL.wall.length); paintWall(); });
+  const all=document.getElementById('wall-all');
+  if(all) all.addEventListener('click',()=>{
+    document.getElementById('walllist').innerHTML=WALL.wall.map(x=>'<div class="wallcard">'+esc(x.text)+'</div>').join('');
+    all.remove();
+  });
+
+  document.getElementById('wsend').addEventListener('click',async()=>{
+    const t=document.getElementById('wtext').value.trim();
+    if(!t) return toast('Nothing to send');
+    WALL.inbox.push({id:newId(),text:t.slice(0,280),by:state.me});
+    await sset(SK.inbox,WALL.inbox);
+    document.getElementById('wtext').value='';
+    toast('Sent. It appears once the facilitator posts it.');
+    paintWall();
+  });
+
+  v.querySelectorAll('[data-post]').forEach(b=>b.addEventListener('click',async()=>{
+    const item=WALL.inbox.find(x=>x.id===b.dataset.post); if(!item) return;
+    WALL.wall.push({id:item.id,text:item.text});
+    WALL.inbox=WALL.inbox.filter(x=>x.id!==item.id);
+    await sset(SK.wall,WALL.wall); await sset(SK.inbox,WALL.inbox);
+    paintWall(); toast('Posted');
+  }));
+  v.querySelectorAll('[data-drop]').forEach(b=>b.addEventListener('click',async()=>{
+    WALL.inbox=WALL.inbox.filter(x=>x.id!==b.dataset.drop);
+    await sset(SK.inbox,WALL.inbox); paintWall();
+  }));
+  document.getElementById('wrefresh').addEventListener('click',async()=>{
+    WALL.wall=await sget(SK.wall,[])||[]; WALL.inbox=await sget(SK.inbox,[])||[];
+    paintWall(); toast('Refreshed');
+  });
+}
+
+/* ============================================================
+   TUTORIAL
+   ============================================================ */
+const TUTORIAL=[
+ {lab:"Welcome",big:"How this works",med:"A quick tour before you dive in. Skip anytime, and you can come back to it later from the bottom of the page."},
+ {lab:"The rack",big:"Tap a color to open a session",med:"Each crayon is one chapter. “Run the session” on the left has your timer, ground rules, and facilitator moves. “The angels wall” on the right is shared with the whole group."},
+ {lab:"Inside a chapter",big:"Read, then talk",med:"Every sheet gives you a line to open with, the chapter in short, four ideas to hold onto, and questions in three tiers: warm up, go further, bring it home."},
+ {lab:"Pick and present",big:"Star three questions, then present",med:"Tap the star beside up to three questions before the meeting. “Present this session” turns everything into full-screen cards you can read aloud or swipe through with the group."},
+ {lab:"Shared with the group",big:"Check-in, votes, and the wall",med:"The one-word check-in, question voting, and the angels wall are shared with anyone using this link, not just this device."},
+ {lab:"Your notes",big:"Saved on this device only",med:"Notes, progress, and starred questions stay on this phone. Use “Take the notes with you” on the first sheet before you switch devices."},
+ {lab:"Anytime",big:"Come back to this tour",med:"Tap “Show the tutorial” at the bottom of the page whenever you want to see this again."}
+];
+let TUT={i:0,open:false,lastFocus:null};
+
+function openTutorial(){
+  TUT.i=0; TUT.open=true; TUT.lastFocus=document.activeElement;
+  document.getElementById('tutorial').classList.add('show');
+  document.body.style.overflow='hidden';
+  paintTutorial();
+  document.getElementById('tutx').focus();
+}
+function closeTutorial(){
+  TUT.open=false;
+  document.getElementById('tutorial').classList.remove('show');
+  document.body.style.overflow=(DECK.open?'hidden':'');
+  if(!state.tutorialSeen){ state.tutorialSeen=true; saveNow(); }
+  if(TUT.lastFocus&&TUT.lastFocus.focus) TUT.lastFocus.focus();
+}
+function paintTutorial(){
+  const c=TUTORIAL[TUT.i], last=TUT.i===TUTORIAL.length-1;
+  document.getElementById('tutbar').innerHTML=TUTORIAL.map((x,i)=>'<i class="'+(i<=TUT.i?'on':'')+'"></i>').join('');
+  document.getElementById('tutcard').innerHTML=
+    '<p class="lab">'+esc(c.lab)+'</p><p class="big">'+esc(c.big)+'</p><p class="med">'+esc(c.med)+'</p>';
+  document.getElementById('tutcount').textContent=(TUT.i+1)+' of '+TUTORIAL.length;
+  const foot=document.getElementById('tutfoot');
+  foot.innerHTML=
+    (TUT.i>0?'<button class="btn" id="tutback">Back</button>':'<button class="btn" id="tutskip">Skip</button>')+
+    '<button class="btn yes" id="tutnext">'+(last?'Start using it':'Next')+'</button>';
+  const back=document.getElementById('tutback'); if(back) back.addEventListener('click',()=>{TUT.i--;paintTutorial();});
+  const skip=document.getElementById('tutskip'); if(skip) skip.addEventListener('click',closeTutorial);
+  document.getElementById('tutnext').addEventListener('click',()=>{
+    if(last) closeTutorial(); else { TUT.i++; paintTutorial(); }
+  });
+}
+document.getElementById('tutx').addEventListener('click',closeTutorial);
+document.getElementById('tutorialbtn').addEventListener('click',openTutorial);
+document.addEventListener('keydown',e=>{
+  if(!TUT.open) return;
+  if(e.key==='Escape') closeTutorial();
+  if(e.key==='ArrowRight'){ if(TUT.i<TUTORIAL.length-1){TUT.i++;paintTutorial();} else closeTutorial(); }
+  if(e.key==='ArrowLeft' && TUT.i>0){ TUT.i--; paintTutorial(); }
+});
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+function render(){
+  renderBox(); renderRail();
+  if(current===0) renderHome();
+  else if(current===99) renderWall();
+  else renderChapter(CH.find(c=>c.n===current));
+}
+
+const themebtn=document.getElementById('themebtn');
+function paintTheme(){
+  const t=state.theme;
+  document.documentElement.setAttribute('data-theme',t);
+  themebtn.textContent=t==='auto'?'Auto':(t==='light'?'Day':'Night');
+}
+themebtn.addEventListener('click',()=>{
+  state.theme = state.theme==='auto'?'light':(state.theme==='light'?'dark':'auto');
+  paintTheme(); queueSave(); render();
+});
+if(window.matchMedia){
+  const mq=window.matchMedia('(prefers-color-scheme: dark)');
+  if(mq.addEventListener) mq.addEventListener('change',()=>{ if(state.theme==='auto') render(); });
+}
+
+window.addEventListener('pagehide',saveNow);
+window.addEventListener('beforeunload',saveNow);
+
+(function init(){
+  loadState();
+  if(!state.me){ state.me=newId(); queueSave(); }
+  paintTheme();
+  render();
+  if(!state.tutorialSeen) openTutorial();
+})();
+</script>
+</body>
+</html>
