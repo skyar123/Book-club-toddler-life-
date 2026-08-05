@@ -174,6 +174,60 @@
   .fold .foldbody p:last-child{margin-bottom:0}
   .foldnote{font-size:13.5px;color:var(--ink-soft);font-weight:400;margin-left:auto;text-align:right}
 
+  /* section by section */
+  .seccount{font-size:13.5px;color:var(--ink-soft);margin:14px 0 6px;font-weight:700}
+  ol.secs{list-style:none;margin:8px 0 0;padding:0;counter-reset:none}
+  .sec{border:1.5px solid var(--rule);border-radius:12px;margin-bottom:9px;overflow:hidden;
+    transition:box-shadow .18s ease}
+  /* an inset bar rather than a thick border, which bows around the radius */
+  .sec.cov{box-shadow:inset 5px 0 0 var(--c)}
+  .sec > details > summary{
+    list-style:none;cursor:pointer;padding:12px 14px;min-height:var(--tap);
+    display:flex;align-items:center;gap:12px;
+  }
+  .sec > details > summary::-webkit-details-marker{display:none}
+  .secnum{
+    flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid var(--c);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;
+  }
+  .sec.cov .secnum{background:var(--c);color:var(--d)}
+  html[data-theme="dark"] .sec.cov .secnum{color:#22201C}
+  .sectxt{flex:1;min-width:0}
+  .sectxt b{display:block;font-weight:700;font-size:15.5px;line-height:1.4}
+  .secmeta{display:block;font-size:12px;color:var(--ink-mute);margin-top:2px;
+    letter-spacing:.04em;font-variant-numeric:tabular-nums}
+  .sec > details > summary .chev{
+    flex:0 0 auto;width:9px;height:9px;border-right:2.4px solid var(--accent);border-bottom:2.4px solid var(--accent);
+    transform:rotate(45deg);transition:transform .18s ease;margin-right:2px;
+  }
+  .sec > details[open] > summary .chev{transform:rotate(225deg)}
+  .secbody{padding:0 14px 14px 52px;font-size:15.5px}
+  .secbody > p{margin:0 0 12px;line-height:1.62}
+  .secbody .watch{
+    font-size:14px;color:var(--ink-soft);border-left:3px solid var(--c);
+    padding:2px 0 2px 12px;margin:0 0 12px;
+  }
+  .secbody .watch b{
+    display:block;font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:3px;
+  }
+  .secbody .qrow{border-top:1px solid var(--rule);border-bottom:0;padding-top:2px}
+  .secbody .star{margin-left:-8px}
+  .covbtn{
+    display:flex;align-items:center;gap:9px;background:transparent;cursor:pointer;
+    border:1.5px solid var(--rule);border-radius:99px;padding:7px 15px 7px 11px;
+    font:inherit;font-size:13.5px;font-weight:700;color:var(--ink-soft);margin-top:4px;
+  }
+  .covbtn .tick{width:17px;height:17px;border-width:1.8px;border-radius:5px}
+  .covbtn[aria-pressed="true"]{color:var(--accent);border-color:var(--c)}
+  .covbtn[aria-pressed="true"] .tick{background:var(--c);border-color:var(--accent)}
+  .covbtn[aria-pressed="true"] .tick:after{
+    content:"";position:absolute;left:4.5px;top:1px;width:5px;height:9px;
+    border:solid var(--d);border-width:0 2.2px 2.2px 0;transform:rotate(43deg);
+  }
+  @media(max-width:420px){ .secbody{padding-left:14px} }
+
   /* questions */
   .legend{font-size:13.5px;color:var(--ink-soft);margin:14px 0 2px}
   .tier{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink-mute);margin:24px 0 4px}
@@ -257,6 +311,46 @@
   .toggle .btn[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#22201C}
   ol.rules{margin:14px 0 0;padding-left:20px}
   ol.rules li{margin-bottom:10px}
+
+  /* coach marks: the tour points at the real app */
+  .coach{position:fixed;inset:0;z-index:90;visibility:hidden}
+  .coach.show{visibility:visible}
+  .coach .spot{
+    position:fixed;border-radius:14px;pointer-events:none;
+    border:3px solid var(--c);
+    box-shadow:0 0 0 9999px rgba(24,20,14,.66), 0 0 0 6px rgba(255,255,255,.14);
+    transition:left .18s ease,top .18s ease,width .18s ease,height .18s ease;
+  }
+  html[data-theme="dark"] .coach .spot{box-shadow:0 0 0 9999px rgba(0,0,0,.76), 0 0 0 6px rgba(255,255,255,.08)}
+  .coacharrow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+  .coacharrow path{stroke:var(--c);stroke-width:3.2;stroke-linecap:round;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))}
+  .coacharrow polygon{fill:var(--c);filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))}
+  .coach .bubble{
+    position:fixed;background:var(--sheet);color:var(--ink);
+    border-radius:16px;padding:16px 17px 12px;
+    box-shadow:0 14px 40px rgba(0,0,0,.4);
+    transition:left .18s ease,top .18s ease;
+  }
+  .coach .cbar{display:flex;gap:4px;margin-bottom:11px}
+  .coach .cbar i{flex:1;height:3px;border-radius:99px;background:var(--rule)}
+  .coach .cbar i.on{background:var(--c)}
+  .coachx{
+    position:absolute;top:8px;right:8px;width:34px;height:34px;border:0;background:transparent;
+    color:var(--ink-mute);font-size:24px;line-height:1;cursor:pointer;border-radius:9px;
+  }
+  .coach .clab{
+    font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;
+    color:var(--accent);margin:0 34px 5px 0;
+  }
+  .coach .cbig{font-family:'Baloo 2',sans-serif;font-weight:600;font-size:20px;line-height:1.25;margin:0 0 7px}
+  .coach .cmed{font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin:0}
+  .coach .cfoot{display:flex;gap:8px;align-items:center;margin-top:14px}
+  .coach .ccount{flex:1;font-size:12.5px;color:var(--ink-mute);font-variant-numeric:tabular-nums}
+  .coach .cfoot .btn{padding:9px 15px;font-size:14px}
+  @media(prefers-reduced-motion:reduce){
+    .coach .spot,.coach .bubble{transition:none}
+  }
 
   /* timer bar */
   .timer{
@@ -354,11 +448,14 @@
 
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
   @media print{
-    .rack,.timer,.toast,.themebtn,.box,.boxlabel,.pager,.star,footer{display:none!important}
+    .rack,.timer,.toast,.themebtn,.box,.boxlabel,.pager,.star,footer,.coach,.covbtn{display:none!important}
     body{background:#fff;color:#000;padding:0}
     .sheet{border:none}
     .fold[open] .foldbody,.fold .foldbody{display:block!important}
     .fold > summary{font-weight:700}
+    .secbody{display:block!important;padding-left:52px}
+    .sec > details > summary .chev{display:none}
+    .sec{break-inside:avoid;page-break-inside:avoid}
   }
 </style>
 </head>
@@ -414,17 +511,24 @@
   <div class="deckfoot" id="deckfoot"></div>
 </div>
 
-<div class="deck" id="tutorial" role="dialog" aria-modal="true" aria-label="Quick tour">
-  <div class="deckbar" id="tutbar" aria-hidden="true"></div>
-  <div class="decktop">
-    <span class="mode">Quick tour</span>
-    <button class="deckx" id="tutx" aria-label="Close the tour">&times;</button>
+<div class="coach" id="coach" aria-hidden="true">
+  <div class="spot" id="coachspot"></div>
+  <svg class="coacharrow" id="coacharrow" aria-hidden="true">
+    <path id="coachpath" fill="none"></path>
+    <polygon id="coachhead"></polygon>
+  </svg>
+  <div class="bubble" id="coachbubble" role="dialog" aria-modal="true" aria-label="Quick tour">
+    <div class="cbar" id="coachbar" aria-hidden="true"></div>
+    <button class="coachx" id="coachx" aria-label="Close the tour">&times;</button>
+    <p class="clab" id="coachlab"></p>
+    <p class="cbig" id="coachbig"></p>
+    <p class="cmed" id="coachmed"></p>
+    <div class="cfoot">
+      <span class="ccount" id="coachcount"></span>
+      <button class="btn" id="coachback">Back</button>
+      <button class="btn yes" id="coachnext">Next</button>
+    </div>
   </div>
-  <div class="deckstage">
-    <div class="card" id="tutcard" role="status" aria-live="polite"></div>
-  </div>
-  <p class="deckcount" id="tutcount"></p>
-  <div class="deckfoot" id="tutfoot"></div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -806,16 +910,336 @@ const CH = [
 }
 ];
 
+/* ============================================================
+   SECTIONS: the sub-chapters, in the order the book runs them
+
+   loc is the ebook location from the revised edition reader,
+   not a printed page number. Print editions differ. The titles
+   are the book's own section headings, except where marked
+   unlisted, which means the chapter runs continuously and these
+   are its beats rather than its headings.
+   ============================================================ */
+
+const SEC = {
+
+1:[
+ {id:"c1s1", t:"Behavior as communication", loc:32, unlisted:true,
+  gist:"Lieberman opens with toddlers doing things that make no adult sense: banging a head against the floor, refusing food while hungry, running toward the street. Her first move is to insist these are not malfunctions. They are the only language available to a child who has feelings faster than words.",
+  watch:"Anyone in the room who reaches for a motive is doing the thing the chapter is arguing against. Notice it out loud, kindly.",
+  q:"Take the last behavior that genuinely baffled you. If it was communication, what was it saying?"},
+ {id:"c1s2", t:"The secure base", loc:32, unlisted:true,
+  gist:"Bowlby and Ainsworth's attachment framework arrives here as the spine of the book. A secure base is a relationship reliable enough that the child can leave it. Lieberman's emphasis is that closeness funds exploration rather than competing with it.",
+  watch:"The common misread is that a secure base means constant proximity. It means reliable return.",
+  q:"Describe a secure base you have watched work, without using the word attachment."},
+ {id:"c1s3", t:"Autonomy and love, at the same time", loc:32, unlisted:true,
+  gist:"She names the central emotional task of the toddler years as reconciling the drive to be competent and self-reliant with the simultaneous longing for parental love and protection. The two pull in opposite directions and the child has to hold both.",
+  watch:"This is the sentence the whole book hangs on. Read it aloud rather than summarizing it.",
+  q:"Where in your own week did you want independence and reassurance at the same time?"},
+ {id:"c1s4", t:"Good enough, and what it is not", loc:32, unlisted:true,
+  gist:"Winnicott's good enough parent shows up as a deliberate release valve. Lieberman treats perfection as the wrong target, and treats testing adult authority, plus living with the result, as how children build frustration tolerance and social skill.",
+  watch:"Say out loud that good enough is a standard, not an excuse, before the room decides it is one or the other.",
+  q:"What would you have to stop doing to parent or practice at good enough rather than at perfect?"},
+ {id:"c1s5", t:"Who can be a secure base", loc:32, unlisted:true,
+  gist:"She is explicit that a secure base can be built with biological and adoptive mothers and fathers, with a single parent, with each of two same-sex parents, and with other trusted caregivers. Fathers get specific attention as promoters of exploration and challenge.",
+  watch:"This is the line to quote when someone treats mother as the default unit of analysis.",
+  q:"Who in the families you serve is actually holding the base, and does your paperwork have a box for them?"},
+ {id:"c1s6", t:"Culture, and parents raising themselves", loc:32, unlisted:true,
+  gist:"The chapter closes on two widening moves. Parenting beliefs are shaped by culture, race, ethnicity and religion, and vary enormously. And parenting is mutual: in raising their children, parents are also raising themselves.",
+  watch:"This is where the ghosts material starts, quietly. It comes back hard in chapter seven.",
+  q:"What did raising or working with toddlers force you to re-raise in yourself?"}
+],
+
+2:[
+ {id:"c2s1", t:"Walking, and the two impulses", loc:74,
+  gist:"The chapter opens on independent walking as a psychological event, not a motor one. Lieberman frames the period as the collision of two powerful and contradictory impulses: the longing to feel safe inside intimate relationships, and the exhilarating thrust of unrestricted exploration. The child now decides when and where to go.",
+  watch:"The continuity matters as much as the change. The need for contact does not drop, the control over it moves to the child.",
+  q:"What did a child in your life do the week they could suddenly leave the room on their own?"},
+ {id:"c2s2", t:"How Does the Brain Shape Development?", loc:81,
+  gist:"New material in the revised edition. Rapid early brain growth, shaped by genes and environment together, with ordinary responsive interaction doing the building. Lieberman puts the social conditions in the same frame, including that young children are the age group most likely to live in poverty.",
+  watch:"Two readings are available here: this is why relationships matter, or this is why you have already ruined it. Steer the room to the first.",
+  q:"When you explain brain development to a parent, what do they hear? What do you do about the gap?"},
+ {id:"c2s3", t:"Discovering the World", loc:93,
+  gist:"Secure base behavior in detail: leaving, checking, refueling, leaving again, with the toddler as an active agent in her own protection rather than a passive recipient of supervision. Fear and stress get a three step account, recognizing danger, sizing it up, then doing something about it, and for a toddler the something is usually returning to a person.",
+  watch:"Ask for the non-obvious check-ins. Most refueling is not eye contact, it is a voice, a touch on a leg, a glance sideways.",
+  q:"What does refueling look like in a child who does not use eye contact for it?"},
+ {id:"c2s4", t:"Discovering the Body", loc:173,
+  gist:"Self-recognition arrives, and with it curiosity about the body, about genitals, about gender, and about what comes out of the body. Lieberman's argument is that the adult's face in these moments is the first draft of whether the child's body feels like a source of shame or a source of ease.",
+  watch:"Rehearsal beats intention here. A flat, kind response has to be practiced before it is needed.",
+  q:"What is your face actually doing when a toddler touches their genitals in front of you? Be honest."},
+ {id:"c2s5", t:"Discovering How Minds Work", loc:207,
+  gist:"The beginnings of theory of mind. By around two children can label feelings, while still struggling with complicated ones like separation anxiety or a parent's disapproval. Early empathy looks a lot like experimentation: the child is testing whether you have separate insides.",
+  watch:"This is where cruelty and curiosity get confused. The test is whether the child is watching your face for information or for damage.",
+  q:"How do you tell a two year old running an experiment on you from a two year old being unkind?"}
+],
+
+3:[
+ {id:"c3s1", t:"Necessary, inevitable, valuable", loc:227,
+  gist:"Lieberman states the chapter's premise up front: negativism, defiance, tantrums, no-win situations, and parental anger and fatigue are necessary and valuable hurdles rather than signs of failure. Defiance coexists with compliance in the same child on the same day. Brazelton's phrase for the period is a declaration of independence.",
+  watch:"She also says plainly that not every problem at this age has a clear or immediate solution. Say that early, it takes pressure off the whole night.",
+  q:"Which of these did you privately file as a problem to solve rather than a hurdle to survive?"},
+ {id:"c3s2", t:"The Parents' Experiences", loc:234,
+  gist:"The isolation and exhaustion of raising a toddler, especially without extended family, named without softening. Her point is structural as much as emotional: stressed and overburdened parents are less able to summon the patience that a healthy toddler's determination requires.",
+  watch:"This section gives the room permission to be tired out loud. Do not rush past it to the technique.",
+  q:"What is competing for the attention of the parents you know, and how much of it is inside their control?"},
+ {id:"c3s3", t:"Obstacles to a Secure Base", loc:239,
+  gist:"Where conflict actually comes from: adults and toddlers disagree about safety, the toddler wants control, desire outruns capacity, and prohibitions accumulate. The toddler's own no emerges largely in answer to everyone else's. Underneath is the wish to have it all, with no capacity yet to hold two incompatible options.",
+  watch:"Count the prohibitions in an ordinary hour before deciding a child is oppositional.",
+  q:"Pick one recurring standoff. How much of it is the child's will and how much is the number of noes in the room?"},
+ {id:"c3s4", t:"From Secure Base to Partnership", loc:276,
+  gist:"The pivot of the chapter, and Bowlby's goal-corrected partnership. The parent stops being only a protector and becomes a party to a negotiation, because the child is now able to take the parent's goals into account at all. Lieberman is direct that repairing episodes of conflict is what builds the child's inner controls.",
+  watch:"Partnership is not permissiveness. The adult still holds the frame, they just stop being the only one with a position in it.",
+  q:"What is the difference between negotiating with a two year old and giving in? Where exactly is the line in your own week?"},
+ {id:"c3s5", t:"Encouraging a Partnership", loc:348,
+  gist:"The practical section. Doing things together rather than issuing instructions, real choices inside a frame, warning before transitions, using words for what is happening, and playfulness as a route through a standoff rather than around it.",
+  watch:"Have the room script one of these out loud. It sounds easy on the page and is awkward in the mouth.",
+  q:"Pick one daily instruction and turn it into a joint task. Say the new sentence out loud now."}
+],
+
+4:[
+ {id:"c4s1", t:"What temperament is", loc:357,
+  gist:"Temperament describes how a child behaves rather than what they can do or why they want it: intensity, mood, adaptability, regularity, sensitivity to stimulation, approach or withdrawal. Babies are unique individuals from birth. Two lines carry the chapter: temperament alone is not destiny, and temperament is nobody's fault.",
+  watch:"The dimensions are guidelines, not categories. Push back if the room starts diagnosing.",
+  q:"Describe one child on the dimensions rather than with adjectives. What changes in how you feel about them?"},
+ {id:"c4s2", t:"Temperament Types", loc:366,
+  gist:"The Thomas and Chess groupings, easy, slow to warm up, and intense, plus the high activity style that gets its own chapter later. Lieberman notes that slow to warm up children are routinely mislabeled as shy or insecure, and that intense children need sensitive handling more than most and usually get less of it.",
+  watch:"Ask which type the room finds hardest to like. That answer is more useful than the taxonomy.",
+  q:"Which temperament do you find hardest to be around, and what does that child get from you as a result?"},
+ {id:"c4s3", t:"The Socialization of Temperament", loc:398,
+  gist:"Where the chapter does its real work. How adults respond determines whether a child's vulnerabilities get magnified or get framed by their more competent qualities. Goodness of fit is defined as the match between what parents expect and demand and what the child's motivations, capacities and style can actually meet. Stress, culture and available support all sit inside that fit.",
+  watch:"Fit is a property of the pair and the setting. Any sentence that puts it inside the child has lost the concept.",
+  q:"Goodness of fit puts the problem in the pair. In real life, who gets asked to change first, and why them?"}
+],
+
+5:[
+ {id:"c5s1", t:"Explorers, and their different styles", loc:479,
+  gist:"The chapter opens by spreading exploration across styles. Some toddlers experiment with objects, some with language, some build. These children explore with their whole body and treat obstacles as things to go through rather than around.",
+  watch:"Hold one specific child in mind for the whole chapter. The argument breaks down in the abstract.",
+  q:"What does this specific child look like on a good day? Describe it without the word behavior."},
+ {id:"c5s2", t:"Exploration from a Secure Base", loc:481,
+  gist:"The paradox worth the whole chapter: low fear plus a secure relationship produces the boldest exploration, so the best anchored child can look like the most reckless one. These children take off expecting the parent to be there when needed rather than staying close for protection. In flat or unresponsive settings the exploring drops away.",
+  watch:"Lieberman's image is that the parents' love for the child fuels the child's love of the world. Worth reading out.",
+  q:"If bold exploring is a sign of security, what have you been reading as recklessness that was confidence?"},
+ {id:"c5s3", t:"Movement and Language in High-Activity Toddlers", loc:483,
+  gist:"Earlier walking, wide variation in language, short attention for anything sedentary, and a strong preference for doing over discussing. Her practical note is that young toddlers learn more from a parent's protective action than from their words, which matters when the adult is trying to talk a moving child into safety.",
+  watch:"Three case studies run through here: Adam the tireless explorer, Melinda whose exuberance disappointed her mother, and Paul whose accident proneness tracked his parents' unavailability.",
+  q:"With a child in motion, what do your words actually accomplish? What does your body accomplish?"},
+ {id:"c5s4", t:"Some General Reflections on Temperament and Partnership", loc:549,
+  gist:"Lieberman reads the three children together. What separated their outcomes was not activity level but whether the adults accepted the style. Acceptance and respect supported secure attachment, criticism and rejection produced conflict and alienation.",
+  watch:"Melinda is the one to sit with. Nothing dramatic happened to her, her mother was just disappointed, continuously.",
+  q:"What does a child conclude about themselves after a year of being a disappointment to someone who loves them?"},
+ {id:"c5s5", t:"Living with a High-Activity Toddler", loc:554,
+  gist:"The practical close: safe places to be fully physical, deliberate quiet moments, picking battles, building self-control around a few specific behaviors rather than everywhere at once, and using play to get through conflict. She assumes the child wants to please, and treats that as the working material.",
+  watch:"Gradual and specific is the instruction. General compliance is not the goal and will not arrive.",
+  q:"Name the two behaviors you would actually hold the line on. Everything else is negotiable. Which two?"}
+],
+
+6:[
+ {id:"c6s1", t:"Quiet reserve, then real pleasure", loc:568,
+  gist:"The opening picture: a child who goes quiet and watchful in unfamiliar situations, clings or withdraws, and then, once the place is known, enjoys it as much as anyone. The caution is the front end of the enjoyment, not a replacement for it.",
+  watch:"Their word for the experience, in Lieberman's rendering, is that they need time to process and to feel safe with what is happening.",
+  q:"What were you called as a child when you needed time?"},
+ {id:"c6s2", t:"The Profile of Slow-to-Warm-Up Temperament", loc:570,
+  gist:"Three traits together: unusually wary with strangers, cautious with new objects, and prone to withdraw in unfamiliar situations. Physiological work finds higher arousal, so the caution is a reasonable response to a system that floods easily. Some of it persists into adulthood and some does not, depending heavily on what happens in between.",
+  watch:"Two children carry this section. Erin, oversensitive to stimulation, who moved into company with structured support. Tobias, whose fears crossed from caution into something more serious. Lieberman's marker was not the presence of fears but their number and intensity.",
+  q:"Where is your line between caution and anxiety in a specific child, and what would move them across it?"},
+ {id:"c6s3", t:"Helping Slow-to-Warm-Up Toddlers Enjoy Who They Are", loc:657,
+  gist:"The caregiving task is a balance between two failures: pushing a sensitive child into flooding, and protecting them so thoroughly that tolerance never builds. Her formula is step by step, one step at a time. She also insists these children not be stereotyped, since they are also curious, energetic, loving, and changing.",
+  watch:"The title is the point. The goal is a child who likes being this kind of person, not a child who has been fixed.",
+  q:"How do you tell a parent their child is not going to become outgoing, and make it good news?"}
+],
+
+7:[
+ {id:"c7s1", t:"Anxiety anticipates, fear responds", loc:669,
+  gist:"The distinction that organizes the chapter. Fear answers something present, anxiety answers something imagined. Small children move between the two constantly. The parent's job is described as a protective shield that lets the child feel safe while anticipating danger, real or not.",
+  watch:"Protective shield is not the same as removing everything frightening. Hold that difference through the whole chapter.",
+  q:"What is the difference, in a toddler's body, between afraid and anxious? How would you tell from the outside?"},
+ {id:"c7s2", t:"The Early Origins of Anxiety", loc:676,
+  gist:"She traces it back into infancy: early experiences of distress and relief lay down expectations. Babies whose signals get consistent, appropriate responses take in a sense that they are worthy of good care. The reverse also gets taken in.",
+  watch:"This is the chapter's quietest and heaviest claim. Give it a beat before moving on.",
+  q:"What did you learn about whether your distress was worth answering, and where does that show up in your work?"},
+ {id:"c7s3", t:"The Anxieties of Toddlerhood", loc:701,
+  gist:"The specific fears of the age: separation, losing parental love when a parent is angry, damage to the body, the meaning of the differences between bodies, and the unknown. Underneath most of them is the fear that displeasing a parent costs the relationship.",
+  watch:"This is why repair after a limit is not optional. The child may not know the relationship survived unless somebody shows them.",
+  q:"How does a child without words find out that you still love them after you were angry? Name the actual behaviors."},
+ {id:"c7s4", t:"What Is Manageable Anxiety?", loc:722,
+  gist:"Lieberman's answer is a dose. Children learn to handle anxiety by meeting it in amounts that are neither too large nor too small, and the right amount shifts with age and temperament. Some anxiety motivates learning and adaptation, which is why removing all of it is not the goal.",
+  watch:"Manageable is defined by the child in front of you, not by the activity. The same birthday party is two different doses for two children.",
+  q:"How do you know, in the moment, that you have gone past manageable and into flooding?"},
+ {id:"c7s5", t:"Play and the Mastery of Anxiety", loc:728,
+  gist:"The chapter's most useful tool. In play a child re-runs what frightened them and takes the controls, moving from the one it happened to into the one making it happen. Lieberman notes that the essence of play is spontaneity, and that toddlers are better at it than adults.",
+  watch:"The instruction is to follow rather than fix, and not to sanitize the ending. The frightening part is the part doing the work.",
+  q:"Why do adults interrupt scary play? Whose anxiety is the interruption serving?"},
+ {id:"c7s6", t:"Persistently Intense Anxiety", loc:746,
+  gist:"When anxiety stops being workable it shows up as avoidance, aggression, or a child who has gone flat and inhibited. This is the section that names the threshold for professional help rather than more parenting technique.",
+  watch:"Aggression as an anxiety presentation is the one adults miss most. It reads as a behavior problem and gets a behavior plan.",
+  q:"What would make you refer rather than reassure? Say your threshold out loud, then compare it with the room's."},
+ {id:"c7s7", t:"Encouraging Emotional Security", loc:786,
+  gist:"The close: sensitive responsiveness paired with clear expectations, on the argument that security in the early years builds the coping capacity a child uses later. Not softness alone and not structure alone.",
+  watch:"Pair this with the angels material. Fraiberg named the ghosts, Lieberman and colleagues named the angels in 2005, and the angels are the part that gets skipped.",
+  q:"How would you ask a parent for an angel memory in a real visit, without it sounding like a worksheet?"}
+],
+
+8:[
+ {id:"c8s1", t:"Separation Anxiety", loc:796,
+  gist:"Responses range from mild sadness to real panic, and Lieberman treats the variation as individual style rather than a scale of attachment quality. What raises the cost is length, abruptness, and an unfamiliar substitute caregiver. Ordinary distress becomes a problem when it takes over the child's mood and daily routine.",
+  watch:"Her practical measures are concrete because young toddlers cannot rely on memory or words: familiarity with the caregiver, transitional objects, and telling the child what is going to happen.",
+  q:"What is one family's separation ritual you would change tomorrow, and what would you say to change it?"},
+ {id:"c8s2", t:"The Experience of Toilet Training", loc:822,
+  gist:"Treated as a question about who owns the body rather than a skill to install. Readiness is physiological and emotional and varies by child, and the parent's tolerance is part of the equation. Lieberman argues for the partnership approach here more strongly than almost anywhere else.",
+  watch:"Deadlines usually come from a child care centre, a family expectation, or money. Name which one is driving before advising.",
+  q:"When the deadline and the child disagree, what do you actually tell the parent?"},
+ {id:"c8s3", t:"Nighttime Difficulties", loc:844,
+  gist:"Sleep problems are read as developmental rather than behavioral: going to sleep means separating, giving up consciousness and losing sight of you. Individual sleep patterns differ enormously and collide with adult need. Her answer is consistent ritual, soothing, and taking night fears seriously rather than arguing with them.",
+  watch:"Ritual works where reasoning does not, because the problem is not a belief. Say that plainly.",
+  q:"Which part of the sleep advice families receive is safety, which is evidence, and which is preference?"},
+ {id:"c8s4", t:"Eating Difficulties", loc:879,
+  gist:"Refusal is the lever a toddler always has, and pressure hands it more power. The division of responsibility she describes is that adults provide the food and children decide about eating it, so that self-regulation can develop. Family meals do more than any single tactic.",
+  watch:"An anxious adult creates the standoff faster than a picky child does. Watch where the anxiety enters.",
+  q:"What is the smallest thing a worried parent could stop doing at the table this week?"},
+ {id:"c8s5", t:"Sibling Rivalry", loc:887,
+  gist:"Stripped of moral judgment and read as a resource calculation about whether there is enough of you. Displacement and competition are real, and Lieberman also treats the sibling relationship as a place where emotional capacity gets built. Acknowledging the toddler's feelings comes before requiring kindness.",
+  watch:"The two-move script, validate the rage and stop the hitting in one breath, is harder to say than to agree with. Make someone say it.",
+  q:"Say the sentence out loud that validates the fury and stops the hand. Where does it get hard?"},
+ {id:"c8s6", t:"Marital Discord", loc:912,
+  gist:"The battleground most guides drop. A toddler reads tension between the adults somatically, before and without any raised voice, and takes it in as information about whether the world is steady. It sits in this chapter because it is a daily negotiation, not an exceptional event.",
+  watch:"This runs straight into safety screening. Know where you would take it before you ask the question.",
+  q:"A toddler watches the adults fight and nobody raises a hand. What have they taken in, and what do you do with it?"},
+ {id:"c8s7", t:"When Traumatic Events Happen", loc:918,
+  gist:"Lieberman's own clinical territory. Infants and toddlers have well-developed memories and hold events they cannot describe in words, so the absence of a verbal account is not the absence of an imprint. The response centers on the caregiving relationship rather than on the child alone.",
+  watch:"This is the section that most directly connects the book to child-parent psychotherapy. Worth naming for a practitioner room.",
+  q:"Where does the phrase they are too young to remember still operate in your setting, and who benefits from it?"},
+ {id:"c8s8", t:"Discipline: Is It Really Needed?", loc:933,
+  gist:"Her answer is yes, and then she spends the section on what kind. Guidance that channels feeling into workable action, adjusted to what the child can actually do at their age, with the adult modeling the regulation they are asking for. She is blunt that instilling fear is a poor method because it teaches the child to mistrust the parent.",
+  watch:"Firm and warm are not a trade-off in this book. Doing only one of them is the failure mode.",
+  q:"Where is the line between socializing a child and breaking their will? Use this week, not a hypothetical."},
+ {id:"c8s9", t:"Managing Social Change: The Example of Screen Time", loc:954,
+  gist:"New in the revised edition, and framed as an example of how families absorb social change rather than as a verdict on devices. Lieberman's emphasis lands on context and connection rather than a minute count, and on the adult being in it with the child instead of handing it over.",
+  watch:"This section is the seed of the extra twelfth session in this app. If the group wants a whole night on it, that sheet exists.",
+  q:"What is the honest guidance for a parent whose only working tool at 6pm is a screen?"}
+],
+
+9:[
+ {id:"c9s1", t:"Divorce as Secure Base Disruption", loc:989,
+  gist:"The organizing frame: divorce is the loss of the secure base that the family arrangement itself provided, so both the child and the adults face the job of rebuilding one under changed conditions. Distress is expected. Lieberman is careful that the child's distress need not become crippling guilt for the parents.",
+  watch:"She also cites the long view from divorce research, which is that the striking finding is the diversity of adjustment rather than the inevitability of harm.",
+  q:"What in a separating family is actually predictive, and what are we assuming because it is sad?"},
+ {id:"c9s2", t:"What Do Toddlers Understand?", loc:997,
+  gist:"More than adults credit, and organized around themselves. A toddler assumes they caused it and then reasons that the remaining parent could leave too. They express this in behavior rather than words, often as regression. Talking with a child while they are having the feeling is what keeps it from overwhelming them.",
+  watch:"Regression here is a stress response and calls for comfort, not consequence. Parents are frequently told the opposite.",
+  q:"Write the sentence you would say to a two year old whose parent did not show up. Say it out loud."},
+ {id:"c9s3", t:"The Divorced Mother's Situation", loc:1018,
+  gist:"Lieberman puts the economics on the page. Custodial mothers commonly face a sharp drop in income alongside an increase in sole responsibility, and that combination, not a personal deficit, is what erodes emotional availability.",
+  watch:"When a mother in a case looks depleted, check what she is carrying before you write about her capacity.",
+  q:"How much of what gets recorded as low parental capacity is arithmetic?"},
+ {id:"c9s4", t:"The Divorced Father's Situation", loc:1022,
+  gist:"The mirror section. Fathers commonly face reduced access and a relationship that has to survive on fragments of time, which can push toward withdrawal. She treats a father's continued involvement as worth actively protecting rather than as optional.",
+  watch:"Ask who in the room finds it harder to hold the father's side, and why. It is usually about their own history.",
+  q:"What does your service actually do to keep a non-resident father in a toddler's week?"},
+ {id:"c9s5", t:"“Divide the Living Child”", loc:1026,
+  gist:"The Solomon reference, and the sharpest developmental argument in the chapter. Very young children cannot hold onto a mental image of a parent they rarely see, so arrangements that look fair on paper can quietly dissolve a relationship. Frequency of contact matters more than the length of any single visit.",
+  watch:"Short and often. This is the line to bring to anyone writing or approving a schedule.",
+  q:"If you had five minutes with a judge, what would you say, and what would you bring to back it up?"},
+ {id:"c9s6", t:"Is There an Ideal Custody Arrangement?", loc:1080,
+  gist:"Her answer is no, not as a formula. What predicts how a toddler does is the consistency and calm of the care in both homes and whether the adults can support each other's place in the child's life, rather than the legal shape of the arrangement.",
+  watch:"When one home is steady and one is not, be clear about what is inside a caregiver's control before you suggest anything.",
+  q:"How do you support a parent who cannot change the other house, without implying that they can?"}
+],
+
+10:[
+ {id:"c10s1", t:"Making the Transition: Saying Good-bye", loc:1098,
+  gist:"The first of the two rituals. A clear, honest goodbye, because leaving without one teaches a child that adults can vanish, which raises their guard for the rest of the day. Lingering anxiously communicates the opposite problem, that the place is not safe. Manageable sadness at the door is the goal, not no sadness.",
+  watch:"The third option is short, warm, honest and final. It is hard to perform when the adult feels terrible, which is the actual obstacle.",
+  q:"What does your goodbye sound like? Say it out loud right now, at the speed you say it."},
+ {id:"c10s2", t:"Spending the Day in Child Care", loc:1113,
+  gist:"What happens between the rituals. Whether a caregiver is emotionally available, whether the same adults come back tomorrow, group size, and enough attention for a child to be known. Lieberman's line for the goal is that a child in care may miss her parent but should not lose herself.",
+  watch:"The relationship with the caregiver becomes the child's working model of what people outside the family have to offer.",
+  q:"Name one child care room you would place your own child in, and say precisely why."},
+ {id:"c10s3", t:"Saying Hello: The Joys and Stresses of Reunion", loc:1150,
+  gist:"The second ritual, and the counterintuitive one. Children often ignore, cry, or lash out at pickup. Lieberman reads this as the day's held tension being released to the safest available person, which makes it a sign of attachment rather than rejection.",
+  watch:"Tell a parent this before they drive home deciding they are a failure.",
+  q:"If pickup behavior is released tension, what does it mean when a child shows nothing at all, day after day?"},
+ {id:"c10s4", t:"The Parent-Caregiver Relationship", loc:1155,
+  gist:"The third leg of Lieberman's account of good care, alongside the transitions and the day itself. Communication between the adults protects the child from becoming the site of their disagreement, and competition between them is a live risk.",
+  watch:"Listen for a parent describing a caregiver as a rival, or the reverse. That is the tell.",
+  q:"How do you intervene when a parent and a teacher are competing, without taking a side?"},
+ {id:"c10s5", t:"Signs of Trouble", loc:1166,
+  gist:"The practical checklist section: the changes in a child, or in a setting, that mean something is wrong rather than something is new. It gives parents permission to trust an observation they cannot yet justify.",
+  watch:"Distinguish the first fortnight of adjustment from a pattern that is not resolving. Parents most often need help telling those apart.",
+  q:"What would you want a parent to notice, in plain words they would actually use?"},
+ {id:"c10s6", t:"The Emotional Effects of Child Care", loc:1172,
+  gist:"Lieberman refuses the question of whether child care is bad for children and replaces it with which arrangements, how paced, with whom. Good quality care supports well-being and social skill, poor quality care damages it.",
+  watch:"The framing shift is the point. Yes or no is not an answerable question and it makes parents feel guilty for asking.",
+  q:"Whose norm is built into the assumption that parental care is the baseline and everything else is a departure?"},
+ {id:"c10s7", t:"Choosing Good-Quality Child Care", loc:1178,
+  gist:"What to look for, concretely: caregiver stability so the same people return, training, ratios that permit close attention, and structure balanced against attention to the individual child.",
+  watch:"Turn this into the actual questions a parent could ask on a tour. That is the usable output.",
+  q:"Write the three questions you would tell a parent to ask on a visit."},
+ {id:"c10s8", t:"Does the Quality of Child Care Matter?", loc:1187,
+  gist:"The short answer she gives is yes, in both directions. Quality is not a bonus feature that improves an otherwise neutral arrangement, it is the variable that decides whether the arrangement helps or harms.",
+  watch:"Hold this next to the following section before anyone in the room turns it into advice for an individual family.",
+  q:"What is the guidance when the only available option is the one with the least responsive care?"},
+ {id:"c10s9", t:"The Social Realities of Child Care", loc:1189,
+  gist:"The structural close, and the most political part of the book. Good care is known to matter and is not reliably available, the workforce is underpaid, and Lieberman argues that a national commitment to funding and standards is what is actually required.",
+  watch:"This is the chapter's answer to any advice that assumes a family can simply choose better.",
+  q:"What part of the guidance we give families is really a request that they solve a funding problem?"}
+],
+
+11:[
+ {id:"c11s1", t:"The end of the fantasy", loc:1198, unlisted:true,
+  gist:"Lieberman closes by naming what parents give up: the belief that their presence is enough to keep a child safe and content. There are disappointments and dangers that cannot be wished away, and the work is continuing anyway.",
+  watch:"Read this one aloud. It is the emotional center of the conclusion.",
+  q:"What did you have to stop believing you could prevent?"},
+ {id:"c11s2", t:"Too much presence", loc:1198, unlisted:true,
+  gist:"The counterweight, and the more surprising claim. By injecting themselves too far into a child's inner life, parents can take away the chance to develop a self. Stepping back is presented as an act of care rather than a lapse in it.",
+  watch:"This is the sentence that argues against the anxious version of everything else in the book.",
+  q:"Where does your care for a child, or a family, cross into occupying their inner life?"},
+ {id:"c11s3", t:"Toddlerhood and adolescence", loc:1198, unlisted:true,
+  gist:"She reads the two periods as the same problem twice: rapid change, a push for autonomy, and an ongoing need for connection. What gets established at two is still in play at fifteen. Met rather than crushed, toddler negativism becomes preschool assertiveness, and support in adolescence becomes self-worth later.",
+  watch:"Good place to ask the room about their own adolescence, not only the children's.",
+  q:"Trace one of your adult patterns back to closeness and autonomy. What does it make possible in your work, and what does it make hard?"},
+ {id:"c11s4", t:"Initiative and belonging", loc:1198, unlisted:true,
+  gist:"The book's stated endpoint is an identity that combines personal initiative with a reliable sense of communal belonging, and the final formulation is that letting go, within limits, is the surest way of staying close.",
+  watch:"Ask whether that endpoint matches the families on the caseload. Some are raising a good member of something rather than a well-bounded self.",
+  q:"Whose idea of a finished person is this book aiming at, and does it match your families?"}
+],
+
+12:[
+ {id:"c12s1", t:"Where the screen material actually lives", loc:954, src:"Chapter 8",
+  gist:"The revised edition does not give screens a chapter. The one explicit section is inside chapter eight, Managing Social Change: The Example of Screen Time, and its argument is that context and connection matter more than a minute count, with the adult in it alongside the child rather than handing it over.",
+  watch:"Say this at the start so nobody spends the night looking for a chapter that is not there.",
+  q:"Is a screen that ends a tantrum different from a snack that ends a tantrum? Make the case both ways."},
+ {id:"c12s2", t:"It is an attention question first", loc:93, src:"Chapter 2, Discovering the World",
+  gist:"Read against chapter two, a phone in the adult's hand is a refueling problem before it is a screen time problem. The child leaves, explores, checks back, and finds a face that is lit up and pointed elsewhere.",
+  watch:"Ask whether a book in the adult's hand is different, and make the room work for the answer.",
+  q:"A toddler looks back to refuel and finds the adult's face lit by a phone. What did they just learn?"},
+ {id:"c12s3", t:"Screens and the storm", loc:227, src:"Chapter 3",
+  gist:"Handing over a device ends a tantrum, which is exactly the problem chapter three is describing. The tantrum was the place where a child learns that anger does not end the relationship, and the screen ends the episode before the lesson lands.",
+  watch:"Nearly half of parents report using screens to manage difficult behavior. This is a normal tool, not a confession.",
+  q:"What has to be true in a household before this advice is possible? Answer for a real family, not an ideal one."},
+ {id:"c12s4", t:"Screens at the door", loc:1098, src:"Chapter 10",
+  gist:"A device at drop-off or pickup changes what the ritual communicates. The goodbye that chapter ten asks for is short, honest and complete, and it is hard to be any of those while looking at a phone.",
+  watch:"Pickup is the one to press on. The child held the day for you and hands it over at the exact moment you are reading a message.",
+  q:"What do we do about our own phones during a home visit?"},
+ {id:"c12s5", t:"What current guidance actually says", loc:0, src:"Outside the book",
+  gist:"Not Lieberman, and labeled as such. Pediatric guidance has moved away from counting minutes: essentially no solo screen use before around eighteen months apart from video calls with family, roughly an hour a day of good content watched together between two and five, and a newer framework weighing the child, the content, whether it is being used to produce calm, what it displaces, and whether anyone talks about it.",
+  watch:"Be careful handing a family a number. Most screen research cannot separate heavy use from the conditions that produce it.",
+  q:"Some families use video calls to keep a child bonded to a parent who is deployed, incarcerated, or working nights. Where does that fit in the guidance we hand out?"}
+]
+
+};
+CH.forEach(ch=>{ ch.sections = SEC[ch.n] || []; });
+
 const HOME = {
   why:[
    "Lieberman is not a random parenting author. Her infant and parent psychotherapy work is part of the lineage that home visiting models like ours descend from, and Child First style programs are built on the clinician plus care coordinator team structure that grew out of it. When she describes a toddler communicating through behavior, she is describing the thing our whole model is organized around.",
-   "Get the revised edition, the one with new material on screens and parenting after the internet. Page numbers differ between the 1993 and revised printings, so we will name sections rather than pages.",
+   "Get the revised edition, the one with new material on screens and parenting after the internet. Page numbers differ between the 1993 and revised printings, so every sheet lists the book's own section headings instead. The numbers beside them are ebook locations from the revised edition reader, which is the one thing that stays put across our copies.",
+   "Each sheet now breaks the chapter into its sections, in order, with what Lieberman argues in each one and a question that belongs to it. Nobody covers all of them. Chapter eight has nine sections and chapter ten has nine more. Pick two or three, tick them off, and let the rest go.",
    "One structural choice worth saying out loud: this book will pull up your own childhood. Selma Fraiberg called that the ghosts in the nursery. Lieberman's own answer to Fraiberg, published with her colleagues in 2005, is the angels in the nursery, meaning specific remembered moments of being loved exactly right, which appear to buffer against the effects of a hard childhood. Every sheet here has an angels prompt. Use it. Do not spend eleven weeks in the ghosts."
   ],
   flow60:[
    ["0 to 5","Arrive and land. One word each about the week. No content yet.",300],
    ["5 to 10","Read the ground rules out loud. Yes, every time.",300],
-   ["10 to 15","The chapter in short, read aloud or summarized by whoever volunteers.",300],
+   ["10 to 15","The chapter in short. Name the two or three sections you are actually covering, and say out loud which ones you are skipping.",300],
    ["15 to 25","Warm up questions. Aim for everyone speaking once before anyone speaks twice.",600],
    ["25 to 45","Going deeper. Two questions well beats four questions fast.",1200],
    ["45 to 52","Angels. Slow down here, and let it be quiet.",420],
@@ -859,7 +1283,7 @@ const HOME = {
    STATE
    ============================================================ */
 const KEY='toddlerBookClub:v2', OLDKEY='toddlerBookClub:v1';
-let state={done:{},used:{},picked:{},notes:{},theme:'auto',flow:60,facilitator:false,voted:{},me:null,tutorialSeen:false};
+let state={done:{},used:{},picked:{},notes:{},covered:{},theme:'auto',flow:60,facilitator:false,voted:{},me:null,tutorialSeen:false};
 let current=0, saveTimer=null;
 
 /* ---- personal state: saved to this browser only, via localStorage ---- */
@@ -881,6 +1305,9 @@ function loadState(){
       queueSave();
     }
   }catch(e){/* no old data either */}
+}
+function ensureState(){
+  ['done','used','picked','notes','covered','voted'].forEach(k=>{ if(!state[k]||typeof state[k]!=='object') state[k]={}; });
 }
 function queueSave(){
   clearTimeout(saveTimer);
@@ -948,9 +1375,15 @@ function applyColors(ch){
   if(ch){ r.setProperty('--c',ch.c); r.setProperty('--d',ch.d); r.setProperty('--accent',isDark()?ch.c:ch.d); }
   else{ r.setProperty('--c',isDark()?'#6B5A3E':'#D9C7A8'); r.setProperty('--d','#5C4826'); r.setProperty('--accent',isDark()?'#DCC79C':'#5C4826'); }
 }
+/* the curated three tiers, the ones the room votes on */
+function voteQ(ch){ return [...ch.warm,...ch.deep,...ch.home]; }
+/* one question per sub-chapter, starrable and usable like any other */
+function secQ(ch){ return (ch.sections||[]).filter(s=>s.q).map(s=>({id:s.id,q:s.q,sec:s.t})); }
+/* everything in the chapter */
+function allQ(ch){ return [...voteQ(ch),...secQ(ch)]; }
+
 function pickedIn(ch){
-  const all=[...ch.warm,...ch.deep,...ch.home];
-  return all.filter(q=>state.picked[q.id]);
+  return allQ(ch).filter(q=>state.picked[q.id]);
 }
 
 /* ============================================================
@@ -1120,7 +1553,7 @@ function renderHome(){
   let armed=false;
   rb.addEventListener('click',()=>{
     if(!armed){ armed=true; rb.textContent='Tap again to clear everything'; setTimeout(()=>{armed=false;rb.textContent='Clear all notes and marks';},4000); return; }
-    state.done={};state.used={};state.picked={};state.notes={};
+    state.done={};state.used={};state.picked={};state.notes={};state.covered={};
     queueSave(); render(); toast('Cleared');
   });
 }
@@ -1129,10 +1562,16 @@ function buildExport(){
   const lines=['THE EMOTIONAL LIFE OF THE TODDLER: book club notes','Exported '+new Date().toLocaleDateString(),''];
   CH.forEach(ch=>{
     const note=(state.notes[ch.n]||'').trim();
-    const used=[...ch.warm,...ch.deep,...ch.home].filter(q=>state.used[q.id]);
-    if(!note && !used.length && !state.done[ch.n]) return;
+    const used=allQ(ch).filter(q=>state.used[q.id]);
+    const cov=(ch.sections||[]).filter(s=>state.covered[s.id]);
+    if(!note && !used.length && !cov.length && !state.done[ch.n]) return;
     lines.push('----------------------------------------');
     lines.push((ch.extra?'EXTRA':'SESSION '+ch.n)+': '+ch.title+(state.done[ch.n]?'  [done]':''));
+    if(cov.length){
+      lines.push('');
+      lines.push('Sections covered ('+cov.length+' of '+secCount(ch)+'):');
+      cov.forEach(s=>lines.push('  - '+s.t+(s.unlisted?'':'  (loc '+s.loc+')')));
+    }
     if(used.length){ lines.push(''); lines.push('Questions used:'); used.forEach(q=>lines.push('  - '+q.q)); }
     if(note){ lines.push(''); lines.push('Notes:'); lines.push(note); }
     lines.push('');
@@ -1155,20 +1594,61 @@ function buildExport(){
 /* ============================================================
    RENDER: chapter sheet
    ============================================================ */
+function qRow(q,tally){
+  const used=!!state.used[q.id], star=!!state.picked[q.id];
+  const v=(tally&&tally[q.id])||0;
+  return '<div class="qrow">'+
+     '<button class="star" data-star="'+q.id+'" aria-pressed="'+star+'" aria-label="'+(star?'Remove from tonight':'Add to tonight')+'">'+starSVG()+'</button>'+
+     '<button class="qbtn" data-used="'+q.id+'" aria-pressed="'+used+'">'+
+       (used?'<span class="usedtag">Used</span>':'')+
+       (v?'<span class="votepill">'+v+' '+(v===1?'vote':'votes')+'</span>':'')+esc(q.q)+
+       (q.note?'<span class="qnote">'+esc(q.note)+'</span>':'')+
+     '</button></div>';
+}
 function qList(ch,label,arr,tally){
-  let h='<p class="tier">'+label+'</p>';
-  arr.forEach(q=>{
-    const used=!!state.used[q.id], star=!!state.picked[q.id];
-    const v=(tally&&tally[q.id])||0;
-    h+='<div class="qrow">'+
-       '<button class="star" data-star="'+q.id+'" aria-pressed="'+star+'" aria-label="'+(star?'Remove from tonight':'Add to tonight')+'">'+starSVG()+'</button>'+
-       '<button class="qbtn" data-used="'+q.id+'" aria-pressed="'+used+'">'+
-         (used?'<span class="usedtag">Used</span>':'')+
-         (v?'<span class="votepill">'+v+' '+(v===1?'vote':'votes')+'</span>':'')+esc(q.q)+
-         (q.note?'<span class="qnote">'+esc(q.note)+'</span>':'')+
-       '</button></div>';
-  });
-  return h;
+  return '<p class="tier">'+label+'</p>'+arr.map(q=>qRow(q,tally)).join('');
+}
+
+/* ---- the sub-chapters, in the order the book runs them ---- */
+function secDone(ch){ return (ch.sections||[]).filter(s=>state.covered[s.id]).length; }
+function secCount(ch){ return (ch.sections||[]).length; }
+function secLabel(ch){
+  const n=secCount(ch), d=secDone(ch);
+  if(!n) return '';
+  return d===0 ? n+' sections. None marked covered yet.'
+       : d===n ? 'All '+n+' sections covered.'
+       : d+' of '+n+' sections covered.';
+}
+function sectionList(ch){
+  const secs=ch.sections||[];
+  if(!secs.length) return '';
+  const unlisted=secs.every(s=>s.unlisted);
+  return '<section><h3>Section by section'+squiggle()+'</h3>'+
+    '<p class="legend">'+
+      (unlisted
+        ? 'The table of contents gives this chapter no sections, so these are its beats rather than its headings.'
+        : 'The book’s own section headings, in order. Numbers are ebook locations from the revised edition, not printed pages.')+
+    '</p>'+
+    '<div class="rowbtns"><button class="btn" id="walkdeck">Walk the chapter</button>'+
+      '<button class="btn" id="secreset">Clear the ticks</button></div>'+
+    '<p class="seccount" id="seccount">'+esc(secLabel(ch))+'</p>'+
+    '<ol class="secs">'+secs.map((s,i)=>{
+      const cov=!!state.covered[s.id];
+      return '<li class="sec'+(cov?' cov':'')+'" id="sec-'+s.id+'">'+
+        '<details><summary>'+
+          '<span class="secnum">'+(i+1)+'</span>'+
+          '<span class="sectxt"><b>'+esc(s.t)+'</b>'+
+            '<span class="secmeta">'+(s.src?esc(s.src)+(s.loc?'  ·  loc '+s.loc:''):(s.unlisted?'no heading in the contents':'loc '+s.loc))+'</span>'+
+          '</span><span class="chev"></span>'+
+        '</summary>'+
+        '<div class="secbody">'+
+          '<p>'+esc(s.gist)+'</p>'+
+          (s.watch?'<p class="watch"><b>Watch for</b>'+esc(s.watch)+'</p>':'')+
+          (s.q?qRow({id:s.id,q:s.q},LIVE.tally):'')+
+          '<button class="covbtn" data-cov="'+s.id+'" aria-pressed="'+cov+'">'+
+            '<span class="tick"></span>'+(cov?'Covered':'Mark covered')+'</button>'+
+        '</div></details></li>';
+    }).join('')+'</ol></section>';
 }
 
 function renderChapter(ch){
@@ -1202,6 +1682,8 @@ function renderChapter(ch){
    '<section><h3>Four things to hold onto'+squiggle()+'</h3>'+
    '<ul class="ideas">'+ch.ideas.map(i=>'<li><b>'+esc(i[0])+'</b><span>'+esc(i[1])+'</span></li>').join('')+'</ul></section>'+
 
+   sectionList(ch)+
+
    (ch.contested?
    '<details class="fold"><summary><span class="chev"></span>Where this gets argued with</summary>'+
      '<div class="foldbody"><p>'+esc(ch.contested)+'</p></div></details>':'')+
@@ -1218,7 +1700,7 @@ function renderChapter(ch){
        : '<p class="empty">Nothing starred yet. Tap the star beside three questions below, before the meeting rather than during it.</p>')+
    '</div></section>'+
 
-   '<section><h3>Questions'+squiggle()+'</h3>'+
+   '<section id="qsec"><h3>Questions'+squiggle()+'</h3>'+
    '<p class="legend">Tap a question to mark it used. Tap the star to put it in tonight’s three.</p>'+
    qList(ch,'Warm up',ch.warm,LIVE.tally)+
    qList(ch,'Go further',ch.deep,LIVE.tally)+
@@ -1261,7 +1743,7 @@ function renderChapter(ch){
       ? '<h4>Starred for tonight</h4><ol>'+p.map(q=>'<li>'+esc(q.q)+'</li>').join('')+'</ol>'
       : '<p class="empty">Nothing starred yet. Tap the star beside three questions below, before the meeting rather than during it.</p>';
   }
-  const byId={}; [...ch.warm,...ch.deep,...ch.home].forEach(q=>byId[q.id]=q);
+  const byId={}; allQ(ch).forEach(q=>byId[q.id]=q);
 
   v.querySelectorAll('[data-used]').forEach(b=>b.addEventListener('click',()=>{
     const id=b.dataset.used, q=byId[id];
@@ -1301,6 +1783,26 @@ function renderChapter(ch){
   document.getElementById('present').addEventListener('click',()=>openDeck(ch,'present'));
   document.getElementById('pickdeck').addEventListener('click',()=>openDeck(ch,'pick'));
   document.getElementById('votedeck').addEventListener('click',()=>openDeck(ch,'vote'));
+
+  const walk=document.getElementById('walkdeck');
+  if(walk) walk.addEventListener('click',()=>openDeck(ch,'walk'));
+
+  v.querySelectorAll('[data-cov]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.cov;
+    if(state.covered[id]) delete state.covered[id]; else state.covered[id]=true;
+    const on=!!state.covered[id];
+    b.setAttribute('aria-pressed',String(on));
+    b.lastChild.textContent=on?'Covered':'Mark covered';
+    const li=document.getElementById('sec-'+id); if(li) li.classList.toggle('cov',on);
+    document.getElementById('seccount').textContent=secLabel(ch);
+    queueSave();
+  }));
+
+  const sr=document.getElementById('secreset');
+  if(sr) sr.addEventListener('click',()=>{
+    (ch.sections||[]).forEach(s=>delete state.covered[s.id]);
+    queueSave(); renderChapter(ch); toast('Ticks cleared');
+  });
 
   loadLive(ch);
 
@@ -1360,7 +1862,7 @@ function paintCheckin(ch){
 
 function paintVotes(ch){
   const box=document.getElementById('votes'); if(!box) return;
-  const all=[...ch.warm,...ch.deep,...ch.home];
+  const all=voteQ(ch);
   const ranked=all.map(q=>({q,v:LIVE.tally[q.id]||0})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v).slice(0,4);
   const mine=(state.voted[ch.n]||[]).length;
   box.innerHTML = ranked.length
@@ -1373,7 +1875,7 @@ function repaintQuestions(ch){
   const v=document.getElementById('view');
   v.querySelectorAll('[data-used]').forEach(b=>{
     const id=b.dataset.used;
-    const q=[...ch.warm,...ch.deep,...ch.home].find(x=>x.id===id); if(!q) return;
+    const q=allQ(ch).find(x=>x.id===id); if(!q) return;
     const n=LIVE.tally[id]||0;
     b.innerHTML=(state.used[id]?'<span class="usedtag">Used</span>':'')+
       (n?'<span class="votepill">'+n+' '+(n===1?'vote':'votes')+'</span>':'')+esc(q.q)+
@@ -1403,9 +1905,13 @@ const DECK={cards:[],i:0,mode:'present',ch:null,open:false,lastFocus:null};
 
 function openDeck(ch,mode){
   DECK.ch=ch; DECK.mode=mode; DECK.i=0; DECK.open=true; DECK.lastFocus=document.activeElement;
-  DECK.cards = mode==='present' ? presentCards(ch) : questionCards(ch);
+  DECK.cards = mode==='present' ? presentCards(ch)
+             : mode==='walk' ? sectionCards(ch)
+             : questionCards(ch,mode);
   document.getElementById('deckmode').textContent =
-    mode==='present'?'Read aloud':(mode==='pick'?'Pick tonight’s three':'Vote, two each');
+    mode==='present'?'Read aloud':
+    mode==='walk'?'Walk the chapter':
+    (mode==='pick'?'Pick tonight’s three':'Vote, two each');
   const d=document.getElementById('deck');
   d.classList.add('show'); document.body.style.overflow='hidden';
   paintDeck(); document.getElementById('deckx').focus();
@@ -1433,9 +1939,22 @@ function presentCards(ch){
   cards.push({lab:'Before next time', med:ch.between, tiny:'Or skip it. You are allowed. Reading the chapter and resting is a complete week.', size:'med'});
   return cards;
 }
-function questionCards(ch){
-  const all=[...ch.warm,...ch.deep,...ch.home];
-  return all.map((q,n)=>({lab:'Question '+(n+1)+' of '+all.length, big:q.q, med:q.note||'', qid:q.id}));
+function questionCards(ch,mode){
+  /* the room only votes on the curated three tiers. picking can reach the
+     sub-chapter questions too. */
+  const all = mode==='vote' ? voteQ(ch) : allQ(ch);
+  return all.map((q,n)=>({lab:'Question '+(n+1)+' of '+all.length, big:q.q, med:q.note||q.sec||'', qid:q.id}));
+}
+function sectionCards(ch){
+  const secs=ch.sections||[];
+  const cards=[{lab:(ch.extra?'Extra sheet':'Session '+ch.n), big:'Walk the chapter',
+    med:secs.length+' sections, in the order the book runs them. Swipe through as a map before you start, or use it to find where a conversation belongs.',
+    tiny:'Numbers are ebook locations from the revised edition, not printed pages.'}];
+  secs.forEach((s,n)=>{
+    cards.push({lab:'Section '+(n+1)+' of '+secs.length+(s.unlisted?'':'  ·  loc '+s.loc), big:s.t, med:s.gist, tiny:s.watch});
+    if(s.q) cards.push({lab:'From that section', big:s.q, med:s.t, qid:s.id, secpick:true});
+  });
+  return cards;
 }
 
 function paintDeck(){
@@ -1470,6 +1989,12 @@ function paintDeck(){
   if(DECK.mode==='present'){
     foot.innerHTML='<button class="btn" data-move="-1">Back</button><button class="btn yes" data-move="1">Next</button>';
     count.textContent=(DECK.i+1)+' of '+DECK.cards.length;
+  }else if(DECK.mode==='walk'){
+    const on=!!state.picked[c.qid];
+    foot.innerHTML='<button class="btn" data-move="-1">Back</button>'+
+      (c.secpick?'<button class="btn'+(on?' yes':'')+'" data-star2="'+c.qid+'">'+(on?'In tonight’s three':'Star this one')+'</button>':'')+
+      '<button class="btn yes" data-move="1">Next</button>';
+    count.textContent=(DECK.i+1)+' of '+DECK.cards.length;
   }else if(DECK.mode==='pick'){
     const on=!!state.picked[c.qid];
     foot.innerHTML='<button class="btn" data-swipe="l">Skip</button>'+
@@ -1483,6 +2008,13 @@ function paintDeck(){
   }
   foot.querySelectorAll('[data-move]').forEach(b=>b.addEventListener('click',()=>move(parseInt(b.dataset.move,10))));
   foot.querySelectorAll('[data-swipe]').forEach(b=>b.addEventListener('click',()=>swipe(b.dataset.swipe)));
+  foot.querySelectorAll('[data-star2]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.star2;
+    if(state.picked[id]) delete state.picked[id];
+    else if(pickedIn(DECK.ch).length>=3){ toast('Three is the limit. That is the point.'); return; }
+    else state.picked[id]=true;
+    queueSave(); paintDeck();
+  }));
 }
 
 function move(d){
@@ -1519,7 +2051,7 @@ stage.addEventListener('touchend',e=>{
   const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
   sx=null;
   if(Math.abs(dx)<55||Math.abs(dy)>Math.abs(dx)) return;
-  if(DECK.mode==='present') move(dx<0?1:-1);
+  if(DECK.mode==='present'||DECK.mode==='walk') move(dx<0?1:-1);
   else swipe(dx<0?'l':'r');
 },{passive:true});
 document.getElementById('tapl').addEventListener('click',()=>move(-1));
@@ -1530,7 +2062,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape') closeDeck();
   if(e.key==='ArrowRight') move(1);
   if(e.key==='ArrowLeft') move(-1);
-  if(DECK.mode!=='present'){
+  if(DECK.mode!=='present'&&DECK.mode!=='walk'){
     if(e.key.toLowerCase()==='y') swipe('r');
     if(e.key.toLowerCase()==='n') swipe('l');
   }
@@ -1630,50 +2162,171 @@ function paintWall(){
 }
 
 /* ============================================================
-   TUTORIAL
+   TUTORIAL: coach marks over the real app
+
+   Each step points an arrow at a real control, and steps that
+   need one navigate the app first, so the tour is a walk through
+   the thing itself rather than a slideshow about it.
    ============================================================ */
 const TUTORIAL=[
- {lab:"Welcome",big:"How this works",med:"A quick tour before you dive in. Skip anytime, and you can come back to it later from the bottom of the page."},
- {lab:"The rack",big:"Tap a color to open a session",med:"Each crayon is one chapter. “Run the session” on the left has your timer, ground rules, and facilitator moves. “The angels wall” on the right is shared with the whole group."},
- {lab:"Inside a chapter",big:"Read, then talk",med:"Every sheet gives you a line to open with, the chapter in short, four ideas to hold onto, and questions in three tiers: warm up, go further, bring it home."},
- {lab:"Pick and present",big:"Star three questions, then present",med:"Tap the star beside up to three questions before the meeting. “Present this session” turns everything into full-screen cards you can read aloud or swipe through with the group."},
- {lab:"Shared with the group",big:"Check-in, votes, and the wall",med:"The one-word check-in, question voting, and the angels wall are shared with anyone using this link, not just this device."},
- {lab:"Your notes",big:"Saved on this device only",med:"Notes, progress, and starred questions stay on this phone. Use “Take the notes with you” on the first sheet before you switch devices."},
- {lab:"Anytime",big:"Come back to this tour",med:"Tap “Show the tutorial” at the bottom of the page whenever you want to see this again."}
+ {lab:"The rack", big:"Every session is a crayon",
+  med:"Twelve sheets. Tap a color to open one. Run the session on the far left holds the timer, the ground rules and the facilitator moves. The angels wall on the far right is shared with everybody.",
+  find:()=>document.getElementById('rail')},
+ {lab:"Open the room", big:"A line you can read out loud",
+  med:"Every sheet starts with something you can say word for word while people are still taking their coats off.",
+  nav:()=>go(1), find:()=>document.querySelector('.aloud')},
+ {lab:"One word each", big:"This part is shared",
+  med:"Anyone on this link types one word for their week and it appears on everyone’s screen, not only yours. Fifteen seconds, then read them out.",
+  find:()=>document.getElementById('checkin')},
+ {lab:"Section by section", big:"The chapter in its own order",
+  med:"New. Every sheet now breaks its chapter into the book’s own sections, in order, with the ebook location beside each one. Tap one open.",
+  nav:()=>{ go(1); shutSecs(); }, find:()=>document.querySelector('.secs .sec summary')},
+ {lab:"Section by section", big:"Tick off what you actually covered",
+  med:"The count above the list keeps score, and covered sections come out in the export with your notes. Nine sections in chapter eight is a lot. You are not going to do all of them.",
+  nav:()=>{ go(1); openSec(0); }, find:()=>document.querySelector('.sec .covbtn')},
+ {lab:"Walk the chapter", big:"Swipe the whole map",
+  med:"One full screen card per section, in order. Good for orienting before you start, and for finding where a conversation actually belongs once it wanders.",
+  nav:()=>go(1), find:()=>document.getElementById('walkdeck')},
+ {lab:"Questions", big:"Star three, before the meeting",
+  med:"Tap the star beside up to three questions. Section questions count too. They collect in Tonight’s three, further up the sheet.",
+  nav:()=>go(1), find:()=>document.querySelector('#qsec .star')},
+ {lab:"Let the room choose", big:"Two votes each",
+  med:"Send the link out before you meet and everyone votes for two questions. The tally is shared. You still decide what actually gets asked.",
+  nav:()=>go(1), find:()=>document.getElementById('votedeck')},
+ {lab:"Present", big:"Run it from your phone",
+  med:"Turns the sheet into full screen cards for the room: your opener, the ideas, your starred three, the angels prompt at the end.",
+  nav:()=>go(1), find:()=>document.getElementById('present')},
+ {lab:"Notes", big:"Saved on this device only",
+  med:"Notes, ticks and stars stay on this phone. Use Take the notes with you on the Run the session sheet before you switch devices.",
+  nav:()=>go(1), find:()=>document.getElementById('notes')},
+ {lab:"Anytime", big:"The tour lives down here",
+  med:"Tap Show the tutorial whenever you want to walk through it again.",
+  nav:()=>go(0), find:()=>document.getElementById('tutorialbtn')}
 ];
-let TUT={i:0,open:false,lastFocus:null};
+
+let TUT={i:0,open:false,lastFocus:null,raf:null};
+
+function openSec(i){
+  const d=document.querySelectorAll('.secs .sec details')[i];
+  if(d) d.open=true;
+}
+function shutSecs(){
+  document.querySelectorAll('.secs .sec details').forEach(d=>{d.open=false;});
+}
 
 function openTutorial(){
   TUT.i=0; TUT.open=true; TUT.lastFocus=document.activeElement;
-  document.getElementById('tutorial').classList.add('show');
-  document.body.style.overflow='hidden';
+  const c=document.getElementById('coach');
+  c.classList.add('show'); c.setAttribute('aria-hidden','false');
   paintTutorial();
-  document.getElementById('tutx').focus();
+  document.getElementById('coachnext').focus();
+  window.addEventListener('resize',placeCoach);
+  window.addEventListener('scroll',placeCoach,{passive:true});
 }
 function closeTutorial(){
   TUT.open=false;
-  document.getElementById('tutorial').classList.remove('show');
-  document.body.style.overflow=(DECK.open?'hidden':'');
+  const c=document.getElementById('coach');
+  c.classList.remove('show'); c.setAttribute('aria-hidden','true');
+  window.removeEventListener('resize',placeCoach);
+  window.removeEventListener('scroll',placeCoach);
+  cancelAnimationFrame(TUT.raf);
   if(!state.tutorialSeen){ state.tutorialSeen=true; saveNow(); }
   if(TUT.lastFocus&&TUT.lastFocus.focus) TUT.lastFocus.focus();
 }
+
 function paintTutorial(){
   const c=TUTORIAL[TUT.i], last=TUT.i===TUTORIAL.length-1;
-  document.getElementById('tutbar').innerHTML=TUTORIAL.map((x,i)=>'<i class="'+(i<=TUT.i?'on':'')+'"></i>').join('');
-  document.getElementById('tutcard').innerHTML=
-    '<p class="lab">'+esc(c.lab)+'</p><p class="big">'+esc(c.big)+'</p><p class="med">'+esc(c.med)+'</p>';
-  document.getElementById('tutcount').textContent=(TUT.i+1)+' of '+TUTORIAL.length;
-  const foot=document.getElementById('tutfoot');
-  foot.innerHTML=
-    (TUT.i>0?'<button class="btn" id="tutback">Back</button>':'<button class="btn" id="tutskip">Skip</button>')+
-    '<button class="btn yes" id="tutnext">'+(last?'Start using it':'Next')+'</button>';
-  const back=document.getElementById('tutback'); if(back) back.addEventListener('click',()=>{TUT.i--;paintTutorial();});
-  const skip=document.getElementById('tutskip'); if(skip) skip.addEventListener('click',closeTutorial);
-  document.getElementById('tutnext').addEventListener('click',()=>{
-    if(last) closeTutorial(); else { TUT.i++; paintTutorial(); }
-  });
+  if(c.nav) c.nav();
+  document.getElementById('coachbar').innerHTML=TUTORIAL.map((x,i)=>'<i class="'+(i<=TUT.i?'on':'')+'"></i>').join('');
+  document.getElementById('coachlab').textContent=c.lab;
+  document.getElementById('coachbig').textContent=c.big;
+  document.getElementById('coachmed').textContent=c.med;
+  document.getElementById('coachcount').textContent=(TUT.i+1)+' of '+TUTORIAL.length;
+  /* not visibility: an explicit visible on a child would out-rank the
+     hidden overlay and leave this button floating over the page */
+  const back=document.getElementById('coachback');
+  back.style.opacity=TUT.i>0?'1':'0';
+  back.style.pointerEvents=TUT.i>0?'auto':'none';
+  back.disabled=TUT.i===0;
+  document.getElementById('coachnext').textContent=last?'Start using it':'Next';
+
+  const el=c.find&&c.find();
+  if(el) el.scrollIntoView({block:'center',behavior:'smooth'});
+  /* follow the target for a moment while the smooth scroll settles */
+  const until=Date.now()+700;
+  cancelAnimationFrame(TUT.raf);
+  (function follow(){
+    placeCoach();
+    if(TUT.open && Date.now()<until) TUT.raf=requestAnimationFrame(follow);
+  })();
 }
-document.getElementById('tutx').addEventListener('click',closeTutorial);
+
+function placeCoach(){
+  if(!TUT.open) return;
+  const step=TUTORIAL[TUT.i];
+  const el=step.find&&step.find();
+  const spot=document.getElementById('coachspot');
+  const bub=document.getElementById('coachbubble');
+  const svg=document.getElementById('coacharrow');
+  const path=document.getElementById('coachpath');
+  const head=document.getElementById('coachhead');
+  const W=window.innerWidth, H=window.innerHeight;
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+
+  if(!el){ /* nothing to point at, centre the bubble and hide the rest */
+    spot.style.opacity='0'; path.setAttribute('d',''); head.setAttribute('points','');
+    bub.style.left=Math.max(12,(W-Math.min(360,W-24))/2)+'px';
+    bub.style.top=Math.max(12,(H-bub.offsetHeight)/2)+'px';
+    return;
+  }
+  spot.style.opacity='1';
+  const r=el.getBoundingClientRect();
+  const pad=8;
+  const sx=Math.max(2,r.left-pad), sy=Math.max(2,r.top-pad);
+  const sw=Math.min(W-4,r.width+pad*2);
+  /* a target taller than half the screen leaves nowhere for the bubble,
+     so highlight the top of it rather than all of it */
+  const sh=Math.min(H*0.5,r.height+pad*2);
+  spot.style.left=sx+'px'; spot.style.top=sy+'px';
+  spot.style.width=sw+'px'; spot.style.height=sh+'px';
+
+  /* bubble goes on whichever side of the target has more room */
+  const bw=Math.min(360,W-24);
+  bub.style.width=bw+'px';
+  const bh=bub.offsetHeight;
+  const above=sy, below=H-(sy+sh);
+  const gap=58;
+  const placeBelow = below>=bh+gap+10 || below>above;
+  let by = placeBelow ? sy+sh+gap : sy-bh-gap;
+  by=Math.max(10,Math.min(H-bh-10,by));
+  let bx=Math.min(Math.max(12,sx+sw/2-bw/2),W-bw-12);
+  bub.style.left=bx+'px'; bub.style.top=by+'px';
+
+  /* a hand drawn arrow from the bubble to the edge of the spot */
+  const spotCx=sx+sw/2, spotCy=sy+sh/2;
+  const bubCx=bx+bw/2;
+  const startY = placeBelow ? by-6 : by+bh+6;
+  const startX = Math.max(bx+28,Math.min(bx+bw-28,spotCx));
+  const endY = placeBelow ? sy+sh+10 : sy-10;
+  const endX = Math.max(sx+10,Math.min(sx+sw-10,bubCx));
+  const midX=(startX+endX)/2, midY=(startY+endY)/2;
+  /* a gentle bow. too much lateral offset on a short vertical run turns the
+     curve into a hook and sends the arrowhead sideways */
+  const bend=Math.min(30,Math.max(11,Math.hypot(endX-startX,endY-startY)*0.3));
+  const cx=midX+(startX<=endX?-bend:bend), cy=midY;
+  path.setAttribute('d','M '+startX+' '+startY+' Q '+cx+' '+cy+' '+endX+' '+endY);
+  /* arrowhead sits on the tangent at the end of the curve */
+  const ang=Math.atan2(endY-cy,endX-cx);
+  const a=9.5;
+  const p=(t,o)=>[(endX+Math.cos(ang+o)*t).toFixed(1),(endY+Math.sin(ang+o)*t).toFixed(1)].join(',');
+  head.setAttribute('points',endX.toFixed(1)+','+endY.toFixed(1)+' '+p(-a*1.6,0.42)+' '+p(-a*1.6,-0.42));
+}
+
+document.getElementById('coachx').addEventListener('click',closeTutorial);
+document.getElementById('coachback').addEventListener('click',()=>{ if(TUT.i>0){TUT.i--;paintTutorial();} });
+document.getElementById('coachnext').addEventListener('click',()=>{
+  if(TUT.i===TUTORIAL.length-1) closeTutorial(); else { TUT.i++; paintTutorial(); }
+});
 document.getElementById('tutorialbtn').addEventListener('click',openTutorial);
 document.addEventListener('keydown',e=>{
   if(!TUT.open) return;
@@ -1712,6 +2365,7 @@ window.addEventListener('beforeunload',saveNow);
 
 (function init(){
   loadState();
+  ensureState();
   if(!state.me){ state.me=newId(); queueSave(); }
   paintTheme();
   render();
