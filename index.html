@@ -97,139 +97,48 @@
     content:"";position:absolute;left:0;right:0;top:100%;height:16px;
     background:linear-gradient(var(--paper),transparent);pointer-events:none;
   }
-  .railwrap{max-width:780px;margin:0 auto}
-  .rail{display:flex;gap:8px;overflow-x:auto;padding:6px 18px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .rail::-webkit-scrollbar{display:none}
-  .crayon{
-    flex:0 0 auto;position:relative;border:0;cursor:pointer;
-    padding:8px 30px 8px 13px;min-height:var(--tap);
-    text-align:left;
-    clip-path:polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
-    border-radius:5px 0 0 5px;
-    transition:transform .18s ease, filter .18s ease;
-    filter:saturate(.8) brightness(.99);
+  /* ---------- the wheel, docked at the top ---------- */
+  .dock{
+    max-width:780px;margin:0 auto;padding:8px 18px 10px;
+    display:flex;align-items:center;gap:14px;
   }
-  .crayon:before{
-    content:"";position:absolute;inset:0;
-    background:
-      linear-gradient(90deg,rgba(255,255,255,.55) 0 5px,transparent 5px),
-      linear-gradient(180deg,transparent 22%,rgba(255,255,255,.42) 22% 27%,transparent 27%,transparent 73%,rgba(0,0,0,.07) 73% 78%,transparent 78%);
-    pointer-events:none;
+  .dockwheel{position:relative;flex:0 0 auto;width:104px;height:104px}
+  .dock .wnum{font-size:21px}
+  .dock .hub span{font-size:20px}
+  .dockmeta{flex:1;min-width:0}
+  .dockkick{
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+    color:var(--ink-mute);margin:0 0 1px;
   }
-  .crayon b{display:block;font-size:15px;font-weight:700;line-height:1.12;position:relative}
-  .crayon .ch{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;position:relative;margin-bottom:2px;opacity:.78}
-  .crayon:hover{transform:translateY(-3px)}
-  .crayon[aria-selected="true"]{transform:translateY(-6px);filter:none;box-shadow:0 6px 0 -2px var(--shadow)}
-  .crayon.plain{
-    clip-path:none;border-radius:8px;background:var(--kraft);color:var(--kraft-ink);
-    padding:8px 15px;border:1.5px solid var(--rule);
+  .dockname{
+    display:block;font-family:'Baloo 2',sans-serif;font-weight:600;font-size:17px;
+    line-height:1.15;margin-bottom:7px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   }
-  .crayon.plain:before{display:none}
+  .dockbtns{display:flex;gap:5px;flex-wrap:wrap}
+  .pill.step{padding:6px 10px;font-size:15px;line-height:1}
+  .pill{
+    border:1.5px solid var(--rule);background:transparent;color:var(--ink-soft);
+    border-radius:99px;padding:6px 11px;font:inherit;font-size:12.5px;font-weight:700;
+    cursor:pointer;min-height:32px;
+  }
+  .pill.on{border-color:var(--accent);color:var(--accent)}
+  .pill.go{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  @media(max-width:380px){
+    .dockwheel{width:88px;height:88px}
+    .pill{padding:6px 9px;font-size:12px}
+  }
 
-  /* ---------- sheet ---------- */
-  .sheet{
-    background:var(--sheet);border:1.5px solid var(--rule);border-radius:var(--radius);
-    overflow:hidden;margin-bottom:26px;
-    animation:rise .3s ease both;
-  }
-  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .band{height:10px;background:var(--c)}
-  .sheet-in{padding:22px 20px 26px}
-  @media(min-width:680px){.sheet-in{padding:30px 34px 36px}}
-
-  .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent);margin:0 0 10px}
-  h2{font-family:'Baloo 2',ui-rounded,sans-serif;font-weight:600;font-size:clamp(23px,5.4vw,30px);line-height:1.16;margin:0 0 4px;letter-spacing:-.005em}
-  .colorname{font-size:13.5px;color:var(--ink-soft);margin:0 0 20px;font-style:italic}
-
-  h3{
-    font-family:'Baloo 2',ui-rounded,sans-serif;font-weight:600;
-    font-size:17.5px;margin:32px 0 2px;display:inline-block;position:relative;
-  }
-  h3 svg{position:absolute;left:0;right:0;bottom:-7px;width:100%;height:7px;overflow:visible}
-  section p{margin:14px 0 0}
-
-  .aloud{background:var(--c);border-radius:12px;padding:16px 18px;margin-top:16px}
-  .aloud p{margin:0;color:#22201C}
-  .aloud .tag{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:#22201C;opacity:.68;display:block;margin-bottom:6px}
-
-  ul.ideas{list-style:none;margin:16px 0 0;padding:0}
-  ul.ideas li{border-left:4px solid var(--c);padding:2px 0 2px 14px;margin-bottom:14px}
-  ul.ideas b{font-weight:700;color:var(--accent);display:block;font-size:15.5px}
-  ul.ideas span{font-size:15.5px}
-
-  /* disclosure */
-  .fold{margin-top:14px;border:1.5px solid var(--rule);border-radius:12px;overflow:hidden}
-  .fold > summary{
-    list-style:none;cursor:pointer;padding:13px 16px;min-height:var(--tap);
-    display:flex;align-items:center;gap:10px;font-weight:700;font-size:15.5px;
-  }
-  .fold > summary::-webkit-details-marker{display:none}
-  .fold > summary .chev{
-    flex:0 0 auto;width:9px;height:9px;border-right:2.4px solid var(--accent);border-bottom:2.4px solid var(--accent);
-    transform:rotate(45deg);transition:transform .18s ease;margin-right:2px;
-  }
-  .fold[open] > summary .chev{transform:rotate(225deg)}
-  .fold .foldbody{padding:0 16px 16px;font-size:15.5px}
-  .fold .foldbody p{margin:0 0 12px}
-  .fold .foldbody p:last-child{margin-bottom:0}
-  .foldnote{font-size:13.5px;color:var(--ink-soft);font-weight:400;margin-left:auto;text-align:right}
-
-  /* the private page */
-  .privacy{
-    border:2px solid var(--c);border-radius:13px;padding:13px 15px;margin-top:16px;
-    background:transparent;
-  }
-  .privacy b{display:block;font-size:15.5px;margin-bottom:7px;color:var(--accent)}
-  .privacy ul{margin:0;padding-left:19px}
-  .privacy li{font-size:14px;line-height:1.55;margin-bottom:4px;color:var(--ink-soft)}
-  .privacy li:last-child{margin-bottom:0}
-  #gch{margin-top:10px}
-  #glist.blurred .gtext,#glist.blurred .gangel p{filter:blur(6px);user-select:none}
-  .gcard{
-    border:1.5px solid var(--rule);border-radius:12px;padding:13px 15px;margin-top:11px;
-    box-shadow:inset 4px 0 0 var(--c);
-  }
-  .gmeta{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;
-    color:var(--ink-mute);margin:0 0 6px}
-  .gtext{margin:0;font-size:16px;line-height:1.6;white-space:pre-wrap}
-  .gangel{border-left:3px solid var(--c);padding:2px 0 2px 12px;margin-top:12px}
-  .gangel p{margin:0;font-size:15px;line-height:1.55}
-  .glab{font-size:11.5px!important;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
-    color:var(--accent);margin-bottom:4px!important}
-  .gangel .btn{margin-top:10px;font-size:13.5px;padding:8px 14px}
-  .gadd{margin-top:12px;border-top:1px solid var(--rule);padding-top:4px}
-  .gadd > summary{
-    list-style:none;cursor:pointer;padding:9px 0;min-height:var(--tap);
-    display:flex;align-items:center;gap:9px;font-size:14px;font-weight:700;color:var(--accent);
-  }
-  .gadd > summary::-webkit-details-marker{display:none}
-  .gadd > summary .chev{
-    flex:0 0 auto;width:8px;height:8px;border-right:2.2px solid var(--accent);border-bottom:2.2px solid var(--accent);
-    transform:rotate(45deg);transition:transform .18s ease;
-  }
-  .gadd[open] > summary .chev{transform:rotate(225deg)}
-  .gadd .foldbody{padding:0 0 8px}
-  .gx{
-    display:block;margin-top:12px;background:transparent;border:0;padding:6px 0;cursor:pointer;
-    font:inherit;font-size:13px;font-weight:700;color:var(--ink-mute);text-decoration:underline;
-  }
-  .ground{
-    border:1.5px dashed var(--c);border-radius:12px;padding:13px 15px;margin-top:26px;
-  }
-  .ground p{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-soft)}
-  .ground b{color:var(--accent)}
-
-  /* ---------- the wheel ---------- */
   .wheelwrap{position:relative;width:min(340px,86vw);margin:6px auto 0;aspect-ratio:1}
   .wheel{width:100%;height:100%;display:block;touch-action:none;cursor:grab;overflow:visible}
   .wheel:active{cursor:grabbing}
   .wheel:focus-visible{outline:3px solid var(--accent);outline-offset:6px;border-radius:50%}
-  #wrot{transform-origin:100px 100px}
+
   .wsec{filter:saturate(.72) brightness(.99);transition:filter .2s ease}
   .wsec.on{filter:saturate(1.1) brightness(1.04)}
   .wnum{
     font-family:'Baloo 2',sans-serif;font-weight:600;font-size:13px;
-    fill:#3A2F20;transform-box:fill-box;transform-origin:center;pointer-events:none;
+    fill:#3A2F20;pointer-events:none;
   }
   .wdone{fill:#3A2F20;opacity:.5;pointer-events:none}
   .whub{fill:var(--sheet);stroke:var(--rule);stroke-width:1.5;pointer-events:none}
@@ -242,10 +151,9 @@
     font-family:'Baloo 2',sans-serif;font-weight:600;font-size:19px;color:var(--ink);line-height:1;
   }
   .hubhint{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-mute)}
-  .wheelnav{
-    display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px;
+  .wheelhint{
+    font-size:13px;color:var(--ink-mute);text-align:center;margin:12px 0 0;
   }
-  .wheelhint{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-mute)}
   .btn.round{
     width:44px;height:44px;padding:0;border-radius:50%;font-size:22px;line-height:1;
     display:flex;align-items:center;justify-content:center;
@@ -253,7 +161,7 @@
 
   /* the snapshot under the wheel */
   .snap{
-    border:2px solid var(--c);border-radius:14px;padding:15px 16px 14px;margin-top:20px;
+    border:2px solid var(--c);border-radius:14px;padding:15px 16px 14px;margin-top:4px;
     box-shadow:inset 6px 0 0 var(--c);
   }
   .snapkick{
@@ -652,13 +560,11 @@
 </div>
 
 <div class="rack">
-  <div class="railwrap">
-    <div class="rail" id="rail" role="tablist" aria-label="Sessions"></div>
-  </div>
+  <div class="dock" id="dock"></div>
 </div>
 
 <div class="wrap">
-  <div id="view" role="tabpanel" tabindex="-1"></div>
+  <div id="view" tabindex="-1"></div>
   <footer>
     Notes, ticks and your private page save on this device only. Check-ins, votes, what people bring, and the angels wall are shared with everyone on this link.
     <br>
@@ -1684,34 +1590,31 @@ function renderBox(){
     n+' done. Any order you like.';
 }
 
-function renderRail(){
-  const rail=document.getElementById('rail');
-  let html='<button class="crayon plain" role="tab" id="tab-0" aria-controls="view" aria-selected="'+(current===0)+'" tabindex="'+(current===0?0:-1)+'" data-go="0">'+
-    '<span class="ch">Start here</span><b>Run the session</b></button>';
-  html+=CH.map(ch=>
-    '<button class="crayon" role="tab" id="tab-'+ch.n+'" aria-controls="view" aria-selected="'+(current===ch.n)+'" tabindex="'+(current===ch.n?0:-1)+'" data-go="'+ch.n+'" '+
-    'style="background:'+ch.c+';color:#22201C">'+
-    '<span class="ch">'+(ch.extra?'Extra':'Ch '+ch.n)+(state.done[ch.n]?' &check;':'')+'</span><b>'+esc(ch.short)+'</b></button>').join('');
-  html+='<button class="crayon plain" role="tab" id="tab-98" aria-controls="view" aria-selected="'+(current===98)+'" tabindex="'+(current===98?0:-1)+'" data-go="98">'+
-    '<span class="ch">Private</span><b>Just for you</b></button>';
-  html+='<button class="crayon plain" role="tab" id="tab-99" aria-controls="view" aria-selected="'+(current===99)+'" tabindex="'+(current===99?0:-1)+'" data-go="99">'+
-    '<span class="ch">Together</span><b>The angels wall</b></button>';
-  rail.innerHTML=html;
-  rail.querySelectorAll('[data-go]').forEach(b=>{
-    b.addEventListener('click',()=>go(parseInt(b.dataset.go,10)));
-    b.addEventListener('keydown',e=>{
-      const order=[0,...CH.map(c=>c.n),98,99];
-      const at=order.indexOf(current);
-      let to=null;
-      if(e.key==='ArrowRight') to=order[Math.min(at+1,order.length-1)];
-      if(e.key==='ArrowLeft')  to=order[Math.max(at-1,0)];
-      if(e.key==='Home') to=order[0];
-      if(e.key==='End')  to=order[order.length-1];
-      if(to!==null){ e.preventDefault(); go(to); document.getElementById('tab-'+to).focus(); }
-    });
-  });
-  const act=rail.querySelector('[aria-selected="true"]');
-  if(act) act.scrollIntoView({inline:'center',block:'nearest'});
+function renderDock(){
+  const dock=document.getElementById('dock');
+  const ch=CH[DIAL.sel]||CH[0];
+  dock.innerHTML=
+    '<div class="dockwheel">'+wheelSVG()+
+      '<div class="hub"><span id="hubn">Ch 1</span></div>'+
+    '</div>'+
+    '<div class="dockmeta">'+
+      '<p class="dockkick" id="dockkick"></p>'+
+      '<b class="dockname" id="dockname"></b>'+
+      '<div class="dockbtns">'+
+        '<button class="pill step" id="wprev" aria-label="Previous sheet">&lsaquo;</button>'+
+        '<button class="pill step" id="wnext" aria-label="Next sheet">&rsaquo;</button>'+
+        '<button class="pill go" id="dockopen">Open</button>'+
+        '<button class="pill'+(current===0?' on':'')+'" data-go="0">Run</button>'+
+        '<button class="pill'+(current===98?' on':'')+'" data-go="98">Private</button>'+
+        '<button class="pill'+(current===99?' on':'')+'" data-go="99">Angels</button>'+
+      '</div>'+
+    '</div>';
+  dock.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(parseInt(b.dataset.go,10))));
+  document.getElementById('dockopen').addEventListener('click',()=>go(CH[dialSelected()].n));
+  document.getElementById('wprev').addEventListener('click',()=>nudge(-1));
+  document.getElementById('wnext').addEventListener('click',()=>nudge(1));
+  wireDial();
+  paintDial();
 }
 
 function go(n){
@@ -1757,7 +1660,8 @@ function wheelSVG(){
       lab+='<circle class="wdone" cx="'+dx+'" cy="'+dy+'" r="3.4"></circle>';
     }
     const [tx,ty]=dialPoint(i*30,63);
-    lab+='<text class="wnum" x="'+tx+'" y="'+ty+'" text-anchor="middle" dominant-baseline="central">'+
+    lab+='<text class="wnum" x="'+tx+'" y="'+ty+'" data-cx="'+tx+'" data-cy="'+ty+'" '+
+         'text-anchor="middle" dominant-baseline="central">'+
          (ch.extra?'\u2605':ch.n)+'</text>';
   });
   return '<svg class="wheel" id="wheel" viewBox="0 0 200 200" tabindex="0" role="slider" '+
@@ -1768,19 +1672,43 @@ function wheelSVG(){
     '<path class="wnotch" d="M100 2 L108 17 L92 17 Z"></path>'+
   '</svg>';
 }
-function paintDial(animate){
+let dialTween=null;
+function tweenTo(target){
+  cancelAnimationFrame(dialTween);
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const from=DIAL.rot, delta=target-from;
+  if(reduce || Math.abs(delta)<0.02){ DIAL.rot=target; paintDial(); return; }
+  const t0=performance.now(), dur=300;
+  const step=now=>{
+    const p=Math.min(1,(now-t0)/dur);
+    DIAL.rot = from + delta*(1-Math.pow(1-p,3));
+    paintDial();
+    if(p<1) dialTween=requestAnimationFrame(step);
+  };
+  dialTween=requestAnimationFrame(step);
+}
+function paintDial(){
   const g=document.getElementById('wrot');
   if(!g) return;
-  g.style.transition = animate ? 'transform .32s cubic-bezier(.2,.9,.3,1)' : 'none';
-  g.style.transform  = 'rotate('+DIAL.rot+'deg)';
+  g.setAttribute('transform','rotate('+DIAL.rot+' 100 100)');
   /* keep the numbers upright while the wheel turns */
-  g.querySelectorAll('.wnum').forEach(t=>{ t.style.transform='rotate('+(-DIAL.rot)+'deg)'; });
+  g.querySelectorAll('.wnum').forEach(t=>{
+    t.setAttribute('transform','rotate('+(-DIAL.rot)+' '+t.dataset.cx+' '+t.dataset.cy+')');
+  });
   const sel=dialSelected();
   if(sel!==DIAL.sel){ DIAL.sel=sel; paintSnap(); }
   g.querySelectorAll('.wsec').forEach((p,i)=>p.classList.toggle('on',i===sel));
   const ch=CH[sel];
   const hubn=document.getElementById('hubn');
-  if(hubn) hubn.textContent = ch.extra?'Extra':'Ch '+ch.n;
+  if(hubn) hubn.textContent = ch.extra?'\u2605':String(ch.n);
+  const kick=document.getElementById('dockkick');
+  if(kick){
+    const t=chMins(ch);
+    kick.textContent=(ch.extra?'Extra sheet':'Chapter '+ch.n)+(t?'  \u00b7  '+fmtMins(t):'')+
+      (state.done[ch.n]?'  \u00b7  done':'');
+  }
+  const name=document.getElementById('dockname');
+  if(name) name.textContent=ch.short;
   const svg=document.getElementById('wheel');
   if(svg){
     svg.setAttribute('aria-valuenow',sel+1);
@@ -1820,15 +1748,20 @@ function paintSnap(){
   document.getElementById('snapgo').addEventListener('click',()=>go(ch.n));
 }
 function spinTo(i,animate){
-  DIAL.rot = -(((i%12)+12)%12)*30;
-  paintDial(animate!==false);
+  const want = -(((i%12)+12)%12)*30;
+  /* take the short way round, wherever the wheel happens to be */
+  let d=(want-DIAL.rot)%360;
+  if(d>180) d-=360; if(d<-180) d+=360;
+  if(animate===false){ DIAL.rot=DIAL.rot+d; paintDial(); }
+  else tweenTo(DIAL.rot+d);
 }
 function nudge(d){
   spinTo(dialSelected()+d,true);
 }
 function wireDial(){
   const svg=document.getElementById('wheel');
-  if(!svg) return;
+  if(!svg || svg.dataset.wired) return;
+  svg.dataset.wired='1';
   const angleAt=e=>{
     const r=svg.getBoundingClientRect();
     const cx=r.left+r.width/2, cy=r.top+r.height/2;
@@ -1846,7 +1779,7 @@ function wireDial(){
     if(d>180) d-=360; if(d<-180) d+=360;
     if(Math.abs(d)>5) DIAL.moved=true;
     DIAL.rot=DIAL.drag.rot+d;
-    paintDial(false);
+    paintDial();
   });
   const release=()=>{
     if(!DIAL.drag) return;
@@ -1895,20 +1828,12 @@ function renderHome(){
   const running = !!T.segs;
   const mins = state.flow;
   const v=document.getElementById('view');
-  v.setAttribute('aria-labelledby','tab-0');
+  v.setAttribute('aria-label','Run the session');
   v.innerHTML=
   '<div class="sheet"><div class="band"></div><div class="sheet-in">'+
 
-   '<div class="wheelwrap">'+
-     wheelSVG()+
-     '<div class="hub"><span id="hubn">Ch 1</span><span class="hubhint">turn me</span></div>'+
-   '</div>'+
-   '<div class="wheelnav">'+
-     '<button class="btn round" id="wprev" aria-label="Previous sheet">&lsaquo;</button>'+
-     '<span class="wheelhint">turn it, or tap a colour</span>'+
-     '<button class="btn round" id="wnext" aria-label="Next sheet">&rsaquo;</button>'+
-   '</div>'+
    '<div class="snap" id="snap"></div>'+
+   '<p class="wheelhint">Turn the wheel to see another one.</p>'+
 
    '<div class="slip"><p>'+esc(HOME.slips[Math.floor(Math.random()*HOME.slips.length)])+'</p></div>'+
 
@@ -1972,12 +1897,7 @@ function renderHome(){
      '</div></details>'+
   '</div></div>';
 
-  /* the wheel */
-  spinTo(DIAL.sel,false);
   paintSnap();
-  wireDial();
-  document.getElementById('wprev').addEventListener('click',()=>nudge(-1));
-  document.getElementById('wnext').addEventListener('click',()=>nudge(1));
 
   v.querySelectorAll('[data-flow]').forEach(b=>b.addEventListener('click',()=>{
     state.flow=parseInt(b.dataset.flow,10); queueSave(); renderHome();
@@ -2206,7 +2126,7 @@ function renderChapter(ch){
   const idx=CH.indexOf(ch), prev=CH[idx-1], next=CH[idx+1];
   const picks=pickedIn(ch);
   const v=document.getElementById('view');
-  v.setAttribute('aria-labelledby','tab-'+ch.n);
+  v.setAttribute('aria-label',ch.title);
   v.innerHTML=
   '<div class="sheet"><div class="band"></div><div class="sheet-in">'+
    '<p class="eyebrow">'+(ch.extra?'Extra sheet':'Chapter '+ch.n)+
@@ -2335,7 +2255,7 @@ function renderChapter(ch){
   d.addEventListener('click',()=>{
     state.done[ch.n]=!state.done[ch.n];
     if(!state.done[ch.n]) delete state.done[ch.n];
-    queueSave(); renderBox(); renderRail();
+    queueSave(); renderBox(); renderDock();
     d.setAttribute('aria-pressed',String(!!state.done[ch.n]));
     d.lastChild.textContent=state.done[ch.n]?'Session done':'Mark this session done';
   });
@@ -2738,7 +2658,7 @@ function ghostCards(){
 function renderGhosts(){
   applyColors({c:'#CFC6DE',d:'#4A3E63'});
   const v=document.getElementById('view');
-  v.setAttribute('aria-labelledby','tab-98');
+  v.setAttribute('aria-label','Your private page');
   const g=state.ghosts||[];
   v.innerHTML='<div class="sheet"><div class="band"></div><div class="sheet-in">'+
    '<p class="eyebrow">Private</p>'+
@@ -2825,7 +2745,7 @@ function renderGhosts(){
 async function renderWall(){
   applyColors({c:'#F6E3B8',d:'#7E5F14'});
   const v=document.getElementById('view');
-  v.setAttribute('aria-labelledby','tab-99');
+  v.setAttribute('aria-label','The angels wall');
   v.innerHTML='<div class="sheet"><div class="band"></div><div class="sheet-in">'+
     '<p class="eyebrow">Together</p><h2>The angels wall</h2>'+
     '<p class="colorname">Being loved right, remembered. One line each.</p>'+
@@ -2931,7 +2851,7 @@ function paintWall(){
    ============================================================ */
 const TUTORIAL=[
  {lab:"The wheel", big:"Turn it to look around",
-  med:"Drag it, tap a colour, or use the arrows. Whatever lands under the notch shows you how long it takes to read and what is in it, before you commit.",
+  med:"It stays at the top of every screen. Drag it, tap a colour, or use the arrows. Whatever lands under the notch is what Open takes you to.",
   nav:()=>go(0), find:()=>document.getElementById('wheel')},
  {lab:"No order", big:"Or just one section",
   med:"Search for what matches your week. Sleep, tantrums, screens. Fourteen minutes of reading is a real option.",
@@ -2946,8 +2866,8 @@ const TUTORIAL=[
   med:"Fraiberg named the ghosts: what was done to you that you catch yourself repeating. Lieberman\u2019s answer, in 2005, was angels: one memory of being loved exactly right when you were small. Every sheet ends there.",
   nav:()=>go(1), find:()=>document.querySelector('.angels')},
  {lab:"Two places", big:"Angels are shared. Ghosts are not.",
-  med:"The angels wall is the group\u2019s. Your private page is this device only, never posted, never shared. Both live in the strip at the top.",
-  nav:()=>go(0), find:()=>document.getElementById('tab-98')},
+  med:"The angels wall is the group\u2019s. Your private page is this device only, never posted, never shared. Both live beside the wheel.",
+  nav:()=>go(0), find:()=>document.querySelector('.dockbtns [data-go="98"]')},
  {lab:"Anytime", big:"The tour lives down here",
   med:"Tap Show the tutorial whenever you want it again.",
   nav:()=>go(0), find:()=>document.getElementById('tutorialbtn')}
@@ -3088,7 +3008,7 @@ document.addEventListener('keydown',e=>{
    BOOT
    ============================================================ */
 function render(){
-  renderBox(); renderRail();
+  renderBox(); renderDock();
   if(current===0) renderHome();
   else if(current===98) renderGhosts();
   else if(current===99) renderWall();
