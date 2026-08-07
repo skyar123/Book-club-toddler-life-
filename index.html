@@ -1458,6 +1458,7 @@ function saveNow(){
 /* ---- shared state: everyone with this link reads and writes the same data,
    via a small Netlify Function backed by Netlify Blobs ---- */
 const SHARE_API='/api/store';
+const SHARE_MAX=19000;   /* the function rejects anything over 20000 */
 const SK={ checkin:n=>'tbc:checkin:'+n, votes:n=>'tbc:votes:'+n, byo:n=>'tbc:byo:'+n, inbox:'tbc:angels:inbox', wall:'tbc:angels:wall' };
 let shareOK=true;
 async function sget(key,fallback){
@@ -2089,7 +2090,11 @@ function renderChapter(ch){
     const text=ta.value.trim();
     if(!text) return toast('Nothing to add yet');
     const item={id:'b'+newId(),kind:byoKind,text:text.slice(0,400),where:wh.value.trim().slice(0,40),by:state.me};
-    state.byo[ch.n]=[...byoOf(ch),item];
+    const next=[...byoOf(ch),item];
+    if(JSON.stringify(next).length>SHARE_MAX){
+      return toast('This chapter\u2019s list is full. Delete a few first.');
+    }
+    state.byo[ch.n]=next;
     ta.value=''; wh.value='';
     queueSave();
     repaintByo(ch,item.id);
