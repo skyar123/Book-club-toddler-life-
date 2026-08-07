@@ -91,6 +91,11 @@
   .box i.on{border-color:transparent}
   .boxlabel{font-size:13.5px;color:var(--ink-soft);margin:0}
 
+  /* past the front door the masthead gets out of the way */
+  .deep .mast h1{font-size:clamp(19px,4.6vw,24px);margin-bottom:2px}
+  .deep .mast h1 em,.deep .boxlabel,.deep .kicker{display:none}
+  .deep .mast{padding-bottom:2px}
+
   /* ---------- crayon rack ---------- */
   .rack{position:sticky;top:0;z-index:30;background:var(--paper);padding:10px 0 8px}
   .rack:after{
@@ -189,16 +194,6 @@
   }
   .slip p{margin:0;font-size:14.5px;line-height:1.5;color:var(--ink-soft)}
 
-  /* tonight's focus */
-  .focusbox{border:2px solid var(--c);border-radius:14px;padding:14px 16px;margin-top:14px;
-    box-shadow:inset 5px 0 0 var(--c)}
-  .flab{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;
-    color:var(--accent);margin:0 0 4px}
-  .focusbox h4{font-family:'Baloo 2',sans-serif;font-weight:600;font-size:19px;margin:0 0 3px;line-height:1.25}
-  .fch{font-size:12.5px;color:var(--ink-mute);margin:0 0 10px;font-variant-numeric:tabular-nums}
-  .fgist{font-size:15px;margin:0 0 10px;line-height:1.55}
-  .fq{font-size:15px;margin:0;padding-left:12px;border-left:3px solid var(--c);line-height:1.55}
-
   /* the finder */
   .find{
     width:100%;box-sizing:border-box;margin-top:10px;padding:12px 14px;
@@ -253,133 +248,6 @@
     .justadded{animation:none}
     .burst{display:none}
   }
-
-  /* section by section */
-  .seccount{font-size:13.5px;color:var(--ink-soft);margin:14px 0 6px;font-weight:700}
-  ol.secs{list-style:none;margin:8px 0 0;padding:0;counter-reset:none}
-  .sec{border:1.5px solid var(--rule);border-radius:12px;margin-bottom:9px;overflow:hidden;
-    transition:box-shadow .18s ease}
-  /* an inset bar rather than a thick border, which bows around the radius */
-  .sec.cov{box-shadow:inset 5px 0 0 var(--c)}
-  .sec > details > summary{
-    list-style:none;cursor:pointer;padding:12px 14px;min-height:var(--tap);
-    display:flex;align-items:center;gap:12px;
-  }
-  .sec > details > summary::-webkit-details-marker{display:none}
-  .secnum{
-    flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid var(--c);
-    display:flex;align-items:center;justify-content:center;
-    font-size:13px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;
-  }
-  .sec.cov .secnum{background:var(--c);color:var(--d)}
-  html[data-theme="dark"] .sec.cov .secnum{color:#22201C}
-  .sectxt{flex:1;min-width:0}
-  .sectxt b{display:block;font-weight:700;font-size:15.5px;line-height:1.4}
-  .mins{
-    display:inline-block;font-weight:700;color:var(--accent);
-    border:1.4px solid var(--c);border-radius:99px;padding:0 7px;margin-right:7px;
-    font-size:11px;letter-spacing:.02em;
-  }
-  .flash{animation:flash 1.4s ease}
-  @keyframes flash{0%,100%{box-shadow:none}25%,60%{box-shadow:0 0 0 4px var(--c)}}
-  .secmeta{display:block;font-size:12px;color:var(--ink-mute);margin-top:2px;
-    letter-spacing:.04em;font-variant-numeric:tabular-nums}
-  .sec > details > summary .chev{
-    flex:0 0 auto;width:9px;height:9px;border-right:2.4px solid var(--accent);border-bottom:2.4px solid var(--accent);
-    transform:rotate(45deg);transition:transform .18s ease;margin-right:2px;
-  }
-  .sec > details[open] > summary .chev{transform:rotate(225deg)}
-  .secbody{padding:0 14px 14px 52px;font-size:15.5px}
-  .secbody > p{margin:0 0 12px;line-height:1.62}
-  .secbody .watch{
-    font-size:14px;color:var(--ink-soft);border-left:3px solid var(--c);
-    padding:2px 0 2px 12px;margin:0 0 12px;
-  }
-  .secbody .watch b{
-    display:block;font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
-    color:var(--accent);margin-bottom:3px;
-  }
-  .secbody .qrow{border-top:1px solid var(--rule);border-bottom:0;padding-top:2px}
-  .secbody .star{margin-left:-8px}
-  .covbtn{
-    display:flex;align-items:center;gap:9px;background:transparent;cursor:pointer;
-    border:1.5px solid var(--rule);border-radius:99px;padding:7px 15px 7px 11px;
-    font:inherit;font-size:13.5px;font-weight:700;color:var(--ink-soft);margin-top:4px;
-  }
-  .covbtn .tick{width:17px;height:17px;border-width:1.8px;border-radius:5px}
-  .covbtn[aria-pressed="true"]{color:var(--accent);border-color:var(--c)}
-  .covbtn[aria-pressed="true"] .tick{background:var(--c);border-color:var(--accent)}
-  .covbtn[aria-pressed="true"] .tick:after{
-    content:"";position:absolute;left:4.5px;top:1px;width:5px;height:9px;
-    border:solid var(--d);border-width:0 2.2px 2.2px 0;transform:rotate(43deg);
-  }
-  @media(max-width:420px){ .secbody{padding-left:14px} }
-
-  /* questions */
-  .legend{font-size:13.5px;color:var(--ink-soft);margin:14px 0 2px}
-  .tier{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink-mute);margin:24px 0 4px}
-  .qrow{display:flex;gap:8px;align-items:flex-start;border-bottom:1px solid var(--rule);padding:4px 0}
-  .qrow:last-of-type{border-bottom:0}
-  .star{
-    flex:0 0 auto;width:var(--tap);height:var(--tap);border:0;background:transparent;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;border-radius:10px;
-  }
-  .star svg{width:21px;height:21px;display:block}
-  .star path{fill:none;stroke:var(--ink-mute);stroke-width:1.8px;stroke-linejoin:round}
-  .star[aria-pressed="true"] path{fill:var(--c);stroke:var(--accent);stroke-width:2px}
-  .qbtn{
-    flex:1;text-align:left;background:transparent;border:0;padding:11px 4px 11px 0;cursor:pointer;
-    font-size:16px;line-height:1.5;color:var(--ink);
-  }
-  .qbtn .qnote{display:block;font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin-top:6px}
-  .qbtn .usedtag{
-    display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
-    color:var(--accent);border:1.5px solid var(--c);background:var(--c);border-radius:99px;
-    padding:1px 8px;margin-right:7px;vertical-align:1px;
-  }
-  html[data-theme="dark"] .qbtn .usedtag{color:#22201C}
-
-  /* tonight tray */
-  .tray{border:2px solid var(--c);border-radius:12px;padding:14px 16px;margin-top:16px;background:transparent}
-  .tray h4{font-family:'Baloo 2',sans-serif;font-weight:600;font-size:16px;margin:0 0 8px}
-  .tray ol{margin:0;padding-left:20px}
-  .tray li{margin-bottom:8px;font-size:15.5px}
-  .tray li:last-child{margin-bottom:0}
-  .tray .empty{margin:0;font-size:15.5px;color:var(--ink-soft)}
-
-  .quiet{border:1.5px dashed var(--c);border-radius:12px;padding:14px 16px;margin-top:16px}
-  .quiet p{margin:0;font-size:15.5px}
-  .angels{border-left:4px solid var(--c);background:transparent;padding:2px 0 2px 14px;margin-top:16px}
-  .angels p{margin:0;font-size:15.5px}
-  .permission{font-size:14.5px;color:var(--ink-soft);margin-top:10px;font-style:italic}
-
-  textarea{
-    width:100%;min-height:140px;margin-top:14px;padding:14px;
-    background:var(--sheet);border:1.5px solid var(--rule);border-radius:12px;
-    font-family:'Karla',sans-serif;font-size:16px;line-height:1.6;color:var(--ink);resize:vertical;
-  }
-  textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px var(--c)}
-
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:9px;
-    min-height:var(--tap);padding:11px 16px;cursor:pointer;
-    background:transparent;border:1.5px solid var(--rule);border-radius:12px;
-    font-size:15.5px;font-weight:700;color:var(--ink-soft);
-  }
-  .btn:hover{border-color:var(--ink-mute);color:var(--ink)}
-  .btn.wide{width:100%;margin-top:14px}
-  .btn.warn{border-color:#B4553F;color:#B4553F}
-  .done[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#22201C}
-  .tick{width:21px;height:21px;flex:0 0 auto;border-radius:6px;border:2px solid currentColor;position:relative}
-  .done[aria-pressed="true"] .tick{background:var(--sheet);border-color:var(--accent)}
-  .done[aria-pressed="true"] .tick:after{
-    content:"";position:absolute;left:5px;top:1px;width:6px;height:12px;
-    border:solid var(--accent);border-width:0 2.5px 2.5px 0;transform:rotate(42deg)
-  }
-
-  .pager{display:flex;gap:10px;margin-top:26px}
-  .pager .btn{flex:1;font-size:14.5px;text-align:center;display:block;padding:12px 10px}
-  .pager .btn span{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);font-weight:700;margin-bottom:2px}
 
   /* run sheet */
   .flow{list-style:none;margin:16px 0 0;padding:0}
@@ -467,7 +335,66 @@
   footer a{color:var(--ink-soft)}
   footer .btn{margin-top:14px;font-size:13.5px}
 
-  /* ---------- chips, inputs, votes ---------- */
+  /* ---------- a chapter is a list of sections ---------- */
+  .seccount{font-size:14px;color:var(--ink-soft);margin:18px 0 10px;font-weight:700}
+  ol.secs{list-style:none;margin:0;padding:0}
+  .sec{border:1.5px solid var(--rule);border-radius:12px;margin-bottom:9px;overflow:hidden;
+    transition:box-shadow .18s ease}
+  .sec.cov{box-shadow:inset 5px 0 0 var(--c)}
+  .secgo{
+    display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+    background:transparent;border:0;padding:13px 14px;cursor:pointer;min-height:var(--tap);
+    font:inherit;color:var(--ink);
+  }
+  .secgo:hover{background:var(--paper)}
+  .secnum{
+    flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid var(--c);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;
+  }
+  .sec.cov .secnum{background:var(--c);color:var(--d)}
+  html[data-theme="dark"] .sec.cov .secnum{color:#22201C}
+  .sectxt{flex:1;min-width:0}
+  .sectxt b{display:block;font-weight:700;font-size:15.5px;line-height:1.4}
+  .secmeta{display:block;font-size:12px;color:var(--ink-mute);margin-top:3px;letter-spacing:.03em}
+  .mins{
+    display:inline-block;font-weight:700;color:var(--accent);
+    border:1.4px solid var(--c);border-radius:99px;padding:0 7px;margin-right:7px;font-size:11px;
+  }
+  .secarrow{
+    flex:0 0 auto;width:9px;height:9px;border-right:2.4px solid var(--accent);
+    border-top:2.4px solid var(--accent);transform:rotate(45deg);
+  }
+
+  /* ---------- the section sheet ---------- */
+  .crumb{
+    display:inline-flex;align-items:center;gap:6px;background:transparent;
+    border:1.5px solid var(--rule);border-radius:99px;padding:6px 13px;
+    font:inherit;font-size:12.5px;font-weight:700;color:var(--ink-soft);
+    cursor:pointer;margin-bottom:14px;
+  }
+  .crumb:before{content:"\2039";font-size:16px;line-height:1}
+  .lead{font-size:17px;line-height:1.6;margin:14px 0 0}
+  .watchbox{border-left:4px solid var(--c);padding:3px 0 3px 14px;margin-top:16px}
+  .watchbox b{
+    display:block;font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:4px;
+  }
+  .watchbox p{margin:0;font-size:15px;line-height:1.55;color:var(--ink-soft)}
+  .bigq{border:2px solid var(--c);border-radius:14px;padding:16px 17px;margin-top:16px}
+  .bigq p{
+    margin:0;font-family:'Baloo 2',sans-serif;font-weight:500;
+    font-size:clamp(18px,4.6vw,22px);line-height:1.4;
+  }
+  ul.plainq{list-style:none;margin:10px 0 0;padding:0}
+  ul.plainq li{
+    border-left:3px solid var(--rule);padding:2px 0 2px 13px;margin-bottom:13px;
+    font-size:15.5px;line-height:1.55;
+  }
+  ul.plainq .qnote{display:block;font-size:13.5px;color:var(--ink-soft);margin-top:5px}
+  .legend{font-size:13.5px;color:var(--ink-soft);margin:14px 0 2px}
+
+  /* ---------- chips and inputs ---------- */
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
   .chip{
     font-family:'Baloo 2',sans-serif;font-weight:600;font-size:16px;
@@ -507,41 +434,15 @@
   .queue{border-left:4px solid var(--c);padding:4px 0 4px 14px;margin-top:14px}
   .queue p{margin:0 0 10px;font-size:15.5px}
 
-  /* ---------- card deck overlay ---------- */
-  .deck{position:fixed;inset:0;z-index:80;background:var(--paper);display:none;flex-direction:column}
-  .deck.show{display:flex}
-  .deckbar{display:flex;gap:3px;padding:calc(12px + env(safe-area-inset-top)) 16px 0}
-  .deckbar i{flex:1;height:4px;border-radius:2px;background:var(--rule)}
-  .deckbar i.on{background:var(--accent)}
-  .decktop{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px 0 16px}
-  .decktop .mode{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink-mute)}
-  .deckx{min-width:var(--tap);min-height:var(--tap);border:0;background:transparent;cursor:pointer;font-size:22px;color:var(--ink-soft);line-height:1}
-  .deckstage{flex:1;display:flex;align-items:center;justify-content:center;padding:8px 22px;position:relative;overflow:hidden}
-  .card{max-width:640px;width:100%;transition:transform .22s ease, opacity .22s ease}
-  .card.out-l{transform:translateX(-115%) rotate(-7deg);opacity:0}
-  .card.out-r{transform:translateX(115%) rotate(7deg);opacity:0}
-  .card .lab{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent);margin:0 0 14px}
-  .card .big{font-family:'Baloo 2',ui-rounded,sans-serif;font-weight:600;font-size:clamp(24px,6.2vw,42px);line-height:1.2;margin:0;letter-spacing:-.005em}
-  .card .med{font-size:clamp(17px,4.3vw,23px);line-height:1.45;margin:16px 0 0;color:var(--ink-soft)}
-  .card .tiny{font-size:14.5px;line-height:1.5;margin:18px 0 0;color:var(--ink-soft);font-style:italic}
-  .tapzone{position:absolute;top:0;bottom:0;width:30%;border:0;background:transparent;cursor:pointer}
-  .tapzone.l{left:0}
-  .tapzone.r{right:0;width:44%}
-  .deckfoot{padding:10px 16px calc(16px + env(safe-area-inset-bottom));display:flex;gap:10px}
-  .deckfoot .btn{flex:1;justify-content:center;background:var(--sheet)}
-  .deckfoot .btn.yes{border-color:var(--accent);color:var(--accent)}
-  .deckcount{text-align:center;font-size:13.5px;color:var(--ink-soft);padding:0 16px 4px;margin:0}
 
 
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
   @media print{
-    .rack,.timer,.toast,.themebtn,.box,.boxlabel,.pager,.star,footer,.coach,.covbtn,.gcard,.ground{display:none!important}
+    .rack,.timer,.toast,.themebtn,.boxlabel,.pager,footer,.coach,.secarrow{display:none!important}
     body{background:#fff;color:#000;padding:0}
     .sheet{border:none}
     .fold[open] .foldbody,.fold .foldbody{display:block!important}
     .fold > summary{font-weight:700}
-    .secbody{display:block!important;padding-left:52px}
-    .sec > details > summary .chev{display:none}
     .sec{break-inside:avoid;page-break-inside:avoid}
   }
 </style>
@@ -566,7 +467,7 @@
 <div class="wrap">
   <div id="view" tabindex="-1"></div>
   <footer>
-    Notes, ticks and your private page save on this device only. Check-ins, votes, what people bring, and the angels wall are shared with everyone on this link.
+    Notes and ticks save on this device. Check-ins, what people bring, and the angels wall are shared with everyone on this link.
     <br>
     <button class="btn" id="tutorialbtn">Show the tutorial</button>
   </footer>
@@ -578,21 +479,6 @@
   <button id="tpause" aria-label="Pause timer">Pause</button>
   <button id="tnext" aria-label="Next segment">Next</button>
   <button id="tstop" aria-label="Stop timer">Stop</button>
-</div>
-
-<div class="deck" id="deck" role="dialog" aria-modal="true" aria-label="Card deck">
-  <div class="deckbar" id="deckbar" aria-hidden="true"></div>
-  <div class="decktop">
-    <span class="mode" id="deckmode">Present</span>
-    <button class="deckx" id="deckx" aria-label="Close the deck">&times;</button>
-  </div>
-  <div class="deckstage">
-    <button class="tapzone l" id="tapl" aria-label="Previous card"></button>
-    <div class="card" id="card" role="status" aria-live="polite"></div>
-    <button class="tapzone r" id="tapr" aria-label="Next card"></button>
-  </div>
-  <p class="deckcount" id="deckcount"></p>
-  <div class="deckfoot" id="deckfoot"></div>
 </div>
 
 <div class="coach" id="coach" aria-hidden="true">
@@ -1424,7 +1310,7 @@ const HOME = {
    STATE
    ============================================================ */
 const KEY='toddlerBookClub:v2', OLDKEY='toddlerBookClub:v1';
-let state={done:{},used:{},picked:{},notes:{},covered:{},byo:{},ghosts:[],ghostsHide:false,focus:null,theme:'auto',flow:25,facilitator:false,voted:{},me:null,tutorialSeen:false};
+let state={done:{},notes:{},covered:{},byo:{},theme:'auto',flow:25,facilitator:false,me:null,tutorialSeen:false};
 let current=0, saveTimer=null;
 
 /* ---- personal state: saved to this browser only, via localStorage ---- */
@@ -1437,19 +1323,13 @@ function loadState(){
     const old=localStorage.getItem(OLDKEY);
     if(old){
       const p=JSON.parse(old);
-      state.done=p.done||{}; state.notes=p.notes||{};
-      const map={w:'w',d:'d',h:'h'};
-      Object.keys(p.used||{}).forEach(k=>{
-        const [n,t,i]=k.split(':');
-        if(map[t]) state.used['c'+n+t+(parseInt(i,10)+1)]=true;
-      });
+      state.done=p.done||{};
       queueSave();
     }
   }catch(e){/* no old data either */}
 }
 function ensureState(){
-  ['done','used','picked','notes','covered','byo','voted'].forEach(k=>{ if(!state[k]||typeof state[k]!=='object') state[k]={}; });
-  if(!Array.isArray(state.ghosts)) state.ghosts=[];
+  ['done','notes','covered','byo'].forEach(k=>{ if(!state[k]||typeof state[k]!=='object') state[k]={}; });
   if(![15,25,45].includes(state.flow)) state.flow=25;
 }
 function queueSave(){
@@ -1466,7 +1346,7 @@ function saveNow(){
    via a small Netlify Function backed by Netlify Blobs ---- */
 const SHARE_API='/api/store';
 const SHARE_MAX=19000;   /* the function rejects anything over 20000 */
-const SK={ checkin:n=>'tbc:checkin:'+n, votes:n=>'tbc:votes:'+n, byo:n=>'tbc:byo:'+n, inbox:'tbc:angels:inbox', wall:'tbc:angels:wall' };
+const SK={ checkin:id=>'tbc:checkin:'+id, byo:id=>'tbc:byo:'+id, inbox:'tbc:angels:inbox', wall:'tbc:angels:wall' };
 let shareOK=true;
 async function sget(key,fallback){
   try{
@@ -1505,9 +1385,6 @@ function squiggle(){
   return '<svg viewBox="0 0 200 7" preserveAspectRatio="none" aria-hidden="true">'+
     '<path d="M1 5.2 C 26 1.6, 47 6.4, 72 3.4 S 121 1.4, 146 4.6 S 182 2.2, 199 4.2" fill="none" stroke="var(--accent)" stroke-width="3.4" stroke-linecap="round"/></svg>';
 }
-function starSVG(){
-  return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.4l2.6 5.5 6 .8-4.4 4.2 1.1 5.9-5.3-2.9-5.3 2.9 1.1-5.9L3.4 9.7l6-.8z"/></svg>';
-}
 function isDark(){
   const t=document.documentElement.getAttribute('data-theme');
   if(t==='dark') return true;
@@ -1531,10 +1408,6 @@ function byoQ(ch){
 }
 /* everything in the chapter */
 function allQ(ch){ return [...voteQ(ch),...secQ(ch),...byoQ(ch)]; }
-
-function pickedIn(ch){
-  return allQ(ch).filter(q=>state.picked[q.id]);
-}
 
 /* ============================================================
    TIMER
@@ -1582,12 +1455,11 @@ document.getElementById('tstop').addEventListener('click',stopTimer);
    RENDER: shared chrome
    ============================================================ */
 function renderBox(){
-  const n=CH.filter(ch=>state.done[ch.n]).length;
+  const n=Object.keys(state.covered||{}).length;
   document.getElementById('boxlabel').textContent =
-    n===0 ? 'Twelve sheets. Turn the wheel.' :
-    n===1 ? 'One down. Any order you like.' :
-    n===12 ? 'All twelve. Look at that.' :
-    n+' done. Any order you like.';
+    n===0 ? 'One section at a time. Any order you like.' :
+    n===1 ? 'One section done. Any order you like.' :
+    n+' sections done. Any order you like.';
 }
 
 function renderDock(){
@@ -1605,7 +1477,6 @@ function renderDock(){
         '<button class="pill step" id="wnext" aria-label="Next sheet">&rsaquo;</button>'+
         '<button class="pill go" id="dockopen">Open</button>'+
         '<button class="pill'+(current===0?' on':'')+'" data-go="0">Run</button>'+
-        '<button class="pill'+(current===98?' on':'')+'" data-go="98">Private</button>'+
         '<button class="pill'+(current===99?' on':'')+'" data-go="99">Angels</button>'+
       '</div>'+
     '</div>';
@@ -1617,10 +1488,25 @@ function renderDock(){
   paintDial();
 }
 
+let SECV=null;   /* the section being worked on, if any */
+
+function goSec(id){
+  const hit=findSec(id); if(!hit) return;
+  SECV=id; current=hit.ch.n;
+  spinTo(CH.indexOf(hit.ch),false);
+  render();
+  announce(hit.sc.t+', in '+hit.ch.short);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
 function go(n){
-  current=n; render();
+  SECV=null;
+  current=n;
+  const at=CH.findIndex(c=>c.n===n);
+  if(at>=0) spinTo(at,false);
+  render();
   const ch=CH.find(c=>c.n===n);
-  announce(n===0?'Run the session':n===98?'Just for you, private':(n===99?'The angels wall':'Session '+n+', '+ch.title));
+  announce(n===0?'Start here':(n===99?'The angels wall':'Chapter '+n+', '+ch.title));
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1807,58 +1693,20 @@ function allSections(){
   CH.forEach(ch=>(ch.sections||[]).forEach(sc=>out.push({ch,sc})));
   return out;
 }
-function focusCard(){
-  const f=state.focus; if(!f) return '';
-  const ch=CH.find(c=>c.n===f.n); if(!ch) return '';
-  const sc=(ch.sections||[]).find(x=>x.id===f.id); if(!sc) return '';
-  return '<div class="focusbox" style="--c:'+ch.c+';--d:'+ch.d+'">'+
-    '<p class="flab">Tonight</p>'+
-    '<h4>'+esc(sc.t)+'</h4>'+
-    '<p class="fch">'+esc(ch.short)+(sc.unlisted?'':'  \u00b7  loc '+sc.loc)+
-      (sc.mins?'  \u00b7  '+fmtMins(sc.mins)+' to read':'')+'</p>'+
-    '<p class="fgist">'+esc(sc.gist)+'</p>'+
-    (sc.q?'<p class="fq">'+esc(sc.q)+'</p>':'')+
-    '<div class="rowbtns"><button class="btn" data-jump="'+f.n+'|'+f.id+'">Open the sheet</button>'+
-    '<button class="btn" id="unfocus">Pick something else</button></div></div>';
-}
-
 function renderHome(){
   applyColors(null);
-  const segs = flowFor();
-  const running = !!T.segs;
-  const mins = state.flow;
   const v=document.getElementById('view');
-  v.setAttribute('aria-label','Run the session');
+  v.setAttribute('aria-label','Start here');
   v.innerHTML=
   '<div class="sheet"><div class="band"></div><div class="sheet-in">'+
-
    '<div class="snap" id="snap"></div>'+
-   '<p class="wheelhint">Turn the wheel to see another one.</p>'+
-
+   '<p class="wheelhint">Turn the wheel to see another chapter.</p>'+
    '<div class="slip"><p>'+esc(HOME.slips[Math.floor(Math.random()*HOME.slips.length)])+'</p></div>'+
 
-   '<section><h3>Tonight'+squiggle()+'</h3>'+
-   (state.focus
-     ? focusCard()
-     : '<p class="legend">Or pick one section instead of a whole chapter.</p>')+
-   '<button class="btn wide" id="findbtn">'+(state.focus?'Change tonight\u2019s section':'Find a section')+'</button>'+
+   '<section><h3>Find a bit'+squiggle()+'</h3>'+
+   '<p class="legend">Search all '+allSections().length+' sections. Sleep, tantrums, screens, biting.</p>'+
+   '<button class="btn wide" id="findbtn">Search the book</button>'+
    '<div id="findbox"></div></section>'+
-
-   '<section><h3>Start the clock'+squiggle()+'</h3>'+
-   '<div class="toggle" role="group" aria-label="How long">'+
-     '<button class="btn" data-flow="15" aria-pressed="'+(state.flow===15)+'">15 min</button>'+
-     '<button class="btn" data-flow="25" aria-pressed="'+(state.flow===25)+'">25 min</button>'+
-     '<button class="btn" data-flow="45" aria-pressed="'+(state.flow===45)+'">45 min</button>'+
-   '</div>'+
-   (running
-     ? '<button class="btn wide warn" id="stopflow">Stop the clock</button>'
-     : '<button class="btn wide go" id="startflow">Start '+mins+' minutes</button>')+
-   '<details class="fold"><summary><span class="chev"></span>What is in the '+mins+' minutes'+
-     '<span class="foldnote">Tap a line to jump</span></summary>'+
-     '<div class="foldbody"><ul class="flow">'+segs.map((f,i)=>
-       '<li><button class="segbtn" data-seg="'+i+'" aria-current="'+(running&&T.i===i)+'">'+
-       '<span class="min">'+f[0]+'</span><span>'+esc(f[1])+'</span></button></li>').join('')+
-     '</ul></div></details></section>'+
 
    '<details class="fold"><summary><span class="chev"></span>What angels means'+
      '<span class="foldnote">Read this once</span></summary>'+
@@ -1869,13 +1717,12 @@ function renderHome(){
 
    '<details class="fold"><summary><span class="chev"></span>If it gets heavy'+
      '<span class="foldnote">It will, once</span></summary>'+
-     '<div class="foldbody"><ol class="rules">'+HOME.activated.slice(1).map(r=>'<li>'+esc(r)+'</li>').join('')+'</ol>'+
-     '<button class="btn wide" data-go="98">Your private page</button></div></details>'+
+     '<div class="foldbody"><ol class="rules">'+HOME.activated.slice(1).map(r=>'<li>'+esc(r)+'</li>').join('')+'</ol></div></details>'+
 
    '<details class="fold"><summary><span class="chev"></span>The serious version'+
-     '<span class="foldnote">Ground rules, running a bigger room</span></summary>'+
+     '<span class="foldnote">Only if this is a work team</span></summary>'+
      '<div class="foldbody">'+
-     '<p class="legend">Three friends on a sofa do not need any of this. It is here for when the group is a work team.</p>'+
+     '<p class="legend">Three friends on a sofa do not need any of this.</p>'+
      '<h4 class="subh">Why this book</h4>'+
      HOME.why.map(p=>'<p>'+esc(p)+'</p>').join('')+
      '<h4 class="subh">Ground rules to read out</h4>'+
@@ -1883,7 +1730,6 @@ function renderHome(){
      '<h4 class="subh">Facilitator moves</h4>'+
      '<ul class="ideas">'+HOME.moves.map(m=>'<li><b>'+esc(m[0])+'</b><span>'+esc(m[1])+'</span></li>').join('')+'</ul>'+
      '<h4 class="subh">Do you run this group?</h4>'+
-     '<p>Turn this on to post to the angels wall and clear the check-in board.</p>'+
      '<button class="btn wide" id="facil" aria-pressed="'+state.facilitator+'"><span class="tick"></span>'+
      (state.facilitator?'You run this group':'I run this group')+'</button>'+
      '</div></details>'+
@@ -1898,26 +1744,8 @@ function renderHome(){
   '</div></div>';
 
   paintSnap();
-
-  v.querySelectorAll('[data-flow]').forEach(b=>b.addEventListener('click',()=>{
-    state.flow=parseInt(b.dataset.flow,10); queueSave(); renderHome();
-  }));
-  v.querySelectorAll('[data-seg]').forEach(b=>b.addEventListener('click',()=>{
-    startFlow(flowFor(),parseInt(b.dataset.seg,10));
-  }));
-  const sf=document.getElementById('startflow');
-  if(sf) sf.addEventListener('click',()=>startFlow(flowFor(),0));
-  const xf=document.getElementById('stopflow');
-  if(xf) xf.addEventListener('click',stopTimer);
-
-  v.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(parseInt(b.dataset.go,10))));
-  v.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>{
-    const [n,id]=b.dataset.jump.split('|'); jumpTo(parseInt(n,10),id);
-  }));
-  const uf=document.getElementById('unfocus');
-  if(uf) uf.addEventListener('click',()=>{ state.focus=null; queueSave(); renderHome(); });
+  wireCommon(v);
   document.getElementById('findbtn').addEventListener('click',openFinder);
-
   document.getElementById('export').addEventListener('click',buildExport);
   const fb=document.getElementById('facil');
   fb.classList.add('done');
@@ -1925,22 +1753,26 @@ function renderHome(){
     state.facilitator=!state.facilitator; queueSave(); renderHome();
     toast(state.facilitator?'Facilitator tools on':'Facilitator tools off');
   });
-
   const rb=document.getElementById('reset');
   let armed=false;
   rb.addEventListener('click',()=>{
     if(!armed){ armed=true; rb.textContent='Tap again to clear everything'; setTimeout(()=>{armed=false;rb.textContent='Clear all notes and marks';},4000); return; }
-    state.done={};state.used={};state.picked={};state.notes={};state.covered={};state.focus=null;
+    state.done={};state.notes={};state.covered={};
     queueSave(); render(); toast('Cleared');
   });
 }
 
-/* ---- find any section, in any chapter, in any order ---- */
+function wireCommon(v){
+  v.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(parseInt(b.dataset.go,10))));
+  v.querySelectorAll('[data-sec]').forEach(b=>b.addEventListener('click',()=>goSec(b.dataset.sec)));
+}
+
+/* ---- search every section in the book ---- */
 function openFinder(){
   const box=document.getElementById('findbox');
   if(box.dataset.open==='1'){ box.dataset.open='0'; box.innerHTML=''; return; }
   box.dataset.open='1';
-  box.innerHTML='<input id="findq" class="find" placeholder="Sleep, tantrums, screens, biting..." aria-label="Search sections">'+
+  box.innerHTML='<input id="findq" class="find" placeholder="Sleep, tantrums, screens..." aria-label="Search sections">'+
     '<div id="findlist"></div>';
   const inp=document.getElementById('findq');
   const paint=()=>{
@@ -1951,57 +1783,31 @@ function openFinder(){
     }).slice(0,q?40:80);
     document.getElementById('findlist').innerHTML = hits.length
       ? hits.map(({ch,sc})=>
-          '<button class="findrow" data-pick="'+ch.n+'|'+sc.id+'" style="--c:'+ch.c+'">'+
+          '<button class="findrow" data-sec="'+sc.id+'" style="--c:'+ch.c+'">'+
           '<span class="fdot"></span>'+
           '<span class="ftxt"><b>'+esc(sc.t)+'</b><span>'+esc(ch.short)+
-            (sc.mins?'  \u00b7  '+fmtMins(sc.mins)+' read':'')+
-            (state.covered[sc.id]?'  \u00b7  covered':'')+'</span></span></button>').join('')
+            (sc.mins?'  ·  '+fmtMins(sc.mins)+' read':'')+
+            (state.covered[sc.id]?'  ·  done':'')+'</span></span></button>').join('')
       : '<p class="legend">Nothing matches that. Try a plainer word.</p>';
-    document.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>{
-      const [n,id]=b.dataset.pick.split('|');
-      state.focus={n:parseInt(n,10),id}; queueSave();
-      toast('Tonight: that one');
-      renderHome();
-      document.getElementById('view').scrollIntoView({block:'start',behavior:'smooth'});
-    }));
+    wireCommon(document.getElementById('findlist'));
   };
   inp.addEventListener('input',paint);
   paint(); inp.focus();
 }
 
-/* open a chapter and land on one section */
-function jumpTo(n,id){
-  go(n);
-  setTimeout(()=>{
-    const li=document.getElementById('sec-'+id);
-    if(!li) return;
-    const d=li.querySelector('details'); if(d) d.open=true;
-    li.scrollIntoView({block:'center',behavior:'smooth'});
-    li.classList.add('flash');
-    setTimeout(()=>li.classList.remove('flash'),1400);
-  },60);
-}
-
 function buildExport(){
   const lines=['THE EMOTIONAL LIFE OF THE TODDLER: book club notes','Exported '+new Date().toLocaleDateString(),''];
-  CH.forEach(ch=>{
-    const note=(state.notes[ch.n]||'').trim();
-    const used=allQ(ch).filter(q=>state.used[q.id]);
-    const cov=(ch.sections||[]).filter(s=>state.covered[s.id]);
-    if(!note && !used.length && !cov.length && !byoOf(ch).length && !state.done[ch.n]) return;
+  allSections().forEach(({ch,sc})=>{
+    const note=(state.notes[sc.id]||'').trim();
+    const brought=byoOf(sc);
+    const cov=!!state.covered[sc.id];
+    if(!note && !brought.length && !cov) return;
     lines.push('----------------------------------------');
-    lines.push((ch.extra?'EXTRA':'SESSION '+ch.n)+': '+ch.title+(state.done[ch.n]?'  [done]':''));
-    if(cov.length){
-      lines.push('');
-      lines.push('Sections covered ('+cov.length+' of '+secCount(ch)+'):');
-      cov.forEach(s=>lines.push('  - '+s.t+(s.unlisted?'':'  (loc '+s.loc+')')));
-    }
-    if(used.length){ lines.push(''); lines.push('Questions used:'); used.forEach(q=>lines.push('  - '+q.q)); }
-    const brought=byoOf(ch);
+    lines.push(ch.short.toUpperCase()+'  /  '+sc.t+(cov?'  [done]':''));
     if(brought.length){
       lines.push('');
       lines.push('Brought by the group:');
-      brought.forEach(b=>lines.push('  - ['+(b.kind==='quote'?'quote':'question')+'] '+b.text+(b.where?'  ('+b.where+')':'')));
+      brought.forEach(b=>lines.push('  - ['+(b.kind==='quote'?'quote':'question')+'] '+b.text));
     }
     if(note){ lines.push(''); lines.push('Notes:'); lines.push(note); }
     lines.push('');
@@ -2022,333 +1828,232 @@ function buildExport(){
 }
 
 /* ============================================================
-   RENDER: chapter sheet
+   RENDER: a chapter is just a list of its sections
    ============================================================ */
-function qRow(q,tally){
-  const used=!!state.used[q.id], star=!!state.picked[q.id];
-  const v=(tally&&tally[q.id])||0;
-  return '<div class="qrow">'+
-     '<button class="star" data-star="'+q.id+'" aria-pressed="'+star+'" aria-label="'+(star?'Remove from tonight':'Add to tonight')+'">'+starSVG()+'</button>'+
-     '<button class="qbtn" data-used="'+q.id+'" aria-pressed="'+used+'">'+
-       (used?'<span class="usedtag">Used</span>':'')+
-       (v?'<span class="votepill">'+v+' '+(v===1?'vote':'votes')+'</span>':'')+esc(q.q)+
-       (q.note?'<span class="qnote">'+esc(q.note)+'</span>':'')+
-     '</button></div>';
-}
-function qList(ch,label,arr,tally){
-  return '<p class="tier">'+label+'</p>'+arr.map(q=>qRow(q,tally)).join('');
-}
-
-/* ---- the sub-chapters, in the order the book runs them ---- */
 function secDone(ch){ return (ch.sections||[]).filter(s=>state.covered[s.id]).length; }
 function secCount(ch){ return (ch.sections||[]).length; }
-function secLabel(ch){
-  const n=secCount(ch), d=secDone(ch);
-  if(!n) return '';
-  const t=chMins(ch), tail=t?'  \u00b7  '+fmtMins(t)+' to read the lot':'';
-  return (d===0 ? n+' sections'
-       : d===n ? 'All '+n+' covered'
-       : d+' of '+n+' covered')+tail;
+
+function renderChapter(ch){
+  applyColors(ch);
+  const secs=ch.sections||[];
+  const done=secDone(ch);
+  const v=document.getElementById('view');
+  v.setAttribute('aria-label',ch.title);
+  v.innerHTML=
+  '<div class="sheet"><div class="band"></div><div class="sheet-in">'+
+   '<h2>'+esc(ch.title)+'</h2>'+
+   '<p class="colorname">'+esc(ch.color)+'</p>'+
+
+   '<p class="seccount">Pick one. '+
+     (done?done+' of '+secs.length+' done':secs.length+' sections')+'.</p>'+
+
+   '<ol class="secs">'+secs.map((sc,i)=>{
+     const cov=!!state.covered[sc.id];
+     return '<li class="sec'+(cov?' cov':'')+'">'+
+       '<button class="secgo" data-sec="'+sc.id+'">'+
+         '<span class="secnum">'+(i+1)+'</span>'+
+         '<span class="sectxt"><b>'+esc(sc.t)+'</b>'+
+           '<span class="secmeta">'+
+             (sc.mins?'<span class="mins">'+fmtMins(sc.mins)+' read</span>':'')+
+             (sc.src?esc(sc.src):(sc.unlisted?'not in the contents':'loc '+sc.loc))+
+             (cov?'  ·  done':'')+
+           '</span></span>'+
+         '<span class="secarrow"></span>'+
+       '</button></li>';
+   }).join('')+'</ol>'+
+
+   '<details class="fold"><summary><span class="chev"></span>More from this chapter'+
+     '<span class="foldnote">If you want it</span></summary>'+
+     '<div class="foldbody">'+
+     '<h4 class="subh">The chapter in short</h4><p>'+esc(ch.summary)+'</p>'+
+     '<h4 class="subh">Four things to hold onto</h4>'+
+     '<ul class="ideas">'+ch.ideas.map(i=>'<li><b>'+esc(i[0])+'</b><span>'+esc(i[1])+'</span></li>').join('')+'</ul>'+
+     (ch.contested?'<h4 class="subh">Where this gets argued with</h4><p>'+esc(ch.contested)+'</p>':'')+
+     '<h4 class="subh">Bigger questions, for the whole chapter</h4>'+
+     '<ul class="plainq">'+[...ch.warm,...ch.deep,...ch.home].map(q=>
+       '<li>'+esc(q.q)+(q.note?'<span class="qnote">'+esc(q.note)+'</span>':'')+'</li>').join('')+'</ul>'+
+     '<h4 class="subh">If the room goes quiet</h4><p>'+esc(ch.quiet)+'</p>'+
+     '</div></details>'+
+  '</div></div>';
+
+  wireCommon(v);
 }
-/* ---- bring your own: the question or quote you actually want to raise ---- */
-function byoList(ch){
-  const items=byoOf(ch);
-  const mine=items.filter(b=>b.by===state.me).length;
+
+/* ============================================================
+   RENDER: the section. this is where a session happens.
+   ============================================================ */
+function findSec(id){
+  for(const ch of CH){
+    const sc=(ch.sections||[]).find(x=>x.id===id);
+    if(sc) return {ch,sc};
+  }
+  return null;
+}
+function secNeighbours(id){
+  const all=allSections();
+  const i=all.findIndex(x=>x.sc.id===id);
+  return {prev: i>0?all[i-1]:null, next: i>=0&&i<all.length-1?all[i+1]:null};
+}
+
+function renderSection(ch,sc){
+  applyColors(ch);
+  if(LIVE.forSec!==sc.id){ LIVE.words=[]; LIVE.forSec=sc.id; }
+  const cov=!!state.covered[sc.id];
+  const nb=secNeighbours(sc.id);
+  const v=document.getElementById('view');
+  v.setAttribute('aria-label',sc.t);
+  v.innerHTML=
+  '<div class="sheet"><div class="band"></div><div class="sheet-in">'+
+   '<button class="crumb" data-go="'+ch.n+'">'+esc(ch.short)+'</button>'+
+   '<p class="eyebrow">'+
+     (sc.mins?fmtMins(sc.mins)+' to read':'')+
+     (sc.src?'  ·  '+esc(sc.src):(sc.unlisted?'':'  ·  loc '+sc.loc))+'</p>'+
+   '<h2>'+esc(sc.t)+'</h2>'+
+
+   '<section><h3>What it says'+squiggle()+'</h3>'+
+   '<p class="lead">'+esc(sc.gist)+'</p>'+
+   (sc.watch?'<div class="watchbox"><b>Watch for</b><p>'+esc(sc.watch)+'</p></div>':'')+
+   '</section>'+
+
+   (sc.q?'<section><h3>Talk about'+squiggle()+'</h3>'+
+     '<div class="bigq"><p>'+esc(sc.q)+'</p></div></section>':'')+
+
+   '<section><h3>One word each'+squiggle()+'</h3>'+
+   '<p class="legend">How is your week. Everyone on this link sees it.</p>'+
+   '<div id="checkin"><p class="legend">Loading...</p></div></section>'+
+
+   byoList(sc)+
+
+   '<section><h3>Angels'+squiggle()+'</h3>'+
+   '<p class="legend">One memory of being loved exactly right when you were small. End here.</p>'+
+   '<div class="angels"><p>'+esc(ch.angels)+'</p></div>'+
+   '<button class="btn wide" data-go="99">Add it to the angels wall</button></section>'+
+
+   '<section><h3>Notes'+squiggle()+'</h3>'+
+   '<textarea id="notes" aria-label="Notes" placeholder="What came up, who said it."></textarea></section>'+
+
+   '<section><h3>Give it some time'+squiggle()+'</h3>'+
+   '<div class="toggle" role="group" aria-label="How long">'+
+     '<button class="btn" data-flow="15" aria-pressed="'+(state.flow===15)+'">15 min</button>'+
+     '<button class="btn" data-flow="25" aria-pressed="'+(state.flow===25)+'">25 min</button>'+
+     '<button class="btn" data-flow="45" aria-pressed="'+(state.flow===45)+'">45 min</button>'+
+   '</div>'+
+   (T.segs
+     ? '<button class="btn wide warn" id="stopflow">Stop the clock</button>'
+     : '<button class="btn wide go" id="startflow">Start '+state.flow+' minutes</button>')+
+   '</section>'+
+
+   '<button class="btn wide done" id="covdone" aria-pressed="'+cov+'"><span class="tick"></span>'+
+   (cov?'Done':'Mark this one done')+'</button>'+
+
+   '<div class="pager">'+
+     (nb.prev?'<button class="btn" data-sec="'+nb.prev.sc.id+'"><span>Previous</span>'+esc(nb.prev.sc.t)+'</button>'
+          :'<button class="btn" data-go="0"><span>Back to</span>Start here</button>')+
+     (nb.next?'<button class="btn" data-sec="'+nb.next.sc.id+'"><span>Next</span>'+esc(nb.next.sc.t)+'</button>'
+          :'<button class="btn" data-go="0"><span>Back to</span>Start here</button>')+
+   '</div>'+
+  '</div></div>';
+
+  const ta=document.getElementById('notes');
+  ta.value=state.notes[sc.id]||'';
+  ta.addEventListener('input',()=>{ state.notes[sc.id]=ta.value; queueSave(); });
+
+  v.querySelectorAll('[data-flow]').forEach(b=>b.addEventListener('click',()=>{
+    state.flow=parseInt(b.dataset.flow,10); queueSave(); renderSection(ch,sc);
+  }));
+  const sf=document.getElementById('startflow');
+  if(sf) sf.addEventListener('click',()=>{ startFlow(flowFor(),0); renderSection(ch,sc); });
+  const xf=document.getElementById('stopflow');
+  if(xf) xf.addEventListener('click',()=>{ stopTimer(); renderSection(ch,sc); });
+
+  const d=document.getElementById('covdone');
+  d.addEventListener('click',()=>{
+    if(state.covered[sc.id]) delete state.covered[sc.id]; else state.covered[sc.id]=true;
+    const on=!!state.covered[sc.id];
+    d.setAttribute('aria-pressed',String(on));
+    d.lastChild.textContent=on?'Done':'Mark this one done';
+    queueSave(); renderBox();
+  });
+
+  wireByo(v,sc);
+  wireCommon(v);
+  loadLive(sc);
+}
+
+/* ---- bring your own, per section ---- */
+function byoOf(sc){ return (state.byo&&state.byo[sc.id])||[]; }
+
+function byoList(sc){
+  const mine=byoOf(sc).filter(b=>b.by===state.me).length;
   return '<section id="byosec"><h3>Bring your own'+squiggle()+'</h3>'+
-    '<p class="legend">The thing you actually want to say. A question, or a quote that got you. Everyone on this link sees it.</p>'+
+    '<p class="legend">Your question, or a quote that got you. Everyone on this link sees it.</p>'+
     '<div class="byoform">'+
       '<div class="kindpick" role="group" aria-label="What are you adding">'+
         '<button class="btn" data-kind="q" aria-pressed="true">A question</button>'+
         '<button class="btn" data-kind="quote" aria-pressed="false">A quote</button>'+
       '</div>'+
       '<textarea id="byotext" maxlength="400" aria-label="Your question or quote" placeholder="Type it how you would say it out loud."></textarea>'+
-      '<input id="byowhere" class="find" maxlength="40" aria-label="Where in the book, optional" placeholder="Where in the book? Optional.">'+
-      '<button class="btn wide" id="byoadd">Add it to the session</button>'+
+      '<button class="btn wide" id="byoadd">Add it</button>'+
     '</div>'+
-    '<div id="byolist">'+byoCards(ch)+'</div>'+
+    '<div id="byolist">'+byoCards(sc)+'</div>'+
     (mine?'<p class="legend">You have brought '+mine+' to this one.</p>':'')+
   '</section>';
 }
-function byoCards(ch){
-  const items=byoOf(ch);
+function byoCards(sc){
+  const items=byoOf(sc);
   if(!items.length) return '<p class="empty byoempty">Nothing brought yet. Yours would be the first.</p>';
   return items.map(b=>{
-    const star=!!state.picked[b.id], me=b.by===state.me;
+    const me=b.by===state.me;
     return '<div class="byo'+(b.kind==='quote'?' isquote':'')+(me?' ismine':'')+'" id="byo-'+b.id+'">'+
-      '<button class="star" data-star="'+b.id+'" aria-pressed="'+star+'" aria-label="'+(star?'Remove from tonight':'Add to tonight')+'">'+starSVG()+'</button>'+
       '<div class="byobody">'+
-        '<p class="byokind">'+(b.kind==='quote'?'Quote':'Question')+(me?' \u00b7 yours':'')+(b.where?' \u00b7 '+esc(b.where):'')+'</p>'+
+        '<p class="byokind">'+(b.kind==='quote'?'Quote':'Question')+(me?' · yours':'')+'</p>'+
         '<p class="byotext">'+esc(b.text)+'</p>'+
       '</div>'+
       (me?'<button class="byox" data-byox="'+b.id+'" aria-label="Delete this">&times;</button>':'')+
     '</div>';
   }).join('');
 }
-
-function sectionList(ch){
-  const secs=ch.sections||[];
-  if(!secs.length) return '';
-  const unlisted=secs.every(s=>s.unlisted);
-  return '<section><h3>Section by section'+squiggle()+'</h3>'+
-    '<p class="legend">'+
-      (unlisted
-        ? 'The table of contents gives this chapter no sections, so these are its beats rather than its headings.'
-        : 'The book’s own headings, in order. Times run from one heading to the next, at an average pace. Locations are from the revised edition ebook.')+
-    '</p>'+
-    '<div class="rowbtns"><button class="btn" id="walkdeck">Walk the chapter</button>'+
-      '<button class="btn" id="secreset">Clear the ticks</button></div>'+
-    '<p class="seccount" id="seccount">'+esc(secLabel(ch))+'</p>'+
-    '<ol class="secs">'+secs.map((s,i)=>{
-      const cov=!!state.covered[s.id];
-      return '<li class="sec'+(cov?' cov':'')+'" id="sec-'+s.id+'">'+
-        '<details><summary>'+
-          '<span class="secnum">'+(i+1)+'</span>'+
-          '<span class="sectxt"><b>'+esc(s.t)+'</b>'+
-            '<span class="secmeta">'+
-              (s.mins?'<span class="mins">'+fmtMins(s.mins)+' read</span>':'')+
-              (s.src?esc(s.src)+(s.loc?'  ·  loc '+s.loc:''):(s.unlisted?'no heading in the contents':'loc '+s.loc))+
-            '</span>'+
-          '</span><span class="chev"></span>'+
-        '</summary>'+
-        '<div class="secbody">'+
-          '<p>'+esc(s.gist)+'</p>'+
-          (s.watch?'<p class="watch"><b>Watch for</b>'+esc(s.watch)+'</p>':'')+
-          (s.q?qRow({id:s.id,q:s.q},LIVE.tally):'')+
-          '<button class="covbtn" data-cov="'+s.id+'" aria-pressed="'+cov+'">'+
-            '<span class="tick"></span>'+(cov?'Covered':'Mark covered')+'</button>'+
-        '</div></details></li>';
-    }).join('')+'</ol></section>';
-}
-
-function renderChapter(ch){
-  applyColors(ch);
-  if(LIVE.forChapter!==ch.n){ LIVE.words=[]; LIVE.tally={}; LIVE.forChapter=ch.n; }
-  const idx=CH.indexOf(ch), prev=CH[idx-1], next=CH[idx+1];
-  const picks=pickedIn(ch);
-  const v=document.getElementById('view');
-  v.setAttribute('aria-label',ch.title);
-  v.innerHTML=
-  '<div class="sheet"><div class="band"></div><div class="sheet-in">'+
-   '<p class="eyebrow">'+(ch.extra?'Extra sheet':'Chapter '+ch.n)+
-     (chMins(ch)?'  \u00b7  '+fmtMins(chMins(ch))+' to read':'')+'</p>'+
-   '<h2>'+esc(ch.title)+'</h2>'+
-   '<p class="colorname">'+esc(ch.color)+'</p>'+
-
-   '<div class="rowbtns" style="margin-top:18px">'+
-     '<button class="btn" id="present">Present this session</button>'+
-     '<button class="btn" id="pickdeck">Pick tonight’s three</button>'+
-   '</div>'+
-
-   '<div class="aloud"><span class="tag">Open the room</span><p>'+esc(ch.opener)+'</p></div>'+
-
-   '<section><h3>One word each'+squiggle()+'</h3>'+
-   '<p class="legend">Everyone with this link types one word for how their week has been. Fifteen seconds, then read them out.</p>'+
-   '<div id="checkin"><p class="legend">Loading the room...</p></div></section>'+
-
-   byoList(ch)+
-
-   '<details class="fold"><summary><span class="chev"></span>The chapter in short'+
-     '<span class="foldnote">Backup, not a substitute</span></summary>'+
-     '<div class="foldbody"><p>'+esc(ch.summary)+'</p></div></details>'+
-
-   '<section><h3>Four things to hold onto'+squiggle()+'</h3>'+
-   '<ul class="ideas">'+ch.ideas.map(i=>'<li><b>'+esc(i[0])+'</b><span>'+esc(i[1])+'</span></li>').join('')+'</ul></section>'+
-
-   sectionList(ch)+
-
-   (ch.contested?
-   '<details class="fold"><summary><span class="chev"></span>Where this gets argued with</summary>'+
-     '<div class="foldbody"><p>'+esc(ch.contested)+'</p></div></details>':'')+
-
-   '<details class="fold"><summary><span class="chev"></span>Let the room vote'+
-     '<span class="foldnote">Two votes each</span></summary>'+
-     '<div class="foldbody">'+
-     '<p class="legend">Send the link out before you meet. You still choose what gets asked.</p>'+
-     '<button class="btn wide" id="votedeck">Vote on questions</button>'+
-     '<div id="votes"></div></div></details>'+
-
-   '<section><h3>Tonight’s three'+squiggle()+'</h3>'+
-   '<div class="tray" id="tray">'+
-     (picks.length
-       ? '<h4>Starred for tonight</h4><ol>'+picks.map(q=>'<li>'+esc(q.q)+'</li>').join('')+'</ol>'
-       : '<p class="empty">Nothing starred yet. Tap the star beside three questions below, before the meeting rather than during it.</p>')+
-   '</div></section>'+
-
-   '<section id="qsec"><h3>Questions'+squiggle()+'</h3>'+
-   '<p class="legend">Tap a question to mark it used. Tap the star to put it in tonight’s three.</p>'+
-   qList(ch,'Warm up',ch.warm,LIVE.tally)+
-   qList(ch,'Go further',ch.deep,LIVE.tally)+
-   qList(ch,'Bring it home',ch.home,LIVE.tally)+
-   '</section>'+
-
-   '<section><h3>Angels'+squiggle()+'</h3>'+
-   '<p class="legend">One memory of being loved exactly right when you were small. Lieberman\u2019s answer to the ghosts. Every sheet ends here.</p>'+
-   '<div class="angels"><p>'+esc(ch.angels)+'</p></div>'+
-   '<p class="permission">Closing move, not a bonus. Short on time? Cut a question instead.</p>'+
-   '<div class="rowbtns"><button class="btn" data-go="99">Add to the wall</button>'+
-   '<button class="btn" data-go="98">Something came up for me</button></div></section>'+
-
-   '<details class="fold"><summary><span class="chev"></span>If the room goes quiet</summary>'+
-     '<div class="foldbody"><div class="quiet"><p>'+esc(ch.quiet)+'</p></div></div></details>'+
-
-   '<details class="fold"><summary><span class="chev"></span>Before next time'+
-     '<span class="foldnote">Optional</span></summary>'+
-     '<div class="foldbody"><p>'+esc(ch.between)+'</p>'+
-     '<p class="permission">Or skip it. Reading and resting is a complete week.</p></div></details>'+
-
-   '<details class="fold"><summary><span class="chev"></span>Send this to the group</summary>'+
-     '<div class="foldbody"><div class="quiet"><p id="sendtext">'+esc(ch.send)+'</p></div>'+
-     '<button class="btn wide" id="copysend">Copy this message</button></div></details>'+
-
-   '<section><h3>Notes from tonight'+squiggle()+'</h3>'+
-   '<textarea id="notes" aria-label="Notes from tonight" placeholder="What came up, who said it, what to follow up on."></textarea></section>'+
-
-   '<button class="btn wide done" id="done" aria-pressed="'+(!!state.done[ch.n])+'"><span class="tick"></span>'+
-   (state.done[ch.n]?'Session done':'Mark this session done')+'</button>'+
-
-   '<div class="pager">'+
-     (prev?'<button class="btn" data-go="'+prev.n+'"><span>Previous</span>'+esc(prev.short)+'</button>':'<button class="btn" data-go="0"><span>Back to</span>Run the session</button>')+
-     (next?'<button class="btn" data-go="'+next.n+'"><span>Next</span>'+esc(next.short)+'</button>':'<button class="btn" data-go="0"><span>Back to</span>Run the session</button>')+
-   '</div>'+
-  '</div></div>';
-
-  const ta=document.getElementById('notes');
-  ta.value=state.notes[ch.n]||'';
-  ta.addEventListener('input',()=>{ state.notes[ch.n]=ta.value; queueSave(); });
-
-  window.refreshTray=refreshTray;
-  function refreshTray(){
-    const p=pickedIn(ch);
-    document.getElementById('tray').innerHTML = p.length
-      ? '<h4>Starred for tonight</h4><ol>'+p.map(q=>'<li>'+esc(q.q)+'</li>').join('')+'</ol>'
-      : '<p class="empty">Nothing starred yet. Tap the star beside three questions below, before the meeting rather than during it.</p>';
-  }
-  const byId={}; allQ(ch).forEach(q=>byId[q.id]=q);
-
-  v.querySelectorAll('[data-used]').forEach(b=>b.addEventListener('click',()=>{
-    const id=b.dataset.used, q=byId[id];
-    if(state.used[id]) delete state.used[id]; else state.used[id]=true;
-    b.setAttribute('aria-pressed',String(!!state.used[id]));
-    b.innerHTML=(state.used[id]?'<span class="usedtag">Used</span>':'')+esc(q.q)+
-      (q.note?'<span class="qnote">'+esc(q.note)+'</span>':'');
-    queueSave();
-  }));
-
-  v.querySelectorAll('[data-star]').forEach(b=>b.addEventListener('click',()=>{
-    const id=b.dataset.star;
-    if(state.picked[id]){ delete state.picked[id]; }
-    else{
-      if(pickedIn(ch).length>=3){ toast('Three is the limit. That is the point.'); return; }
-      state.picked[id]=true;
-    }
-    b.setAttribute('aria-pressed',String(!!state.picked[id]));
-    b.setAttribute('aria-label',state.picked[id]?'Remove from tonight':'Add to tonight');
-    refreshTray(); queueSave();
-  }));
-
-  document.getElementById('copysend').addEventListener('click',async()=>{
-    try{ await navigator.clipboard.writeText(ch.send); toast('Copied'); }
-    catch(e){ toast('Copy failed, select the text above'); }
-  });
-
-  const d=document.getElementById('done');
-  d.addEventListener('click',()=>{
-    state.done[ch.n]=!state.done[ch.n];
-    if(!state.done[ch.n]) delete state.done[ch.n];
-    queueSave(); renderBox(); renderDock();
-    d.setAttribute('aria-pressed',String(!!state.done[ch.n]));
-    d.lastChild.textContent=state.done[ch.n]?'Session done':'Mark this session done';
-  });
-
-  document.getElementById('present').addEventListener('click',()=>openDeck(ch,'present'));
-  document.getElementById('pickdeck').addEventListener('click',()=>openDeck(ch,'pick'));
-  document.getElementById('votedeck').addEventListener('click',()=>openDeck(ch,'vote'));
-
-  const walk=document.getElementById('walkdeck');
-  if(walk) walk.addEventListener('click',()=>openDeck(ch,'walk'));
-
-  /* bring your own */
-  let byoKind='q';
-  v.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{
-    byoKind=b.dataset.kind;
-    v.querySelectorAll('[data-kind]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
-  }));
-  const addBtn=document.getElementById('byoadd');
-  if(addBtn) addBtn.addEventListener('click',async()=>{
-    const ta=document.getElementById('byotext');
-    const wh=document.getElementById('byowhere');
-    const text=ta.value.trim();
-    if(!text) return toast('Nothing to add yet');
-    const item={id:'b'+newId(),kind:byoKind,text:text.slice(0,400),where:wh.value.trim().slice(0,40),by:state.me};
-    const next=[...byoOf(ch),item];
-    if(JSON.stringify(next).length>SHARE_MAX){
-      return toast('This chapter\u2019s list is full. Delete a few first.');
-    }
-    state.byo[ch.n]=next;
-    ta.value=''; wh.value='';
-    queueSave();
-    repaintByo(ch,item.id);
-    const shared=await sset(SK.byo(ch.n),state.byo[ch.n],true);
-    celebrate(item.kind,shared);
-  });
-  v.addEventListener('click',async e=>{
-    const del=e.target.closest('[data-byox]'); if(!del) return;
-    const id=del.dataset.byox;
-    state.byo[ch.n]=byoOf(ch).filter(b=>b.id!==id);
-    delete state.picked[id];
-    queueSave(); repaintByo(ch); refreshTray();
-    await sset(SK.byo(ch.n),state.byo[ch.n],true);
-  });
-
-  v.querySelectorAll('[data-cov]').forEach(b=>b.addEventListener('click',()=>{
-    const id=b.dataset.cov;
-    if(state.covered[id]) delete state.covered[id]; else state.covered[id]=true;
-    const on=!!state.covered[id];
-    b.setAttribute('aria-pressed',String(on));
-    b.lastChild.textContent=on?'Covered':'Mark covered';
-    const li=document.getElementById('sec-'+id); if(li) li.classList.toggle('cov',on);
-    document.getElementById('seccount').textContent=secLabel(ch);
-    queueSave();
-  }));
-
-  const sr=document.getElementById('secreset');
-  if(sr) sr.addEventListener('click',()=>{
-    (ch.sections||[]).forEach(s=>delete state.covered[s.id]);
-    queueSave(); renderChapter(ch); toast('Ticks cleared');
-  });
-
-  loadLive(ch);
-
-  v.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(parseInt(b.dataset.go,10))));
-}
-
-function repaintByo(ch,fresh){
+function repaintByo(sc,fresh){
   const box=document.getElementById('byolist');
   if(!box) return;
-  box.innerHTML=byoCards(ch);
+  box.innerHTML=byoCards(sc);
   if(fresh){
     const el=document.getElementById('byo-'+fresh);
     if(el){ el.classList.add('justadded'); el.scrollIntoView({block:'center',behavior:'smooth'}); }
   }
-  const v=document.getElementById('view');
-  v.querySelectorAll('#byolist [data-star]').forEach(b=>b.addEventListener('click',()=>{
-    const id=b.dataset.star;
-    if(state.picked[id]) delete state.picked[id];
-    else{
-      if(pickedIn(ch).length>=3){ toast('Three is the limit. That is the point.'); return; }
-      state.picked[id]=true;
-    }
-    b.setAttribute('aria-pressed',String(!!state.picked[id]));
-    if(window.refreshTray) window.refreshTray();
-    queueSave();
+}
+function wireByo(v,sc){
+  let kind='q';
+  v.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{
+    kind=b.dataset.kind;
+    v.querySelectorAll('[data-kind]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
   }));
+  const add=document.getElementById('byoadd');
+  if(add) add.addEventListener('click',async()=>{
+    const ta=document.getElementById('byotext');
+    const text=ta.value.trim();
+    if(!text) return toast('Nothing to add yet');
+    const item={id:'b'+newId(),kind,text:text.slice(0,400),by:state.me};
+    const next=[...byoOf(sc),item];
+    if(JSON.stringify(next).length>SHARE_MAX) return toast('This list is full. Delete a few first.');
+    state.byo[sc.id]=next;
+    ta.value=''; queueSave();
+    repaintByo(sc,item.id);
+    const shared=await sset(SK.byo(sc.id),state.byo[sc.id],true);
+    celebrate(kind,shared);
+  });
+  v.addEventListener('click',async e=>{
+    const del=e.target.closest('[data-byox]'); if(!del) return;
+    state.byo[sc.id]=byoOf(sc).filter(b=>b.id!==del.dataset.byox);
+    queueSave(); repaintByo(sc);
+    await sset(SK.byo(sc.id),state.byo[sc.id],true);
+  });
 }
 
-/* a bit of noise, because bringing something is the point of the app */
 function celebrate(kind,shared){
   toast(!shared ? 'Saved on this phone. The group sees it when you are back online.'
       : kind==='quote' ? 'Quote in. Good one to sit with.'
-      : 'Your question is in the session.');
+      : 'Your question is in.');
   const host=document.getElementById('byosec'); if(!host) return;
   const burst=document.createElement('div');
   burst.className='burst';
@@ -2360,265 +2065,44 @@ function celebrate(kind,shared){
 }
 
 /* ============================================================
-   LIVE: one word check-in and question votes (shared)
+   LIVE: one word check-in, per section (shared)
    ============================================================ */
-const LIVE={words:[],tally:{},forChapter:null};
+const LIVE={words:[],forSec:null};
 
-async function loadLive(ch){
-  LIVE.words = await sget(SK.checkin(ch.n),[]) || [];
-  LIVE.tally = await sget(SK.votes(ch.n),{}) || {};
-  const brought = await sget(SK.byo(ch.n),null);
-  if(brought){ state.byo[ch.n]=brought; queueSave(); }
-  if(current===ch.n){ paintCheckin(ch); paintVotes(ch); repaintQuestions(ch); }
+async function loadLive(sc){
+  LIVE.words = await sget(SK.checkin(sc.id),[]) || [];
+  const brought = await sget(SK.byo(sc.id),null);
+  if(brought){ state.byo[sc.id]=brought; queueSave(); }
+  if(SECV===sc.id){ paintCheckin(sc); repaintByo(sc); }
 }
 
-function paintCheckin(ch){
+function paintCheckin(sc){
   const box=document.getElementById('checkin'); if(!box) return;
   const mine=LIVE.words.find(w=>w.by===state.me);
   const tilt=['-3deg','2deg','-1.5deg','3deg','0deg','-2.5deg'];
   box.innerHTML=
     (LIVE.words.length
-      ? '<div class="chips">'+LIVE.words.map((w,i)=>
-          '<span class="chip'+(w.by===state.me?' mine':'')+'" style="--tilt:'+tilt[i%6]+'">'+esc(w.w)+'</span>').join('')+'</div>'
-      : '<p class="legend">No words yet.</p>')+
-    '<div class="inline">'+
-      '<input id="wordin" maxlength="24" placeholder="'+(mine?'Change your word':'Your one word')+'" aria-label="Your one word">'+
-      '<button class="btn" id="wordgo">'+(mine?'Change':'Add')+'</button>'+
-    '</div>'+
-    '<div class="rowbtns">'+
-      '<button class="btn" id="wordrefresh">Refresh</button>'+
-      (state.facilitator?'<button class="btn warn" id="wordclear">Clear the board</button>':'')+
-    '</div>'+
-    (shareOK?'':'<p class="legend">Shared features are not reachable right now, so this is local only.</p>');
+      ? '<div class="chips">'+LIVE.words.map((w,i)=>'<span class="chip'+(w.by===state.me?' mine':'')+
+          '" style="transform:rotate('+tilt[i%tilt.length]+')">'+esc(w.w)+'</span>').join('')+'</div>'
+      : '<p class="legend">'+(shareOK?'Nobody has typed one yet.':'The shared board is not reachable right now.')+'</p>')+
+    '<div class="inline"><input id="wordin" maxlength="24" placeholder="'+(mine?'Change your word':'Your one word')+'" aria-label="Your one word"><button class="btn" id="wordgo">'+(mine?'Change':'Add')+'</button></div>'+
+    (state.facilitator?'<button class="btn wide warn" id="wordclear" style="margin-top:10px">Clear the board</button>':'');
 
   const inp=document.getElementById('wordin');
   const submit=async()=>{
     const w=inp.value.trim(); if(!w) return;
     LIVE.words=LIVE.words.filter(x=>x.by!==state.me);
     LIVE.words.push({w:w.slice(0,24),by:state.me});
-    inp.value='';
-    await sset(SK.checkin(ch.n),LIVE.words);
-    paintCheckin(ch); toast('Added');
+    inp.value=''; paintCheckin(sc);
+    await sset(SK.checkin(sc.id),LIVE.words);
   };
   document.getElementById('wordgo').addEventListener('click',submit);
-  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); submit(); }});
-  document.getElementById('wordrefresh').addEventListener('click',async()=>{
-    LIVE.words=await sget(SK.checkin(ch.n),[])||[]; paintCheckin(ch); toast('Refreshed');
-  });
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); submit(); } });
   const clr=document.getElementById('wordclear');
-  if(clr){ let armed=false; clr.addEventListener('click',async()=>{
-    if(!armed){ armed=true; clr.textContent='Tap again to clear'; setTimeout(()=>{armed=false;clr.textContent='Clear the board';},4000); return; }
-    LIVE.words=[]; await sset(SK.checkin(ch.n),[]); paintCheckin(ch);
-  });}
-}
-
-function paintVotes(ch){
-  const box=document.getElementById('votes'); if(!box) return;
-  const all=voteQ(ch);
-  const ranked=all.map(q=>({q,v:LIVE.tally[q.id]||0})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v).slice(0,4);
-  const mine=(state.voted[ch.n]||[]).length;
-  box.innerHTML = ranked.length
-    ? '<div class="tray"><h4>Top of the room</h4><ol>'+ranked.map(x=>'<li>'+esc(x.q.q)+' <span class="votepill">'+x.v+'</span></li>').join('')+'</ol></div>'+
-      '<p class="legend">You have used '+mine+' of your 2 votes.</p>'
-    : '<p class="legend">No votes in yet. You have used '+mine+' of your 2.</p>';
-}
-
-function repaintQuestions(ch){
-  const v=document.getElementById('view');
-  v.querySelectorAll('[data-used]').forEach(b=>{
-    const id=b.dataset.used;
-    const q=allQ(ch).find(x=>x.id===id); if(!q) return;
-    const n=LIVE.tally[id]||0;
-    b.innerHTML=(state.used[id]?'<span class="usedtag">Used</span>':'')+
-      (n?'<span class="votepill">'+n+' '+(n===1?'vote':'votes')+'</span>':'')+esc(q.q)+
-      (q.note?'<span class="qnote">'+esc(q.note)+'</span>':'');
+  if(clr) clr.addEventListener('click',async()=>{
+    LIVE.words=[]; await sset(SK.checkin(sc.id),[]); paintCheckin(sc);
   });
 }
-
-async function castVote(ch,id,on){
-  const mine=state.voted[ch.n]||[];
-  if(on){
-    if(mine.length>=2) return 'full';
-    mine.push(id); LIVE.tally[id]=(LIVE.tally[id]||0)+1;
-  }else{
-    const at=mine.indexOf(id); if(at<0) return 'none';
-    mine.splice(at,1); LIVE.tally[id]=Math.max(0,(LIVE.tally[id]||0)-1);
-    if(!LIVE.tally[id]) delete LIVE.tally[id];
-  }
-  state.voted[ch.n]=mine; queueSave();
-  await sset(SK.votes(ch.n),LIVE.tally);
-  return 'ok';
-}
-
-/* ============================================================
-   CARD DECK: present, pick, vote
-   ============================================================ */
-const DECK={cards:[],i:0,mode:'present',ch:null,open:false,lastFocus:null};
-
-function openDeck(ch,mode){
-  DECK.ch=ch; DECK.mode=mode; DECK.i=0; DECK.open=true; DECK.lastFocus=document.activeElement;
-  DECK.cards = mode==='present' ? presentCards(ch)
-             : mode==='walk' ? sectionCards(ch)
-             : questionCards(ch,mode);
-  document.getElementById('deckmode').textContent =
-    mode==='present'?'Read aloud':
-    mode==='walk'?'Walk the chapter':
-    (mode==='pick'?'Pick tonight’s three':'Vote, two each');
-  const d=document.getElementById('deck');
-  d.classList.add('show'); document.body.style.overflow='hidden';
-  paintDeck(); document.getElementById('deckx').focus();
-}
-function closeDeck(){
-  DECK.open=false;
-  document.getElementById('deck').classList.remove('show');
-  document.body.style.overflow='';
-  if(DECK.lastFocus&&DECK.lastFocus.focus) DECK.lastFocus.focus();
-  if(current===DECK.ch?.n) renderChapter(DECK.ch);
-}
-
-function presentCards(ch){
-  const picks=pickedIn(ch);
-  const qs = picks.length ? picks : [ch.warm[0],ch.deep[0],ch.home[0]].filter(Boolean);
-  const cards=[
-    {lab:(ch.extra?'Extra sheet':'Session '+ch.n), big:ch.title, med:ch.color},
-    {lab:'Read this out loud', med:ch.opener, size:'med'},
-    {lab:'One word each', big:'How has your week been?', med:'One word. Everybody. No explaining it.', checkin:true}
-  ];
-  ch.ideas.forEach(i=>cards.push({lab:'Hold onto this', big:i[0], med:i[1]}));
-  qs.forEach((q,n)=>cards.push({lab:'Question '+(n+1)+' of '+qs.length, big:q.q, med:q.note||'', qid:q.id}));
-  cards.push({lab:'If the room goes quiet', med:ch.quiet, size:'med'});
-  cards.push({lab:'Angels', big:ch.angels, tiny:'This is the closing move, not a bonus. Let it be quiet after.'});
-  cards.push({lab:'Before next time', med:ch.between, tiny:'Or skip it. You are allowed. Reading the chapter and resting is a complete week.', size:'med'});
-  return cards;
-}
-function questionCards(ch,mode){
-  /* the room only votes on the curated three tiers. picking can reach the
-     sub-chapter questions too. */
-  const all = mode==='vote' ? voteQ(ch) : allQ(ch);
-  return all.map((q,n)=>({lab:'Question '+(n+1)+' of '+all.length, big:q.q, med:q.note||q.sec||'', qid:q.id}));
-}
-function sectionCards(ch){
-  const secs=ch.sections||[];
-  const cards=[{lab:(ch.extra?'Extra sheet':'Session '+ch.n), big:'Walk the chapter',
-    med:secs.length+' sections, in the order the book runs them. Swipe through as a map before you start, or use it to find where a conversation belongs.',
-    tiny:'Numbers are ebook locations from the revised edition, not printed pages.'}];
-  secs.forEach((s,n)=>{
-    cards.push({lab:'Section '+(n+1)+' of '+secs.length+(s.mins?'  ·  '+fmtMins(s.mins)+' read':''), big:s.t, med:s.gist, tiny:s.watch});
-    if(s.q) cards.push({lab:'From that section', big:s.q, med:s.t, qid:s.id, secpick:true});
-  });
-  return cards;
-}
-
-function paintDeck(){
-  const c=DECK.cards[DECK.i]; if(!c) return closeDeck();
-  document.getElementById('deckbar').innerHTML=DECK.cards.map((x,i)=>'<i class="'+(i<=DECK.i?'on':'')+'"></i>').join('');
-  const el=document.getElementById('card');
-  el.className='card';
-  el.innerHTML=
-    (c.lab?'<p class="lab">'+esc(c.lab)+'</p>':'')+
-    (c.big?'<p class="big">'+esc(c.big)+'</p>':'')+
-    (c.med?'<p class="'+(c.size==='med'&&!c.big?'big':'med')+'">'+esc(c.med)+'</p>':'')+
-    (c.tiny?'<p class="tiny">'+esc(c.tiny)+'</p>':'')+
-    (c.checkin?'<div class="chips" id="deckchips"></div><div class="inline"><input id="deckword" maxlength="24" placeholder="Your one word" aria-label="Your one word"><button class="btn" id="deckwordgo">Add</button></div>':'');
-
-  if(c.checkin){
-    const paint=()=>{document.getElementById('deckchips').innerHTML=LIVE.words.map(w=>'<span class="chip'+(w.by===state.me?' mine':'')+'">'+esc(w.w)+'</span>').join('');};
-    paint();
-    const inp=document.getElementById('deckword');
-    const add=async()=>{
-      const w=inp.value.trim(); if(!w) return;
-      LIVE.words=LIVE.words.filter(x=>x.by!==state.me);
-      LIVE.words.push({w:w.slice(0,24),by:state.me});
-      inp.value=''; paint();
-      await sset(SK.checkin(DECK.ch.n),LIVE.words);
-    };
-    document.getElementById('deckwordgo').addEventListener('click',add);
-    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();add();}});
-  }
-
-  const foot=document.getElementById('deckfoot');
-  const count=document.getElementById('deckcount');
-  if(DECK.mode==='present'){
-    foot.innerHTML='<button class="btn" data-move="-1">Back</button><button class="btn yes" data-move="1">Next</button>';
-    count.textContent=(DECK.i+1)+' of '+DECK.cards.length;
-  }else if(DECK.mode==='walk'){
-    const on=!!state.picked[c.qid];
-    foot.innerHTML='<button class="btn" data-move="-1">Back</button>'+
-      (c.secpick?'<button class="btn'+(on?' yes':'')+'" data-star2="'+c.qid+'">'+(on?'In tonight’s three':'Star this one')+'</button>':'')+
-      '<button class="btn yes" data-move="1">Next</button>';
-    count.textContent=(DECK.i+1)+' of '+DECK.cards.length;
-  }else if(DECK.mode==='pick'){
-    const on=!!state.picked[c.qid];
-    foot.innerHTML='<button class="btn" data-swipe="l">Skip</button>'+
-      '<button class="btn'+(on?' yes':'')+'" data-swipe="r">'+(on?'In tonight’s three':'Add to tonight')+'</button>';
-    count.textContent=pickedIn(DECK.ch).length+' of 3 chosen';
-  }else{
-    const on=(state.voted[DECK.ch.n]||[]).includes(c.qid);
-    foot.innerHTML='<button class="btn" data-swipe="l">Skip</button>'+
-      '<button class="btn'+(on?' yes':'')+'" data-swipe="r">'+(on?'Voted':'Vote for this')+'</button>';
-    count.textContent=(state.voted[DECK.ch.n]||[]).length+' of 2 votes used';
-  }
-  foot.querySelectorAll('[data-move]').forEach(b=>b.addEventListener('click',()=>move(parseInt(b.dataset.move,10))));
-  foot.querySelectorAll('[data-swipe]').forEach(b=>b.addEventListener('click',()=>swipe(b.dataset.swipe)));
-  foot.querySelectorAll('[data-star2]').forEach(b=>b.addEventListener('click',()=>{
-    const id=b.dataset.star2;
-    if(state.picked[id]) delete state.picked[id];
-    else if(pickedIn(DECK.ch).length>=3){ toast('Three is the limit. That is the point.'); return; }
-    else state.picked[id]=true;
-    queueSave(); paintDeck();
-  }));
-}
-
-function move(d){
-  const to=DECK.i+d;
-  if(to<0) return;
-  if(to>=DECK.cards.length) return closeDeck();
-  DECK.i=to; paintDeck();
-}
-async function swipe(dir){
-  const c=DECK.cards[DECK.i];
-  if(dir==='r'&&c.qid){
-    if(DECK.mode==='pick'){
-      if(state.picked[c.qid]) delete state.picked[c.qid];
-      else if(pickedIn(DECK.ch).length>=3){ toast('Three is the limit. That is the point.'); return; }
-      else state.picked[c.qid]=true;
-      queueSave();
-    }else{
-      const on=(state.voted[DECK.ch.n]||[]).includes(c.qid);
-      const r=await castVote(DECK.ch,c.qid,!on);
-      if(r==='full'){ toast('You have used both votes'); return; }
-    }
-  }
-  const el=document.getElementById('card');
-  el.classList.add(dir==='r'?'out-r':'out-l');
-  setTimeout(()=>move(1),160);
-}
-
-/* gestures and keys */
-let sx=null,sy=null;
-const stage=document.querySelector('.deckstage');
-stage.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
-stage.addEventListener('touchend',e=>{
-  if(sx===null) return;
-  const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
-  sx=null;
-  if(Math.abs(dx)<55||Math.abs(dy)>Math.abs(dx)) return;
-  if(DECK.mode==='present'||DECK.mode==='walk') move(dx<0?1:-1);
-  else swipe(dx<0?'l':'r');
-},{passive:true});
-document.getElementById('tapl').addEventListener('click',()=>move(-1));
-document.getElementById('tapr').addEventListener('click',()=>move(1));
-document.getElementById('deckx').addEventListener('click',closeDeck);
-document.addEventListener('keydown',e=>{
-  if(!DECK.open) return;
-  if(e.key==='Escape') closeDeck();
-  if(e.key==='ArrowRight') move(1);
-  if(e.key==='ArrowLeft') move(-1);
-  if(DECK.mode!=='present'&&DECK.mode!=='walk'){
-    if(e.key.toLowerCase()==='y') swipe('r');
-    if(e.key.toLowerCase()==='n') swipe('l');
-  }
-});
 
 /* ============================================================
    THE ANGELS WALL
@@ -2632,116 +2116,6 @@ let WALL={wall:[],inbox:[],at:0};
    and has no share affordance anywhere on it. The only thing that can
    leave is an angel the person deliberately sends to the wall.
    ============================================================ */
-function ghostChapterName(n){
-  const ch=CH.find(c=>c.n===n);
-  return ch? ch.short : '';
-}
-function ghostCards(){
-  const g=[...(state.ghosts||[])].reverse();
-  if(!g.length) return '<p class="empty">Nothing here. That is fine too.</p>';
-  return g.map(x=>
-    '<div class="gcard" id="g-'+x.id+'">'+
-      '<p class="gmeta">'+esc(x.at||'')+(x.ch?'  \u00b7  '+esc(ghostChapterName(x.ch)):'')+'</p>'+
-      '<p class="gtext">'+esc(x.text)+'</p>'+
-      (x.angel
-        ? '<div class="gangel"><p class="glab">And you were loved right here</p><p>'+esc(x.angel)+'</p>'+
-          '<button class="btn" data-towall="'+x.id+'">Put just this on the wall</button></div>'
-        : '<details class="gadd"><summary><span class="chev"></span>Put an angel next to it</summary>'+
-          '<div class="foldbody">'+
-          '<p class="legend">Fraiberg named the ghosts. Lieberman\u2019s answer was angels. You do not have to. It just works better than leaving it on its own.</p>'+
-          '<textarea data-angelfor="'+x.id+'" maxlength="400" aria-label="An angel to put beside it" placeholder="One moment you were loved exactly right."></textarea>'+
-          '<button class="btn wide" data-saveangel="'+x.id+'">Keep it</button></div></details>')+
-      '<button class="gx" data-gdel="'+x.id+'" aria-label="Delete this">Delete</button>'+
-    '</div>').join('');
-}
-
-function renderGhosts(){
-  applyColors({c:'#CFC6DE',d:'#4A3E63'});
-  const v=document.getElementById('view');
-  v.setAttribute('aria-label','Your private page');
-  const g=state.ghosts||[];
-  v.innerHTML='<div class="sheet"><div class="band"></div><div class="sheet-in">'+
-   '<p class="eyebrow">Private</p>'+
-   '<h2>Just for you</h2>'+
-   '<p class="colorname">Where the ghosts go. This device only.</p>'+
-
-   '<div class="privacy">'+
-     '<b>This does not leave your phone.</b>'+
-     '<ul>'+
-       '<li>Not on the wall. Not sent to the group. Not in the export.</li>'+
-       '<li>Saved in this browser only. Clear your browser data and it is gone.</li>'+
-       '<li>The one limit: anyone holding your unlocked phone could open this tab.</li>'+
-     '</ul>'+
-   '</div>'+
-
-   '<section><h3>What a ghost is'+squiggle()+'</h3>'+
-   '<p>Fraiberg\u2019s word. What was done to you that you catch yourself repeating, or bracing hard against. This book will pull them up. That is the book working, not a side effect.</p>'+
-   '<p>The room is not always where that goes. Sometimes it is 9pm and you just need to put it down.</p></section>'+
-
-   '<section><h3>Put it down'+squiggle()+'</h3>'+
-   '<textarea id="gtext" maxlength="1200" aria-label="What came up" placeholder="The thing that came up. Nobody is going to read this."></textarea>'+
-   '<select id="gch" class="find" aria-label="Which chapter, optional">'+
-     '<option value="">Which chapter? Optional.</option>'+
-     CH.map(c=>'<option value="'+c.n+'">'+esc(c.short)+'</option>').join('')+
-   '</select>'+
-   '<button class="btn wide" id="gsave">Keep it</button></section>'+
-
-   '<section><h3>Yours'+squiggle()+'</h3>'+
-   (g.length?'<div class="rowbtns"><button class="btn" id="ghide" aria-pressed="'+(!!state.ghostsHide)+'">'+
-     (state.ghostsHide?'Show them':'Blur them')+'</button></div>':'')+
-   '<div id="glist" class="'+(state.ghostsHide?'blurred':'')+'">'+ghostCards()+'</div></section>'+
-
-   '<div class="ground"><p><b>Before you close this.</b> Feet on the floor. One slow breath, out longer than in. You wrote it down, so you are not carrying it in your head any more.</p></div>'+
-
-  '</div></div>';
-
-  document.getElementById('gsave').addEventListener('click',()=>{
-    const ta=document.getElementById('gtext');
-    const text=ta.value.trim();
-    if(!text) return toast('Nothing to keep yet');
-    const chSel=document.getElementById('gch').value;
-    state.ghosts=[...(state.ghosts||[]),{
-      id:'g'+newId(), text:text.slice(0,1200),
-      ch:chSel?parseInt(chSel,10):null,
-      at:new Date().toLocaleDateString()
-    }];
-    saveNow();
-    renderGhosts();
-    toast('Kept. Only here.');
-  });
-
-  const hide=document.getElementById('ghide');
-  if(hide) hide.addEventListener('click',()=>{
-    state.ghostsHide=!state.ghostsHide; saveNow(); renderGhosts();
-  });
-
-  v.querySelectorAll('[data-saveangel]').forEach(b=>b.addEventListener('click',()=>{
-    const id=b.dataset.saveangel;
-    const ta=v.querySelector('[data-angelfor="'+id+'"]');
-    const t=ta.value.trim();
-    if(!t) return toast('Nothing to add yet');
-    const item=(state.ghosts||[]).find(x=>x.id===id); if(!item) return;
-    item.angel=t.slice(0,400);
-    saveNow(); renderGhosts(); toast('Both of them, side by side.');
-  }));
-
-  v.querySelectorAll('[data-towall]').forEach(b=>b.addEventListener('click',()=>{
-    const item=(state.ghosts||[]).find(x=>x.id===b.dataset.towall); if(!item||!item.angel) return;
-    WALL.prefill=item.angel;
-    go(99);
-    toast('Only the angel came with you');
-  }));
-
-  v.querySelectorAll('[data-gdel]').forEach(b=>{
-    let armed=false;
-    b.addEventListener('click',()=>{
-      if(!armed){ armed=true; b.textContent='Tap again to delete'; setTimeout(()=>{armed=false;b.textContent='Delete';},3500); return; }
-      state.ghosts=(state.ghosts||[]).filter(x=>x.id!==b.dataset.gdel);
-      saveNow(); renderGhosts(); toast('Gone');
-    });
-  });
-}
-
 async function renderWall(){
   applyColors({c:'#F6E3B8',d:'#7E5F14'});
   const v=document.getElementById('view');
@@ -2850,38 +2224,30 @@ function paintWall(){
    the thing itself rather than a slideshow about it.
    ============================================================ */
 const TUTORIAL=[
- {lab:"The wheel", big:"Turn it to look around",
-  med:"It stays at the top of every screen. Drag it, tap a colour, or use the arrows. Whatever lands under the notch is what Open takes you to.",
+ {lab:"The wheel", big:"Pick a chapter",
+  med:"It stays at the top of every screen. Drag it, tap a colour, or use the arrows. Open takes you to that chapter\u2019s list.",
   nav:()=>go(0), find:()=>document.getElementById('wheel')},
- {lab:"No order", big:"Or just one section",
-  med:"Search for what matches your week. Sleep, tantrums, screens. Fourteen minutes of reading is a real option.",
-  nav:()=>go(0), find:()=>document.getElementById('findbtn')},
- {lab:"Bring your own", big:"The thing you actually want to say",
-  med:"Your question, or a quote that got you. This is the point of the app. Everyone on the link sees what you bring.",
-  nav:()=>go(1), find:()=>document.getElementById('byosec')},
- {lab:"Questions", big:"Star three. Only three.",
-  med:"Yours, the book\u2019s, or a section\u2019s. They collect in Tonight\u2019s three, further up the sheet.",
-  nav:()=>go(1), find:()=>document.querySelector('#qsec .star')},
+ {lab:"Then one bit", big:"A section, not a chapter",
+  med:"Chapters are long. Sections are not. Each one says how many minutes it is to read. Tap one.",
+  nav:()=>go(8), find:()=>document.querySelector('.secs .secgo')},
+ {lab:"The session", big:"Everything for that one bit",
+  med:"What it says, one question, what people brought, angels, notes, a clock. That is the whole session.",
+  nav:()=>goSec('c8s3'), find:()=>document.querySelector('.bigq')},
+ {lab:"Bring your own", big:"The thing you want to say",
+  med:"Your question, or a quote that got you. Everyone on this link sees it.",
+  nav:()=>goSec('c8s3'), find:()=>document.getElementById('byosec')},
  {lab:"Angels", big:"What that word means here",
-  med:"Fraiberg named the ghosts: what was done to you that you catch yourself repeating. Lieberman\u2019s answer, in 2005, was angels: one memory of being loved exactly right when you were small. Every sheet ends there.",
-  nav:()=>go(1), find:()=>document.querySelector('.angels')},
- {lab:"Two places", big:"Angels are shared. Ghosts are not.",
-  med:"The angels wall is the group\u2019s. Your private page is this device only, never posted, never shared. Both live beside the wheel.",
-  nav:()=>go(0), find:()=>document.querySelector('.dockbtns [data-go="98"]')},
+  med:"Fraiberg named the ghosts: what was done to you that you catch yourself repeating. Lieberman\u2019s answer, in 2005, was angels: one memory of being loved exactly right when you were small. Every session ends there.",
+  nav:()=>goSec('c8s3'), find:()=>document.querySelector('.angels')},
+ {lab:"No order", big:"Or just search",
+  med:"Sleep, tantrums, screens, biting. Sixty-seven sections. Pick whatever matches your week.",
+  nav:()=>go(0), find:()=>document.getElementById('findbtn')},
  {lab:"Anytime", big:"The tour lives down here",
   med:"Tap Show the tutorial whenever you want it again.",
   nav:()=>go(0), find:()=>document.getElementById('tutorialbtn')}
 ];
 
 let TUT={i:0,open:false,lastFocus:null,raf:null};
-
-function openSec(i){
-  const d=document.querySelectorAll('.secs .sec details')[i];
-  if(d) d.open=true;
-}
-function shutSecs(){
-  document.querySelectorAll('.secs .sec details').forEach(d=>{d.open=false;});
-}
 
 function openTutorial(){
   TUT.i=0; TUT.open=true; TUT.lastFocus=document.activeElement;
@@ -3008,9 +2374,14 @@ document.addEventListener('keydown',e=>{
    BOOT
    ============================================================ */
 function render(){
+  document.body.classList.toggle('deep', !!SECV || current!==0);
   renderBox(); renderDock();
+  if(SECV){
+    const hit=findSec(SECV);
+    if(hit) return renderSection(hit.ch,hit.sc);
+    SECV=null;
+  }
   if(current===0) renderHome();
-  else if(current===98) renderGhosts();
   else if(current===99) renderWall();
   else renderChapter(CH.find(c=>c.n===current));
 }
