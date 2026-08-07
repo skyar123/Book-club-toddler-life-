@@ -199,23 +199,13 @@
   .fgist{font-size:15px;margin:0 0 10px;line-height:1.55}
   .fq{font-size:15px;margin:0;padding-left:12px;border-left:3px solid var(--c);line-height:1.55}
 
-  /* the finder */
+
+  /* input field styling */
   .find{
     width:100%;box-sizing:border-box;margin-top:10px;padding:12px 14px;
     border:1.5px solid var(--rule);border-radius:11px;background:var(--paper);
     color:var(--ink);font:inherit;font-size:16px;
   }
-  .findrow{
-    display:flex;gap:11px;align-items:center;width:100%;text-align:left;
-    background:transparent;border:0;border-bottom:1px solid var(--rule);
-    padding:11px 2px;cursor:pointer;min-height:var(--tap);
-  }
-  .findrow:last-child{border-bottom:0}
-  .fdot{flex:0 0 auto;width:13px;height:13px;border-radius:50%;background:var(--c)}
-  .ftxt{flex:1;min-width:0}
-  .ftxt b{display:block;font-size:15.5px;font-weight:700;line-height:1.35;color:var(--ink)}
-  .ftxt span{display:block;font-size:12.5px;color:var(--ink-mute);margin-top:1px}
-  #findlist{max-height:52vh;overflow-y:auto;margin-top:6px}
 
   /* bring your own */
   .byoform{margin-top:12px}
@@ -349,8 +339,6 @@
 
   .quiet{border:1.5px dashed var(--c);border-radius:12px;padding:14px 16px;margin-top:16px}
   .quiet p{margin:0;font-size:15.5px}
-  .angels{border-left:4px solid var(--c);background:transparent;padding:2px 0 2px 14px;margin-top:16px}
-  .angels p{margin:0;font-size:15.5px}
   .permission{font-size:14.5px;color:var(--ink-soft);margin-top:10px;font-style:italic}
 
   textarea{
@@ -493,19 +481,6 @@
   .warnbox{border:1.5px solid var(--rule);border-radius:12px;padding:13px 15px;margin-top:14px;font-size:14.5px;color:var(--ink-soft)}
   .warnbox b{color:var(--ink)}
 
-  /* ---------- angels wall ---------- */
-  .wallcard{
-    border:1.5px solid var(--rule);border-radius:14px;padding:18px 18px;margin-top:12px;
-    background:var(--sheet);font-size:17px;line-height:1.5;
-  }
-  .wallcard .from{display:block;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink-mute);margin-top:10px}
-  .wallbig{
-    border:2px solid var(--c);border-radius:16px;padding:26px 20px;margin-top:14px;min-height:190px;
-    display:flex;align-items:center;
-    font-family:'Baloo 2',sans-serif;font-weight:500;font-size:clamp(20px,5vw,27px);line-height:1.35;
-  }
-  .queue{border-left:4px solid var(--c);padding:4px 0 4px 14px;margin-top:14px}
-  .queue p{margin:0 0 10px;font-size:15.5px}
 
   /* ---------- card deck overlay ---------- */
   .deck{position:fixed;inset:0;z-index:80;background:var(--paper);display:none;flex-direction:column}
@@ -566,7 +541,7 @@
 <div class="wrap">
   <div id="view" tabindex="-1"></div>
   <footer>
-    Notes, ticks and your private page save on this device only. Check-ins, votes, what people bring, and the angels wall are shared with everyone on this link.
+    Notes, ticks and your private page save on this device only. Check-ins, votes, and what people bring are shared with everyone on this link.
     <br>
     <button class="btn" id="tutorialbtn">Show the tutorial</button>
   </footer>
@@ -651,7 +626,6 @@ const CH = [
   home:[
    {id:"c1h1",q:"Name one moment this week where you were the secure base without doing anything at all. What made it work?"}
   ],
-  angels:"Name one adult who made you feel completely understood when you were very small. Not a whole childhood. One moment.",
   quiet:"Think of a time an adult stayed calm while you fell apart. What did they actually do with their body?",
   between:"Watch for one round trip: a child leaving, exploring, and checking back. Note what the check in looked like, because it is often not eye contact."
 },
@@ -682,7 +656,6 @@ const CH = [
   home:[
    {id:"c2h1",q:"Pick the bodily thing that most reliably gets a reaction out of you and rehearse a flat, kind response before you need it."}
   ],
-  angels:"Who could you find when you were small? Picture the actual room and the actual person. What did finding them feel like in your body?",
   quiet:"When you were small, who could you find when you needed to? How did you find them?",
   between:"Count how many times in one hour a child looks back at their adult. Notice what the adult does with it."
 },
@@ -713,7 +686,6 @@ const CH = [
   home:[
    {id:"c3h1",q:"Pick one recurring battle and remove the choice you were never actually willing to honor."}
   ],
-  angels:"Think of one adult who stayed warm with you while holding a line. What did they say? Steal the sentence.",
   quiet:"Finish this sentence out loud: the hardest part of my day with a toddler is usually the moment when...",
   between:"Track one tantrum from start to finish without intervening in the first thirty seconds. What did you learn about its shape?"
 },
@@ -743,7 +715,6 @@ const CH = [
   home:[
    {id:"c4h1",q:"Name one accommodation you make automatically for an adult you love. Offer the child sized version of it this week."}
   ],
-  angels:"Angels: who in your family got your temperament right without being asked? What did they let you do that nobody else did?",
   quiet:"Whose temperament in your family of origin set the weather for everyone else?",
   between:"Write down three words that describe one child's baseline. Then write three that describe yours and look at the gap."
 },
@@ -773,7 +744,6 @@ const CH = [
   home:[
    {id:"c5h1",q:"Convert one recurring no into a redesign this week. Move the object, not the child."}
   ],
-  angels:"Who let you be loud? Who took you outside instead of asking you to settle down?",
   quiet:"What is the most physically exhausting thirty minutes of your week with a child, and what happens in it?",
   between:"Try one hour with the room set up so that nothing needs to be forbidden. Note what you did with the hour instead."
 },
@@ -804,7 +774,6 @@ const CH = [
   home:[
    {id:"c6h1",q:"At the next new setting, say nothing for five full minutes and watch what the child does on their own clock."}
   ],
-  angels:"Who waited for you? Who did not make you perform for the room?",
   quiet:"Think of a room you did not want to walk into as an adult. What would have helped?",
   between:"Time it. How long does one child actually need before joining? Most adults guess high or low by a lot."
 },
@@ -835,7 +804,6 @@ const CH = [
   home:[
    {id:"c7h1",q:"Follow, do not fix, one round of scary play. Narrate what you see and add nothing to it."}
   ],
-  angels:"Give this one real time tonight. Ask for one memory of being loved well as a small child, in detail: where you were, who it was, what they did. Then stop and let it sit. Do not analyze it.",
   quiet:"When you were small, what did adults do with your fear? What did you want them to do?",
   between:"Notice one repetitive play theme this week. Write down what the child does with the ending each time."
 },
@@ -866,7 +834,6 @@ const CH = [
   home:[
    {id:"c8h1",q:"Choose one battleground, take yourself out of the enforcement role for a week, and write down what changes."}
   ],
-  angels:"Which of these did somebody make gentle for you? Bedtime, food, your body, a sibling. Who made it gentle?",
   quiet:"What is the most common piece of advice families get about this, and is it any good?",
   between:"Offer one bounded choice a day in the hardest domain and track how often it lands."
 },
@@ -896,7 +863,6 @@ const CH = [
   home:[
    {id:"c9h1",q:"Design one handoff ritual that takes under two minutes and requires nothing from the other adult."}
   ],
-  angels:"When your own family changed shape, who stayed steady? Even one person, even briefly.",
   quiet:"What does a child this age understand about time? Start there and work backward.",
   between:"If you are working with a separating family, map the actual contact schedule by frequency rather than hours."
 },
@@ -926,7 +892,6 @@ const CH = [
   home:[
    {id:"c10h1",q:"Send a transitional object this week and ask the teacher what actually happened with it."}
   ],
-  angels:"Who besides your parents took care of you? A grandmother, an auntie, a neighbor, a teacher. What did they give you that nobody else did?",
   quiet:"Describe a goodbye you have watched that went well. What did the adult do first?",
   between:"Watch one drop off and one pickup with no agenda, and write down the sequence in order."
 },
@@ -957,7 +922,6 @@ const CH = [
   home:[
    {id:"c11h1",q:"Write the one sentence from this book you want to say to a parent next week."}
   ],
-  angels:"Go around the room. One sentence each: a moment from your own childhood when you were loved exactly right. End the series here, not in the ghosts.",
   quiet:"What does staying close and letting go mean in your own adult relationships, not with children?",
   between:"Decide as a group what you are reading next, and who is picking it."
 },
@@ -988,7 +952,6 @@ const CH = [
   home:[
    {id:"c12h1",q:"Name one specific time of day you will put your phone in another room. One. Not all day."}
   ],
-  angels:"Who was fully present with you when you were small, before any of this existed? What did having someone's whole attention feel like?",
   quiet:"What did adults in your childhood do instead of look at a phone, and was it any better?",
   between:"Watch one caregiver and child with a screen in the room, and note where the adult's eyes go."
 }
@@ -1349,16 +1312,6 @@ const HOME = {
    "Get the revised edition. It has the screens material. Page numbers differ between printings, so the sheets use the book\u2019s own section headings, with ebook locations beside them.",
    "Read out of order. Pick the section that matches your week. Nobody is grading you on finishing the book."
   ],
-  angels:{
-   what:"Angels in the nursery is Lieberman\u2019s own idea, published in 2005. It is the answer to Selma Fraiberg\u2019s ghosts in the nursery.",
-   why:[
-    ["Ghosts","What was done to you that you now find yourself doing, or bracing against. This book will pull them up. That is not a side effect."],
-    ["Angels","A specific memory of being loved exactly right when you were small. Not a happy childhood. One moment."],
-    ["Why it matters","Vivid angel memories appear to buffer against a hard childhood. They are part of what stops the cycle."],
-    ["So","Every sheet ends on an angels prompt. Use it. Do not spend eleven weeks in the ghosts."]
-   ],
-   wall:"The angels wall is where those memories collect. After a session, anyone can add one line. By the end the group has a deck of them, and you can open a meeting by reading a few out."
-  },
   flow15:[
    ["0 to 2","One word each. How is your week.",120],
    ["2 to 4","Read the section out loud. Just the one.",120],
@@ -1466,7 +1419,7 @@ function saveNow(){
    via a small Netlify Function backed by Netlify Blobs ---- */
 const SHARE_API='/api/store';
 const SHARE_MAX=19000;   /* the function rejects anything over 20000 */
-const SK={ checkin:n=>'tbc:checkin:'+n, votes:n=>'tbc:votes:'+n, byo:n=>'tbc:byo:'+n, inbox:'tbc:angels:inbox', wall:'tbc:angels:wall' };
+const SK={ checkin:n=>'tbc:checkin:'+n, votes:n=>'tbc:votes:'+n, byo:n=>'tbc:byo:'+n };
 let shareOK=true;
 async function sget(key,fallback){
   try{
@@ -1606,7 +1559,6 @@ function renderDock(){
         '<button class="pill go" id="dockopen">Open</button>'+
         '<button class="pill'+(current===0?' on':'')+'" data-go="0">Run</button>'+
         '<button class="pill'+(current===98?' on':'')+'" data-go="98">Private</button>'+
-        '<button class="pill'+(current===99?' on':'')+'" data-go="99">Angels</button>'+
       '</div>'+
     '</div>';
   dock.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(parseInt(b.dataset.go,10))));
@@ -1620,7 +1572,7 @@ function renderDock(){
 function go(n){
   current=n; render();
   const ch=CH.find(c=>c.n===n);
-  announce(n===0?'Run the session':n===98?'Just for you, private':(n===99?'The angels wall':'Session '+n+', '+ch.title));
+  announce(n===0?'Run the session':n===98?'Just for you, private':'Session '+n+', '+ch.title);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1841,8 +1793,7 @@ function renderHome(){
    (state.focus
      ? focusCard()
      : '<p class="legend">Or pick one section instead of a whole chapter.</p>')+
-   '<button class="btn wide" id="findbtn">'+(state.focus?'Change tonight\u2019s section':'Find a section')+'</button>'+
-   '<div id="findbox"></div></section>'+
+   '</section>'+
 
    '<section><h3>Start the clock'+squiggle()+'</h3>'+
    '<div class="toggle" role="group" aria-label="How long">'+
@@ -1860,12 +1811,6 @@ function renderHome(){
        '<span class="min">'+f[0]+'</span><span>'+esc(f[1])+'</span></button></li>').join('')+
      '</ul></div></details></section>'+
 
-   '<details class="fold"><summary><span class="chev"></span>What angels means'+
-     '<span class="foldnote">Read this once</span></summary>'+
-     '<div class="foldbody"><p>'+esc(HOME.angels.what)+'</p>'+
-     '<ul class="ideas">'+HOME.angels.why.map(a=>'<li><b>'+esc(a[0])+'</b><span>'+esc(a[1])+'</span></li>').join('')+'</ul>'+
-     '<div class="angels"><p>'+esc(HOME.angels.wall)+'</p></div>'+
-     '<button class="btn wide" data-go="99">Open the angels wall</button></div></details>'+
 
    '<details class="fold"><summary><span class="chev"></span>If it gets heavy'+
      '<span class="foldnote">It will, once</span></summary>'+
@@ -1883,7 +1828,7 @@ function renderHome(){
      '<h4 class="subh">Facilitator moves</h4>'+
      '<ul class="ideas">'+HOME.moves.map(m=>'<li><b>'+esc(m[0])+'</b><span>'+esc(m[1])+'</span></li>').join('')+'</ul>'+
      '<h4 class="subh">Do you run this group?</h4>'+
-     '<p>Turn this on to post to the angels wall and clear the check-in board.</p>'+
+     '<p>Turn this on to clear the check-in board.</p>'+
      '<button class="btn wide" id="facil" aria-pressed="'+state.facilitator+'"><span class="tick"></span>'+
      (state.facilitator?'You run this group':'I run this group')+'</button>'+
      '</div></details>'+
@@ -1916,8 +1861,6 @@ function renderHome(){
   }));
   const uf=document.getElementById('unfocus');
   if(uf) uf.addEventListener('click',()=>{ state.focus=null; queueSave(); renderHome(); });
-  document.getElementById('findbtn').addEventListener('click',openFinder);
-
   document.getElementById('export').addEventListener('click',buildExport);
   const fb=document.getElementById('facil');
   fb.classList.add('done');
@@ -1933,40 +1876,6 @@ function renderHome(){
     state.done={};state.used={};state.picked={};state.notes={};state.covered={};state.focus=null;
     queueSave(); render(); toast('Cleared');
   });
-}
-
-/* ---- find any section, in any chapter, in any order ---- */
-function openFinder(){
-  const box=document.getElementById('findbox');
-  if(box.dataset.open==='1'){ box.dataset.open='0'; box.innerHTML=''; return; }
-  box.dataset.open='1';
-  box.innerHTML='<input id="findq" class="find" placeholder="Sleep, tantrums, screens, biting..." aria-label="Search sections">'+
-    '<div id="findlist"></div>';
-  const inp=document.getElementById('findq');
-  const paint=()=>{
-    const q=inp.value.trim().toLowerCase();
-    const hits=allSections().filter(({ch,sc})=>{
-      if(!q) return true;
-      return (sc.t+' '+sc.gist+' '+(sc.q||'')+' '+ch.short+' '+ch.title).toLowerCase().includes(q);
-    }).slice(0,q?40:80);
-    document.getElementById('findlist').innerHTML = hits.length
-      ? hits.map(({ch,sc})=>
-          '<button class="findrow" data-pick="'+ch.n+'|'+sc.id+'" style="--c:'+ch.c+'">'+
-          '<span class="fdot"></span>'+
-          '<span class="ftxt"><b>'+esc(sc.t)+'</b><span>'+esc(ch.short)+
-            (sc.mins?'  \u00b7  '+fmtMins(sc.mins)+' read':'')+
-            (state.covered[sc.id]?'  \u00b7  covered':'')+'</span></span></button>').join('')
-      : '<p class="legend">Nothing matches that. Try a plainer word.</p>';
-    document.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>{
-      const [n,id]=b.dataset.pick.split('|');
-      state.focus={n:parseInt(n,10),id}; queueSave();
-      toast('Tonight: that one');
-      renderHome();
-      document.getElementById('view').scrollIntoView({block:'start',behavior:'smooth'});
-    }));
-  };
-  inp.addEventListener('input',paint);
-  paint(); inp.focus();
 }
 
 /* open a chapter and land on one section */
@@ -2181,12 +2090,6 @@ function renderChapter(ch){
    qList(ch,'Bring it home',ch.home,LIVE.tally)+
    '</section>'+
 
-   '<section><h3>Angels'+squiggle()+'</h3>'+
-   '<p class="legend">One memory of being loved exactly right when you were small. Lieberman\u2019s answer to the ghosts. Every sheet ends here.</p>'+
-   '<div class="angels"><p>'+esc(ch.angels)+'</p></div>'+
-   '<p class="permission">Closing move, not a bonus. Short on time? Cut a question instead.</p>'+
-   '<div class="rowbtns"><button class="btn" data-go="99">Add to the wall</button>'+
-   '<button class="btn" data-go="98">Something came up for me</button></div></section>'+
 
    '<details class="fold"><summary><span class="chev"></span>If the room goes quiet</summary>'+
      '<div class="foldbody"><div class="quiet"><p>'+esc(ch.quiet)+'</p></div></div></details>'+
@@ -2487,7 +2390,6 @@ function presentCards(ch){
   ch.ideas.forEach(i=>cards.push({lab:'Hold onto this', big:i[0], med:i[1]}));
   qs.forEach((q,n)=>cards.push({lab:'Question '+(n+1)+' of '+qs.length, big:q.q, med:q.note||'', qid:q.id}));
   cards.push({lab:'If the room goes quiet', med:ch.quiet, size:'med'});
-  cards.push({lab:'Angels', big:ch.angels, tiny:'This is the closing move, not a bonus. Let it be quiet after.'});
   cards.push({lab:'Before next time', med:ch.between, tiny:'Or skip it. You are allowed. Reading the chapter and resting is a complete week.', size:'med'});
   return cards;
 }
@@ -2621,11 +2523,6 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ============================================================
-   THE ANGELS WALL
-   ============================================================ */
-let WALL={wall:[],inbox:[],at:0};
-
-/* ============================================================
    RENDER: the private page
 
    Ghosts go here. This never touches sset, never goes in the export,
@@ -2643,14 +2540,6 @@ function ghostCards(){
     '<div class="gcard" id="g-'+x.id+'">'+
       '<p class="gmeta">'+esc(x.at||'')+(x.ch?'  \u00b7  '+esc(ghostChapterName(x.ch)):'')+'</p>'+
       '<p class="gtext">'+esc(x.text)+'</p>'+
-      (x.angel
-        ? '<div class="gangel"><p class="glab">And you were loved right here</p><p>'+esc(x.angel)+'</p>'+
-          '<button class="btn" data-towall="'+x.id+'">Put just this on the wall</button></div>'
-        : '<details class="gadd"><summary><span class="chev"></span>Put an angel next to it</summary>'+
-          '<div class="foldbody">'+
-          '<p class="legend">Fraiberg named the ghosts. Lieberman\u2019s answer was angels. You do not have to. It just works better than leaving it on its own.</p>'+
-          '<textarea data-angelfor="'+x.id+'" maxlength="400" aria-label="An angel to put beside it" placeholder="One moment you were loved exactly right."></textarea>'+
-          '<button class="btn wide" data-saveangel="'+x.id+'">Keep it</button></div></details>')+
       '<button class="gx" data-gdel="'+x.id+'" aria-label="Delete this">Delete</button>'+
     '</div>').join('');
 }
@@ -2668,7 +2557,7 @@ function renderGhosts(){
    '<div class="privacy">'+
      '<b>This does not leave your phone.</b>'+
      '<ul>'+
-       '<li>Not on the wall. Not sent to the group. Not in the export.</li>'+
+       '<li>Not sent to the group. Not in the export.</li>'+
        '<li>Saved in this browser only. Clear your browser data and it is gone.</li>'+
        '<li>The one limit: anyone holding your unlocked phone could open this tab.</li>'+
      '</ul>'+
@@ -2715,22 +2604,6 @@ function renderGhosts(){
     state.ghostsHide=!state.ghostsHide; saveNow(); renderGhosts();
   });
 
-  v.querySelectorAll('[data-saveangel]').forEach(b=>b.addEventListener('click',()=>{
-    const id=b.dataset.saveangel;
-    const ta=v.querySelector('[data-angelfor="'+id+'"]');
-    const t=ta.value.trim();
-    if(!t) return toast('Nothing to add yet');
-    const item=(state.ghosts||[]).find(x=>x.id===id); if(!item) return;
-    item.angel=t.slice(0,400);
-    saveNow(); renderGhosts(); toast('Both of them, side by side.');
-  }));
-
-  v.querySelectorAll('[data-towall]').forEach(b=>b.addEventListener('click',()=>{
-    const item=(state.ghosts||[]).find(x=>x.id===b.dataset.towall); if(!item||!item.angel) return;
-    WALL.prefill=item.angel;
-    go(99);
-    toast('Only the angel came with you');
-  }));
 
   v.querySelectorAll('[data-gdel]').forEach(b=>{
     let armed=false;
@@ -2742,105 +2615,6 @@ function renderGhosts(){
   });
 }
 
-async function renderWall(){
-  applyColors({c:'#F6E3B8',d:'#7E5F14'});
-  const v=document.getElementById('view');
-  v.setAttribute('aria-label','The angels wall');
-  v.innerHTML='<div class="sheet"><div class="band"></div><div class="sheet-in">'+
-    '<p class="eyebrow">Together</p><h2>The angels wall</h2>'+
-    '<p class="colorname">Being loved right, remembered. One line each.</p>'+
-    '<p class="legend">Loading...</p></div></div>';
-  WALL.wall=await sget(SK.wall,[])||[];
-  WALL.inbox=await sget(SK.inbox,[])||[];
-  if(current===99) paintWall();
-}
-
-function paintWall(){
-  const v=document.getElementById('view');
-  const w=WALL.wall, cur=w.length?w[WALL.at%w.length]:null;
-  const mineInbox=WALL.inbox.filter(x=>x.by===state.me);
-  v.innerHTML='<div class="sheet"><div class="band"></div><div class="sheet-in">'+
-   '<p class="eyebrow">Together</p>'+
-   '<h2>The angels wall</h2>'+
-   '<p class="colorname">Being loved right, remembered. One line each.</p>'+
-
-   '<section><h3>What an angel is'+squiggle()+'</h3>'+
-   '<ul class="ideas">'+
-     '<li><b>Ghosts</b><span>Fraiberg\u2019s word. What was done to you that you now catch yourself repeating.</span></li>'+
-     '<li><b>Angels</b><span>Lieberman\u2019s answer, 2005. One specific moment of being loved exactly right when you were small. Not a happy childhood. One moment.</span></li>'+
-     '<li><b>Why</b><span>Those memories appear to buffer against a hard childhood. They are part of what stops the cycle.</span></li>'+
-     '<li><b>This page</b><span>Where the group\u2019s collect. Add one after a session. Read a few out to open the next one.</span></li>'+
-   '</ul>'+
-   '<div class="warnbox"><b>Before you write.</b> No names here, but that is not the same as anonymous. This is a small team, and a specific detail will give you away. Write only what you would be fine hearing read out loud. Lines go to the facilitator first.</div></section>'+
-
-   '<section><h3>The wall'+squiggle()+'</h3>'+
-   (cur
-    ? '<div class="wallbig">'+esc(cur.text)+'</div>'+
-      '<div class="rowbtns"><button class="btn" id="wshuffle">Another one</button><button class="btn" id="wall-all">See all '+w.length+'</button></div>'+
-      '<div id="walllist"></div>'
-    : '<p class="legend">Nothing on the wall yet. It fills up after your first angels prompt.</p>')+
-   '</section>'+
-
-   '<section><h3>Add a line'+squiggle()+'</h3>'+
-   (WALL.prefill?'<p class="legend">Carried over from your private page. Only this line came with you.</p>':'')+
-   '<textarea id="wtext" maxlength="280" aria-label="Your angel memory" placeholder="One moment. Where you were, who it was, what they did."></textarea>'+
-   '<button class="btn wide" id="wsend">Send it to the facilitator</button>'+
-   (mineInbox.length?'<p class="legend">You have '+mineInbox.length+' waiting to be posted.</p>':'')+
-   '</section>'+
-
-   (state.facilitator
-    ? '<section><h3>Waiting for you'+squiggle()+'</h3>'+
-      (WALL.inbox.length
-        ? WALL.inbox.map(x=>'<div class="wallcard">'+esc(x.text)+
-            '<div class="rowbtns"><button class="btn" data-post="'+x.id+'">Post to the wall</button>'+
-            '<button class="btn warn" data-drop="'+x.id+'">Delete</button></div></div>').join('')
-        : '<p class="legend">Nothing waiting.</p>')+
-      '</section>'
-    : '')+
-
-   '<button class="btn wide" id="wrefresh">Refresh the wall</button>'+
-  '</div></div>';
-
-  if(WALL.prefill){
-    const t=document.getElementById('wtext');
-    if(t){ t.value=WALL.prefill; }
-    WALL.prefill=null;
-  }
-
-  const sh=document.getElementById('wshuffle');
-  if(sh) sh.addEventListener('click',()=>{ WALL.at=Math.floor(Math.random()*WALL.wall.length); paintWall(); });
-  const all=document.getElementById('wall-all');
-  if(all) all.addEventListener('click',()=>{
-    document.getElementById('walllist').innerHTML=WALL.wall.map(x=>'<div class="wallcard">'+esc(x.text)+'</div>').join('');
-    all.remove();
-  });
-
-  document.getElementById('wsend').addEventListener('click',async()=>{
-    const t=document.getElementById('wtext').value.trim();
-    if(!t) return toast('Nothing to send');
-    WALL.inbox.push({id:newId(),text:t.slice(0,280),by:state.me});
-    await sset(SK.inbox,WALL.inbox);
-    document.getElementById('wtext').value='';
-    toast('Sent. It appears once the facilitator posts it.');
-    paintWall();
-  });
-
-  v.querySelectorAll('[data-post]').forEach(b=>b.addEventListener('click',async()=>{
-    const item=WALL.inbox.find(x=>x.id===b.dataset.post); if(!item) return;
-    WALL.wall.push({id:item.id,text:item.text});
-    WALL.inbox=WALL.inbox.filter(x=>x.id!==item.id);
-    await sset(SK.wall,WALL.wall); await sset(SK.inbox,WALL.inbox);
-    paintWall(); toast('Posted');
-  }));
-  v.querySelectorAll('[data-drop]').forEach(b=>b.addEventListener('click',async()=>{
-    WALL.inbox=WALL.inbox.filter(x=>x.id!==b.dataset.drop);
-    await sset(SK.inbox,WALL.inbox); paintWall();
-  }));
-  document.getElementById('wrefresh').addEventListener('click',async()=>{
-    WALL.wall=await sget(SK.wall,[])||[]; WALL.inbox=await sget(SK.inbox,[])||[];
-    paintWall(); toast('Refreshed');
-  });
-}
 
 /* ============================================================
    TUTORIAL: coach marks over the real app
@@ -2853,21 +2627,12 @@ const TUTORIAL=[
  {lab:"The wheel", big:"Turn it to look around",
   med:"It stays at the top of every screen. Drag it, tap a colour, or use the arrows. Whatever lands under the notch is what Open takes you to.",
   nav:()=>go(0), find:()=>document.getElementById('wheel')},
- {lab:"No order", big:"Or just one section",
-  med:"Search for what matches your week. Sleep, tantrums, screens. Fourteen minutes of reading is a real option.",
-  nav:()=>go(0), find:()=>document.getElementById('findbtn')},
  {lab:"Bring your own", big:"The thing you actually want to say",
   med:"Your question, or a quote that got you. This is the point of the app. Everyone on the link sees what you bring.",
   nav:()=>go(1), find:()=>document.getElementById('byosec')},
  {lab:"Questions", big:"Star three. Only three.",
   med:"Yours, the book\u2019s, or a section\u2019s. They collect in Tonight\u2019s three, further up the sheet.",
   nav:()=>go(1), find:()=>document.querySelector('#qsec .star')},
- {lab:"Angels", big:"What that word means here",
-  med:"Fraiberg named the ghosts: what was done to you that you catch yourself repeating. Lieberman\u2019s answer, in 2005, was angels: one memory of being loved exactly right when you were small. Every sheet ends there.",
-  nav:()=>go(1), find:()=>document.querySelector('.angels')},
- {lab:"Two places", big:"Angels are shared. Ghosts are not.",
-  med:"The angels wall is the group\u2019s. Your private page is this device only, never posted, never shared. Both live beside the wheel.",
-  nav:()=>go(0), find:()=>document.querySelector('.dockbtns [data-go="98"]')},
  {lab:"Anytime", big:"The tour lives down here",
   med:"Tap Show the tutorial whenever you want it again.",
   nav:()=>go(0), find:()=>document.getElementById('tutorialbtn')}
@@ -3011,7 +2776,6 @@ function render(){
   renderBox(); renderDock();
   if(current===0) renderHome();
   else if(current===98) renderGhosts();
-  else if(current===99) renderWall();
   else renderChapter(CH.find(c=>c.n===current));
 }
 
