@@ -199,23 +199,13 @@
   .fgist{font-size:15px;margin:0 0 10px;line-height:1.55}
   .fq{font-size:15px;margin:0;padding-left:12px;border-left:3px solid var(--c);line-height:1.55}
 
-  /* the finder */
+
+  /* input field styling */
   .find{
     width:100%;box-sizing:border-box;margin-top:10px;padding:12px 14px;
     border:1.5px solid var(--rule);border-radius:11px;background:var(--paper);
     color:var(--ink);font:inherit;font-size:16px;
   }
-  .findrow{
-    display:flex;gap:11px;align-items:center;width:100%;text-align:left;
-    background:transparent;border:0;border-bottom:1px solid var(--rule);
-    padding:11px 2px;cursor:pointer;min-height:var(--tap);
-  }
-  .findrow:last-child{border-bottom:0}
-  .fdot{flex:0 0 auto;width:13px;height:13px;border-radius:50%;background:var(--c)}
-  .ftxt{flex:1;min-width:0}
-  .ftxt b{display:block;font-size:15.5px;font-weight:700;line-height:1.35;color:var(--ink)}
-  .ftxt span{display:block;font-size:12.5px;color:var(--ink-mute);margin-top:1px}
-  #findlist{max-height:52vh;overflow-y:auto;margin-top:6px}
 
   /* bring your own */
   .byoform{margin-top:12px}
@@ -1841,8 +1831,7 @@ function renderHome(){
    (state.focus
      ? focusCard()
      : '<p class="legend">Or pick one section instead of a whole chapter.</p>')+
-   '<button class="btn wide" id="findbtn">'+(state.focus?'Change tonight\u2019s section':'Find a section')+'</button>'+
-   '<div id="findbox"></div></section>'+
+   '</section>'+
 
    '<section><h3>Start the clock'+squiggle()+'</h3>'+
    '<div class="toggle" role="group" aria-label="How long">'+
@@ -1916,8 +1905,6 @@ function renderHome(){
   }));
   const uf=document.getElementById('unfocus');
   if(uf) uf.addEventListener('click',()=>{ state.focus=null; queueSave(); renderHome(); });
-  document.getElementById('findbtn').addEventListener('click',openFinder);
-
   document.getElementById('export').addEventListener('click',buildExport);
   const fb=document.getElementById('facil');
   fb.classList.add('done');
@@ -1933,40 +1920,6 @@ function renderHome(){
     state.done={};state.used={};state.picked={};state.notes={};state.covered={};state.focus=null;
     queueSave(); render(); toast('Cleared');
   });
-}
-
-/* ---- find any section, in any chapter, in any order ---- */
-function openFinder(){
-  const box=document.getElementById('findbox');
-  if(box.dataset.open==='1'){ box.dataset.open='0'; box.innerHTML=''; return; }
-  box.dataset.open='1';
-  box.innerHTML='<input id="findq" class="find" placeholder="Sleep, tantrums, screens, biting..." aria-label="Search sections">'+
-    '<div id="findlist"></div>';
-  const inp=document.getElementById('findq');
-  const paint=()=>{
-    const q=inp.value.trim().toLowerCase();
-    const hits=allSections().filter(({ch,sc})=>{
-      if(!q) return true;
-      return (sc.t+' '+sc.gist+' '+(sc.q||'')+' '+ch.short+' '+ch.title).toLowerCase().includes(q);
-    }).slice(0,q?40:80);
-    document.getElementById('findlist').innerHTML = hits.length
-      ? hits.map(({ch,sc})=>
-          '<button class="findrow" data-pick="'+ch.n+'|'+sc.id+'" style="--c:'+ch.c+'">'+
-          '<span class="fdot"></span>'+
-          '<span class="ftxt"><b>'+esc(sc.t)+'</b><span>'+esc(ch.short)+
-            (sc.mins?'  \u00b7  '+fmtMins(sc.mins)+' read':'')+
-            (state.covered[sc.id]?'  \u00b7  covered':'')+'</span></span></button>').join('')
-      : '<p class="legend">Nothing matches that. Try a plainer word.</p>';
-    document.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>{
-      const [n,id]=b.dataset.pick.split('|');
-      state.focus={n:parseInt(n,10),id}; queueSave();
-      toast('Tonight: that one');
-      renderHome();
-      document.getElementById('view').scrollIntoView({block:'start',behavior:'smooth'});
-    }));
-  };
-  inp.addEventListener('input',paint);
-  paint(); inp.focus();
 }
 
 /* open a chapter and land on one section */
@@ -2853,9 +2806,6 @@ const TUTORIAL=[
  {lab:"The wheel", big:"Turn it to look around",
   med:"It stays at the top of every screen. Drag it, tap a colour, or use the arrows. Whatever lands under the notch is what Open takes you to.",
   nav:()=>go(0), find:()=>document.getElementById('wheel')},
- {lab:"No order", big:"Or just one section",
-  med:"Search for what matches your week. Sleep, tantrums, screens. Fourteen minutes of reading is a real option.",
-  nav:()=>go(0), find:()=>document.getElementById('findbtn')},
  {lab:"Bring your own", big:"The thing you actually want to say",
   med:"Your question, or a quote that got you. This is the point of the app. Everyone on the link sees what you bring.",
   nav:()=>go(1), find:()=>document.getElementById('byosec')},
