@@ -174,6 +174,51 @@
   .fold .foldbody p:last-child{margin-bottom:0}
   .foldnote{font-size:13.5px;color:var(--ink-soft);font-weight:400;margin-left:auto;text-align:right}
 
+  /* the private page */
+  .privacy{
+    border:2px solid var(--c);border-radius:13px;padding:13px 15px;margin-top:16px;
+    background:transparent;
+  }
+  .privacy b{display:block;font-size:15.5px;margin-bottom:7px;color:var(--accent)}
+  .privacy ul{margin:0;padding-left:19px}
+  .privacy li{font-size:14px;line-height:1.55;margin-bottom:4px;color:var(--ink-soft)}
+  .privacy li:last-child{margin-bottom:0}
+  #gch{margin-top:10px}
+  #glist.blurred .gtext,#glist.blurred .gangel p{filter:blur(6px);user-select:none}
+  .gcard{
+    border:1.5px solid var(--rule);border-radius:12px;padding:13px 15px;margin-top:11px;
+    box-shadow:inset 4px 0 0 var(--c);
+  }
+  .gmeta{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;
+    color:var(--ink-mute);margin:0 0 6px}
+  .gtext{margin:0;font-size:16px;line-height:1.6;white-space:pre-wrap}
+  .gangel{border-left:3px solid var(--c);padding:2px 0 2px 12px;margin-top:12px}
+  .gangel p{margin:0;font-size:15px;line-height:1.55}
+  .glab{font-size:11.5px!important;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+    color:var(--accent);margin-bottom:4px!important}
+  .gangel .btn{margin-top:10px;font-size:13.5px;padding:8px 14px}
+  .gadd{margin-top:12px;border-top:1px solid var(--rule);padding-top:4px}
+  .gadd > summary{
+    list-style:none;cursor:pointer;padding:9px 0;min-height:var(--tap);
+    display:flex;align-items:center;gap:9px;font-size:14px;font-weight:700;color:var(--accent);
+  }
+  .gadd > summary::-webkit-details-marker{display:none}
+  .gadd > summary .chev{
+    flex:0 0 auto;width:8px;height:8px;border-right:2.2px solid var(--accent);border-bottom:2.2px solid var(--accent);
+    transform:rotate(45deg);transition:transform .18s ease;
+  }
+  .gadd[open] > summary .chev{transform:rotate(225deg)}
+  .gadd .foldbody{padding:0 0 8px}
+  .gx{
+    display:block;margin-top:12px;background:transparent;border:0;padding:6px 0;cursor:pointer;
+    font:inherit;font-size:13px;font-weight:700;color:var(--ink-mute);text-decoration:underline;
+  }
+  .ground{
+    border:1.5px dashed var(--c);border-radius:12px;padding:13px 15px;margin-top:26px;
+  }
+  .ground p{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-soft)}
+  .ground b{color:var(--accent)}
+
   /* the line that takes the pressure off */
   .slip{
     border:1.5px dashed var(--c);border-radius:12px;
@@ -527,7 +572,7 @@
 
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
   @media print{
-    .rack,.timer,.toast,.themebtn,.box,.boxlabel,.pager,.star,footer,.coach,.covbtn{display:none!important}
+    .rack,.timer,.toast,.themebtn,.box,.boxlabel,.pager,.star,footer,.coach,.covbtn,.gcard,.ground{display:none!important}
     body{background:#fff;color:#000;padding:0}
     .sheet{border:none}
     .fold[open] .foldbody,.fold .foldbody{display:block!important}
@@ -561,7 +606,7 @@
 <div class="wrap">
   <div id="view" role="tabpanel" tabindex="-1"></div>
   <footer>
-    Notes and ticks save on this device. Check-ins, votes, what people bring, and the angels wall are shared with everyone on this link.
+    Notes, ticks and your private page save on this device only. Check-ins, votes, what people bring, and the angels wall are shared with everyone on this link.
     <br>
     <button class="btn" id="tutorialbtn">Show the tutorial</button>
   </footer>
@@ -1410,7 +1455,8 @@ const HOME = {
    "Name it without opening it. Thank you for saying that. I am not going to make you do more with it.",
    "Move the group on yourself. No follow-up question, no going around the circle.",
    "Find them after. A text that night is fine.",
-   "If it is bigger than a book club, say so kindly and point to real support."
+   "If it is bigger than a book club, say so kindly and point to real support.",
+   "And for yourself: Just for you is a private page on this phone. Nobody sees it."
   ]
 };
 
@@ -1418,7 +1464,7 @@ const HOME = {
    STATE
    ============================================================ */
 const KEY='toddlerBookClub:v2', OLDKEY='toddlerBookClub:v1';
-let state={done:{},used:{},picked:{},notes:{},covered:{},byo:{},focus:null,theme:'auto',flow:25,facilitator:false,voted:{},me:null,tutorialSeen:false};
+let state={done:{},used:{},picked:{},notes:{},covered:{},byo:{},ghosts:[],ghostsHide:false,focus:null,theme:'auto',flow:25,facilitator:false,voted:{},me:null,tutorialSeen:false};
 let current=0, saveTimer=null;
 
 /* ---- personal state: saved to this browser only, via localStorage ---- */
@@ -1443,6 +1489,7 @@ function loadState(){
 }
 function ensureState(){
   ['done','used','picked','notes','covered','byo','voted'].forEach(k=>{ if(!state[k]||typeof state[k]!=='object') state[k]={}; });
+  if(!Array.isArray(state.ghosts)) state.ghosts=[];
   if(![15,25,45].includes(state.flow)) state.flow=25;
 }
 function queueSave(){
@@ -1596,13 +1643,15 @@ function renderRail(){
     '<button class="crayon" role="tab" id="tab-'+ch.n+'" aria-controls="view" aria-selected="'+(current===ch.n)+'" tabindex="'+(current===ch.n?0:-1)+'" data-go="'+ch.n+'" '+
     'style="background:'+ch.c+';color:#22201C">'+
     '<span class="ch">'+(ch.extra?'Extra':'Ch '+ch.n)+(state.done[ch.n]?' &check;':'')+'</span><b>'+esc(ch.short)+'</b></button>').join('');
+  html+='<button class="crayon plain" role="tab" id="tab-98" aria-controls="view" aria-selected="'+(current===98)+'" tabindex="'+(current===98?0:-1)+'" data-go="98">'+
+    '<span class="ch">Private</span><b>Just for you</b></button>';
   html+='<button class="crayon plain" role="tab" id="tab-99" aria-controls="view" aria-selected="'+(current===99)+'" tabindex="'+(current===99?0:-1)+'" data-go="99">'+
     '<span class="ch">Together</span><b>The angels wall</b></button>';
   rail.innerHTML=html;
   rail.querySelectorAll('[data-go]').forEach(b=>{
     b.addEventListener('click',()=>go(parseInt(b.dataset.go,10)));
     b.addEventListener('keydown',e=>{
-      const order=[0,...CH.map(c=>c.n),99];
+      const order=[0,...CH.map(c=>c.n),98,99];
       const at=order.indexOf(current);
       let to=null;
       if(e.key==='ArrowRight') to=order[Math.min(at+1,order.length-1)];
@@ -1619,7 +1668,7 @@ function renderRail(){
 function go(n){
   current=n; render();
   const ch=CH.find(c=>c.n===n);
-  announce(n===0?'Run the session':(n===99?'The angels wall':'Session '+n+', '+ch.title));
+  announce(n===0?'Run the session':n===98?'Just for you, private':(n===99?'The angels wall':'Session '+n+', '+ch.title));
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1740,8 +1789,9 @@ function renderHome(){
   const rb=document.getElementById('reset');
   let armed=false;
   rb.addEventListener('click',()=>{
-    if(!armed){ armed=true; rb.textContent='Tap again to clear everything'; setTimeout(()=>{armed=false;rb.textContent='Clear all notes and marks';},4000); return; }
+    if(!armed){ armed=true; rb.textContent='Tap again. Your private page goes too.'; setTimeout(()=>{armed=false;rb.textContent='Clear all notes and marks';},4000); return; }
     state.done={};state.used={};state.picked={};state.notes={};state.covered={};state.focus=null;
+    state.ghosts=[];state.ghostsHide=false;
     queueSave(); render(); toast('Cleared');
   });
 }
@@ -1996,7 +2046,8 @@ function renderChapter(ch){
    '<p class="legend">One memory of being loved exactly right when you were small. Lieberman\u2019s answer to the ghosts. Every sheet ends here.</p>'+
    '<div class="angels"><p>'+esc(ch.angels)+'</p></div>'+
    '<p class="permission">Closing move, not a bonus. Short on time? Cut a question instead.</p>'+
-   '<button class="btn wide" data-go="99">Add it to the angels wall</button></section>'+
+   '<div class="rowbtns"><button class="btn" data-go="99">Add to the wall</button>'+
+   '<button class="btn" data-go="98">Something came up for me</button></div></section>'+
 
    '<details class="fold"><summary><span class="chev"></span>If the room goes quiet</summary>'+
      '<div class="foldbody"><div class="quiet"><p>'+esc(ch.quiet)+'</p></div></div></details>'+
@@ -2435,6 +2486,123 @@ document.addEventListener('keydown',e=>{
    ============================================================ */
 let WALL={wall:[],inbox:[],at:0};
 
+/* ============================================================
+   RENDER: the private page
+
+   Ghosts go here. This never touches sset, never goes in the export,
+   and has no share affordance anywhere on it. The only thing that can
+   leave is an angel the person deliberately sends to the wall.
+   ============================================================ */
+function ghostChapterName(n){
+  const ch=CH.find(c=>c.n===n);
+  return ch? ch.short : '';
+}
+function ghostCards(){
+  const g=[...(state.ghosts||[])].reverse();
+  if(!g.length) return '<p class="empty">Nothing here. That is fine too.</p>';
+  return g.map(x=>
+    '<div class="gcard" id="g-'+x.id+'">'+
+      '<p class="gmeta">'+esc(x.at||'')+(x.ch?'  \u00b7  '+esc(ghostChapterName(x.ch)):'')+'</p>'+
+      '<p class="gtext">'+esc(x.text)+'</p>'+
+      (x.angel
+        ? '<div class="gangel"><p class="glab">And you were loved right here</p><p>'+esc(x.angel)+'</p>'+
+          '<button class="btn" data-towall="'+x.id+'">Put just this on the wall</button></div>'
+        : '<details class="gadd"><summary><span class="chev"></span>Put an angel next to it</summary>'+
+          '<div class="foldbody">'+
+          '<p class="legend">Fraiberg named the ghosts. Lieberman\u2019s answer was angels. You do not have to. It just works better than leaving it on its own.</p>'+
+          '<textarea data-angelfor="'+x.id+'" maxlength="400" aria-label="An angel to put beside it" placeholder="One moment you were loved exactly right."></textarea>'+
+          '<button class="btn wide" data-saveangel="'+x.id+'">Keep it</button></div></details>')+
+      '<button class="gx" data-gdel="'+x.id+'" aria-label="Delete this">Delete</button>'+
+    '</div>').join('');
+}
+
+function renderGhosts(){
+  applyColors({c:'#CFC6DE',d:'#4A3E63'});
+  const v=document.getElementById('view');
+  v.setAttribute('aria-labelledby','tab-98');
+  const g=state.ghosts||[];
+  v.innerHTML='<div class="sheet"><div class="band"></div><div class="sheet-in">'+
+   '<p class="eyebrow">Private</p>'+
+   '<h2>Just for you</h2>'+
+   '<p class="colorname">Where the ghosts go. This device only.</p>'+
+
+   '<div class="privacy">'+
+     '<b>This does not leave your phone.</b>'+
+     '<ul>'+
+       '<li>Not on the wall. Not sent to the group. Not in the export.</li>'+
+       '<li>Saved in this browser only. Clear your browser data and it is gone.</li>'+
+       '<li>The one limit: anyone holding your unlocked phone could open this tab.</li>'+
+     '</ul>'+
+   '</div>'+
+
+   '<section><h3>What a ghost is'+squiggle()+'</h3>'+
+   '<p>Fraiberg\u2019s word. What was done to you that you catch yourself repeating, or bracing hard against. This book will pull them up. That is the book working, not a side effect.</p>'+
+   '<p>The room is not always where that goes. Sometimes it is 9pm and you just need to put it down.</p></section>'+
+
+   '<section><h3>Put it down'+squiggle()+'</h3>'+
+   '<textarea id="gtext" maxlength="1200" aria-label="What came up" placeholder="The thing that came up. Nobody is going to read this."></textarea>'+
+   '<select id="gch" class="find" aria-label="Which chapter, optional">'+
+     '<option value="">Which chapter? Optional.</option>'+
+     CH.map(c=>'<option value="'+c.n+'">'+esc(c.short)+'</option>').join('')+
+   '</select>'+
+   '<button class="btn wide" id="gsave">Keep it</button></section>'+
+
+   '<section><h3>Yours'+squiggle()+'</h3>'+
+   (g.length?'<div class="rowbtns"><button class="btn" id="ghide" aria-pressed="'+(!!state.ghostsHide)+'">'+
+     (state.ghostsHide?'Show them':'Blur them')+'</button></div>':'')+
+   '<div id="glist" class="'+(state.ghostsHide?'blurred':'')+'">'+ghostCards()+'</div></section>'+
+
+   '<div class="ground"><p><b>Before you close this.</b> Feet on the floor. One slow breath, out longer than in. You wrote it down, so you are not carrying it in your head any more.</p></div>'+
+
+  '</div></div>';
+
+  document.getElementById('gsave').addEventListener('click',()=>{
+    const ta=document.getElementById('gtext');
+    const text=ta.value.trim();
+    if(!text) return toast('Nothing to keep yet');
+    const chSel=document.getElementById('gch').value;
+    state.ghosts=[...(state.ghosts||[]),{
+      id:'g'+newId(), text:text.slice(0,1200),
+      ch:chSel?parseInt(chSel,10):null,
+      at:new Date().toLocaleDateString()
+    }];
+    saveNow();
+    renderGhosts();
+    toast('Kept. Only here.');
+  });
+
+  const hide=document.getElementById('ghide');
+  if(hide) hide.addEventListener('click',()=>{
+    state.ghostsHide=!state.ghostsHide; saveNow(); renderGhosts();
+  });
+
+  v.querySelectorAll('[data-saveangel]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.saveangel;
+    const ta=v.querySelector('[data-angelfor="'+id+'"]');
+    const t=ta.value.trim();
+    if(!t) return toast('Nothing to add yet');
+    const item=(state.ghosts||[]).find(x=>x.id===id); if(!item) return;
+    item.angel=t.slice(0,400);
+    saveNow(); renderGhosts(); toast('Both of them, side by side.');
+  }));
+
+  v.querySelectorAll('[data-towall]').forEach(b=>b.addEventListener('click',()=>{
+    const item=(state.ghosts||[]).find(x=>x.id===b.dataset.towall); if(!item||!item.angel) return;
+    WALL.prefill=item.angel;
+    go(99);
+    toast('Only the angel came with you');
+  }));
+
+  v.querySelectorAll('[data-gdel]').forEach(b=>{
+    let armed=false;
+    b.addEventListener('click',()=>{
+      if(!armed){ armed=true; b.textContent='Tap again to delete'; setTimeout(()=>{armed=false;b.textContent='Delete';},3500); return; }
+      state.ghosts=(state.ghosts||[]).filter(x=>x.id!==b.dataset.gdel);
+      saveNow(); renderGhosts(); toast('Gone');
+    });
+  });
+}
+
 async function renderWall(){
   applyColors({c:'#F6E3B8',d:'#7E5F14'});
   const v=document.getElementById('view');
@@ -2475,6 +2643,7 @@ function paintWall(){
    '</section>'+
 
    '<section><h3>Add a line'+squiggle()+'</h3>'+
+   (WALL.prefill?'<p class="legend">Carried over from your private page. Only this line came with you.</p>':'')+
    '<textarea id="wtext" maxlength="280" aria-label="Your angel memory" placeholder="One moment. Where you were, who it was, what they did."></textarea>'+
    '<button class="btn wide" id="wsend">Send it to the facilitator</button>'+
    (mineInbox.length?'<p class="legend">You have '+mineInbox.length+' waiting to be posted.</p>':'')+
@@ -2492,6 +2661,12 @@ function paintWall(){
 
    '<button class="btn wide" id="wrefresh">Refresh the wall</button>'+
   '</div></div>';
+
+  if(WALL.prefill){
+    const t=document.getElementById('wtext');
+    if(t){ t.value=WALL.prefill; }
+    WALL.prefill=null;
+  }
 
   const sh=document.getElementById('wshuffle');
   if(sh) sh.addEventListener('click',()=>{ WALL.at=Math.floor(Math.random()*WALL.wall.length); paintWall(); });
@@ -2560,6 +2735,9 @@ const TUTORIAL=[
  {lab:"Angels", big:"Why every sheet ends there",
   med:"Vivid angel memories seem to buffer against a hard childhood. This book will pull up your own. Ending on the angels is how you close the room.",
   nav:()=>go(1), find:()=>document.querySelector('.angels')},
+ {lab:"Ghosts", big:"Somewhere to put the other half",
+  med:"The book will pull up your own childhood. Just for you is a private page on this phone. Never shared, never posted, not in the export. Put it down there instead of carrying it.",
+  nav:()=>go(0), find:()=>document.getElementById('tab-98')},
  {lab:"The angels wall", big:"Where those memories collect",
   med:"After a session, anyone can add one line about being loved right. By the end the group has a deck of them, and you can open a meeting by reading a few out.",
   nav:()=>go(0), find:()=>document.querySelector('[data-go="99"]')},
@@ -2711,6 +2889,7 @@ document.addEventListener('keydown',e=>{
 function render(){
   renderBox(); renderRail();
   if(current===0) renderHome();
+  else if(current===98) renderGhosts();
   else if(current===99) renderWall();
   else renderChapter(CH.find(c=>c.n===current));
 }
