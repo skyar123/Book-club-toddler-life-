@@ -219,6 +219,61 @@
   .ground p{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-soft)}
   .ground b{color:var(--accent)}
 
+  /* ---------- the wheel ---------- */
+  .wheelwrap{position:relative;width:min(340px,86vw);margin:6px auto 0;aspect-ratio:1}
+  .wheel{width:100%;height:100%;display:block;touch-action:none;cursor:grab;overflow:visible}
+  .wheel:active{cursor:grabbing}
+  .wheel:focus-visible{outline:3px solid var(--accent);outline-offset:6px;border-radius:50%}
+  #wrot{transform-origin:100px 100px}
+  .wsec{filter:saturate(.72) brightness(.99);transition:filter .2s ease}
+  .wsec.on{filter:saturate(1.1) brightness(1.04)}
+  .wnum{
+    font-family:'Baloo 2',sans-serif;font-weight:600;font-size:13px;
+    fill:#3A2F20;transform-box:fill-box;transform-origin:center;pointer-events:none;
+  }
+  .wdone{fill:#3A2F20;opacity:.5;pointer-events:none}
+  .whub{fill:var(--sheet);stroke:var(--rule);stroke-width:1.5;pointer-events:none}
+  .wnotch{fill:var(--accent)}
+  .hub{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:none;text-align:center;
+  }
+  .hub span:first-child{
+    font-family:'Baloo 2',sans-serif;font-weight:600;font-size:19px;color:var(--ink);line-height:1;
+  }
+  .hubhint{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-mute)}
+  .wheelnav{
+    display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px;
+  }
+  .wheelhint{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-mute)}
+  .btn.round{
+    width:44px;height:44px;padding:0;border-radius:50%;font-size:22px;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* the snapshot under the wheel */
+  .snap{
+    border:2px solid var(--c);border-radius:14px;padding:15px 16px 14px;margin-top:20px;
+    box-shadow:inset 6px 0 0 var(--c);
+  }
+  .snapkick{
+    font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;
+    color:var(--d);margin:0 0 5px;
+  }
+  html[data-theme="dark"] .snapkick{color:var(--c)}
+  .snap h4{font-family:'Baloo 2',sans-serif;font-weight:600;font-size:21px;line-height:1.2;margin:0 0 3px}
+  .snapcolor{font-size:13px;font-style:italic;color:var(--ink-soft);margin:0 0 10px}
+  .snapsum{font-size:15px;line-height:1.55;margin:0 0 10px}
+  .snapsecs{font-size:12.5px;color:var(--ink-mute);line-height:1.5;margin:0 0 13px}
+  .snapsecs b{color:var(--ink-soft)}
+  .subh{
+    font-family:'Baloo 2',sans-serif;font-weight:600;font-size:16px;
+    margin:20px 0 6px;color:var(--accent);
+  }
+  .subh:first-child{margin-top:0}
+  .btn.go{background:var(--c);border-color:var(--c);color:#22201C;font-size:17px;padding:15px}
+  @media(prefers-reduced-motion:reduce){ #wrot{transition:none!important} }
+
   /* the line that takes the pressure off */
   .slip{
     border:1.5px dashed var(--c);border-radius:12px;
@@ -593,8 +648,7 @@
     </div>
     <button class="themebtn" id="themebtn" aria-label="Change light and dark mode">Auto</button>
   </div>
-  <div class="box" id="box" aria-hidden="true"></div>
-  <p class="boxlabel" id="boxlabel">Twelve sheets in the box. Start anywhere.</p>
+  <p class="boxlabel" id="boxlabel">Twelve sheets. Turn the wheel.</p>
 </div>
 
 <div class="rack">
@@ -1622,17 +1676,12 @@ document.getElementById('tstop').addEventListener('click',stopTimer);
    RENDER: shared chrome
    ============================================================ */
 function renderBox(){
-  const box=document.getElementById('box');
-  box.innerHTML=CH.map(ch=>{
-    const on=state.done[ch.n];
-    return '<i class="'+(on?'on':'')+'" style="background:'+(on?ch.c:'transparent')+'"></i>';
-  }).join('');
   const n=CH.filter(ch=>state.done[ch.n]).length;
   document.getElementById('boxlabel').textContent =
-    n===0 ? 'Twelve sheets in the box. Start anywhere.' :
-    n===1 ? 'One session in. No order required.' :
+    n===0 ? 'Twelve sheets. Turn the wheel.' :
+    n===1 ? 'One down. Any order you like.' :
     n===12 ? 'All twelve. Look at that.' :
-    n+' sessions in. Take them in any order you like.';
+    n+' done. Any order you like.';
 }
 
 function renderRail(){
@@ -1675,6 +1724,146 @@ function go(n){
 /* ============================================================
    RENDER: home sheet
    ============================================================ */
+/* ============================================================
+   THE WHEEL
+
+   Twelve sectors, one per sheet. Drag it round, or tap a sector,
+   or use the arrows. Whatever sits under the notch at the top is
+   the one you are looking at, and its snapshot renders below.
+   ============================================================ */
+const DIAL={rot:0, sel:0, drag:null, moved:false};
+
+function dialPoint(a,r){
+  const t=(a-90)*Math.PI/180;
+  return [(100+r*Math.cos(t)).toFixed(2),(100+r*Math.sin(t)).toFixed(2)];
+}
+function dialSector(i,r0,r1){
+  const A=i*30, a1=A-15, a2=A+15;
+  const [x1,y1]=dialPoint(a1,r0), [x2,y2]=dialPoint(a1,r1);
+  const [x3,y3]=dialPoint(a2,r1), [x4,y4]=dialPoint(a2,r0);
+  return `M ${x1} ${y1} L ${x2} ${y2} A ${r1} ${r1} 0 0 1 ${x3} ${y3} L ${x4} ${y4} A ${r0} ${r0} 0 0 0 ${x1} ${y1} Z`;
+}
+function dialSelected(){
+  return ((Math.round(-DIAL.rot/30)%12)+12)%12;
+}
+function wheelSVG(){
+  let sec='', lab='';
+  CH.forEach((ch,i)=>{
+    const done=state.done[ch.n];
+    sec+='<path class="wsec" data-sec="'+i+'" d="'+dialSector(i,34,92)+'" '+
+         'fill="'+ch.c+'" stroke="var(--paper)" stroke-width="1.5"></path>';
+    if(done){
+      const [dx,dy]=dialPoint(i*30,80);
+      lab+='<circle class="wdone" cx="'+dx+'" cy="'+dy+'" r="3.4"></circle>';
+    }
+    const [tx,ty]=dialPoint(i*30,63);
+    lab+='<text class="wnum" x="'+tx+'" y="'+ty+'" text-anchor="middle" dominant-baseline="central">'+
+         (ch.extra?'\u2605':ch.n)+'</text>';
+  });
+  return '<svg class="wheel" id="wheel" viewBox="0 0 200 200" tabindex="0" role="slider" '+
+    'aria-label="Choose a sheet. Left and right to turn, enter to open." '+
+    'aria-valuemin="1" aria-valuemax="12" aria-valuenow="1" aria-valuetext="'+esc(CH[0].title)+'">'+
+    '<g id="wrot">'+sec+lab+'</g>'+
+    '<circle class="whub" cx="100" cy="100" r="32"></circle>'+
+    '<path class="wnotch" d="M100 2 L108 17 L92 17 Z"></path>'+
+  '</svg>';
+}
+function paintDial(animate){
+  const g=document.getElementById('wrot');
+  if(!g) return;
+  g.style.transition = animate ? 'transform .32s cubic-bezier(.2,.9,.3,1)' : 'none';
+  g.style.transform  = 'rotate('+DIAL.rot+'deg)';
+  /* keep the numbers upright while the wheel turns */
+  g.querySelectorAll('.wnum').forEach(t=>{ t.style.transform='rotate('+(-DIAL.rot)+'deg)'; });
+  const sel=dialSelected();
+  if(sel!==DIAL.sel){ DIAL.sel=sel; paintSnap(); }
+  g.querySelectorAll('.wsec').forEach((p,i)=>p.classList.toggle('on',i===sel));
+  const ch=CH[sel];
+  const hubn=document.getElementById('hubn');
+  if(hubn) hubn.textContent = ch.extra?'Extra':'Ch '+ch.n;
+  const svg=document.getElementById('wheel');
+  if(svg){
+    svg.setAttribute('aria-valuenow',sel+1);
+    svg.setAttribute('aria-valuetext',ch.title);
+  }
+}
+/* first couple of sentences, up to about a phone-sized bite */
+function snapSum(text){
+  const parts=text.split(/(?<=\.)\s+/);
+  let out='';
+  for(const p of parts){
+    if(out && (out+' '+p).length>170) break;
+    out = out ? out+' '+p : p;
+  }
+  return out;
+}
+function paintSnap(){
+  const box=document.getElementById('snap');
+  if(!box) return;
+  const ch=CH[DIAL.sel];
+  const secs=ch.sections||[];
+  const t=chMins(ch);
+  box.style.setProperty('--c',ch.c);
+  box.style.setProperty('--d',ch.d);
+  box.innerHTML=
+    '<p class="snapkick">'+(ch.extra?'Extra sheet':'Chapter '+ch.n)+
+      (t?'  \u00b7  '+fmtMins(t)+' to read':'')+
+      (state.done[ch.n]?'  \u00b7  done':'')+'</p>'+
+    '<h4>'+esc(ch.title)+'</h4>'+
+    '<p class="snapcolor">'+esc(ch.color)+'</p>'+
+    '<p class="snapsum">'+esc(snapSum(ch.summary))+'</p>'+
+    (secs.length
+      ? '<p class="snapsecs"><b>'+secs.length+' sections</b> '+
+        esc(secs.slice(0,3).map(x=>x.t).join(' \u00b7 '))+(secs.length>3?' \u00b7 ...':'')+'</p>'
+      : '')+
+    '<button class="btn wide" id="snapgo">Open this sheet</button>';
+  document.getElementById('snapgo').addEventListener('click',()=>go(ch.n));
+}
+function spinTo(i,animate){
+  DIAL.rot = -(((i%12)+12)%12)*30;
+  paintDial(animate!==false);
+}
+function nudge(d){
+  spinTo(dialSelected()+d,true);
+}
+function wireDial(){
+  const svg=document.getElementById('wheel');
+  if(!svg) return;
+  const angleAt=e=>{
+    const r=svg.getBoundingClientRect();
+    const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    return Math.atan2(e.clientY-cy,e.clientX-cx)*180/Math.PI;
+  };
+  svg.addEventListener('pointerdown',e=>{
+    const hit=e.target.closest&&e.target.closest('.wsec');
+    svg.setPointerCapture(e.pointerId);
+    DIAL.drag={a:angleAt(e),rot:DIAL.rot,hit:hit?parseInt(hit.dataset.sec,10):null};
+    DIAL.moved=false;
+  });
+  svg.addEventListener('pointermove',e=>{
+    if(!DIAL.drag) return;
+    let d=angleAt(e)-DIAL.drag.a;
+    if(d>180) d-=360; if(d<-180) d+=360;
+    if(Math.abs(d)>5) DIAL.moved=true;
+    DIAL.rot=DIAL.drag.rot+d;
+    paintDial(false);
+  });
+  const release=()=>{
+    if(!DIAL.drag) return;
+    const hit=DIAL.drag.hit;
+    DIAL.drag=null;
+    if(DIAL.moved) spinTo(Math.round(-DIAL.rot/30),true);
+    else if(hit!==null) spinTo(hit,true);   /* a tap: bring that sector to the top */
+  };
+  svg.addEventListener('pointerup',release);
+  svg.addEventListener('pointercancel',()=>{ DIAL.drag=null; });
+  svg.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); nudge(1); }
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ e.preventDefault(); nudge(-1); }
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(CH[dialSelected()].n); }
+  });
+}
+
 function flowFor(){
   return state.flow===15?HOME.flow15 : state.flow===45?HOME.flow45 : HOME.flow25;
 }
@@ -1704,72 +1893,103 @@ function renderHome(){
   applyColors(null);
   const segs = flowFor();
   const running = !!T.segs;
+  const mins = state.flow;
   const v=document.getElementById('view');
   v.setAttribute('aria-labelledby','tab-0');
   v.innerHTML=
   '<div class="sheet"><div class="band"></div><div class="sheet-in">'+
-   '<p class="eyebrow">Start here</p>'+
-   '<h2>Run the session</h2>'+
-   '<p class="colorname">Read out of order. Do one section. Fifteen minutes counts.</p>'+
+
+   '<div class="wheelwrap">'+
+     wheelSVG()+
+     '<div class="hub"><span id="hubn">Ch 1</span><span class="hubhint">turn me</span></div>'+
+   '</div>'+
+   '<div class="wheelnav">'+
+     '<button class="btn round" id="wprev" aria-label="Previous sheet">&lsaquo;</button>'+
+     '<span class="wheelhint">turn it, or tap a colour</span>'+
+     '<button class="btn round" id="wnext" aria-label="Next sheet">&rsaquo;</button>'+
+   '</div>'+
+   '<div class="snap" id="snap"></div>'+
+
    '<div class="slip"><p>'+esc(HOME.slips[Math.floor(Math.random()*HOME.slips.length)])+'</p></div>'+
 
    '<section><h3>Tonight'+squiggle()+'</h3>'+
    (state.focus
      ? focusCard()
-     : '<p class="legend">Pick one section to build the session around. You do not have to read the chapter, or read in order.</p>')+
+     : '<p class="legend">Or pick one section instead of a whole chapter.</p>')+
    '<button class="btn wide" id="findbtn">'+(state.focus?'Change tonight\u2019s section':'Find a section')+'</button>'+
    '<div id="findbox"></div></section>'+
 
-   '<section><h3>The run sheet'+squiggle()+'</h3>'+
-   '<div class="toggle" role="group" aria-label="Session length">'+
+   '<section><h3>Start the clock'+squiggle()+'</h3>'+
+   '<div class="toggle" role="group" aria-label="How long">'+
      '<button class="btn" data-flow="15" aria-pressed="'+(state.flow===15)+'">15 min</button>'+
      '<button class="btn" data-flow="25" aria-pressed="'+(state.flow===25)+'">25 min</button>'+
      '<button class="btn" data-flow="45" aria-pressed="'+(state.flow===45)+'">45 min</button>'+
    '</div>'+
-   '<p class="legend">Tap a line to start its countdown. The timer sticks to the bottom.</p>'+
-   '<ul class="flow">'+segs.map((f,i)=>
-     '<li><button class="segbtn" data-seg="'+i+'" aria-current="'+(running&&T.i===i)+'">'+
-     '<span class="min">'+f[0]+'</span><span>'+esc(f[1])+'</span></button></li>').join('')+'</ul></section>'+
+   (running
+     ? '<button class="btn wide warn" id="stopflow">Stop the clock</button>'
+     : '<button class="btn wide go" id="startflow">Start '+mins+' minutes</button>')+
+   '<details class="fold"><summary><span class="chev"></span>What is in the '+mins+' minutes'+
+     '<span class="foldnote">Tap a line to jump</span></summary>'+
+     '<div class="foldbody"><ul class="flow">'+segs.map((f,i)=>
+       '<li><button class="segbtn" data-seg="'+i+'" aria-current="'+(running&&T.i===i)+'">'+
+       '<span class="min">'+f[0]+'</span><span>'+esc(f[1])+'</span></button></li>').join('')+
+     '</ul></div></details></section>'+
 
-   '<section><h3>What angels means'+squiggle()+'</h3>'+
-   '<p>'+esc(HOME.angels.what)+'</p>'+
-   '<ul class="ideas">'+HOME.angels.why.map(a=>'<li><b>'+esc(a[0])+'</b><span>'+esc(a[1])+'</span></li>').join('')+'</ul>'+
-   '<div class="angels"><p>'+esc(HOME.angels.wall)+'</p></div>'+
-   '<button class="btn wide" data-go="99">Open the angels wall</button></section>'+
+   '<details class="fold"><summary><span class="chev"></span>What angels means'+
+     '<span class="foldnote">Read this once</span></summary>'+
+     '<div class="foldbody"><p>'+esc(HOME.angels.what)+'</p>'+
+     '<ul class="ideas">'+HOME.angels.why.map(a=>'<li><b>'+esc(a[0])+'</b><span>'+esc(a[1])+'</span></li>').join('')+'</ul>'+
+     '<div class="angels"><p>'+esc(HOME.angels.wall)+'</p></div>'+
+     '<button class="btn wide" data-go="99">Open the angels wall</button></div></details>'+
 
-   '<section><h3>Why this book'+squiggle()+'</h3>'+
-   HOME.why.map(p=>'<p>'+esc(p)+'</p>').join('')+'</section>'+
+   '<details class="fold"><summary><span class="chev"></span>If it gets heavy'+
+     '<span class="foldnote">It will, once</span></summary>'+
+     '<div class="foldbody"><ol class="rules">'+HOME.activated.slice(1).map(r=>'<li>'+esc(r)+'</li>').join('')+'</ol>'+
+     '<button class="btn wide" data-go="98">Your private page</button></div></details>'+
 
-   '<details class="fold"><summary><span class="chev"></span>Ground rules to read out</summary>'+
-   '<div class="foldbody"><ol class="rules">'+HOME.rules.map(r=>'<li>'+esc(r)+'</li>').join('')+'</ol></div></details>'+
+   '<details class="fold"><summary><span class="chev"></span>The serious version'+
+     '<span class="foldnote">Ground rules, running a bigger room</span></summary>'+
+     '<div class="foldbody">'+
+     '<p class="legend">Three friends on a sofa do not need any of this. It is here for when the group is a work team.</p>'+
+     '<h4 class="subh">Why this book</h4>'+
+     HOME.why.map(p=>'<p>'+esc(p)+'</p>').join('')+
+     '<h4 class="subh">Ground rules to read out</h4>'+
+     '<ol class="rules">'+HOME.rules.map(r=>'<li>'+esc(r)+'</li>').join('')+'</ol>'+
+     '<h4 class="subh">Facilitator moves</h4>'+
+     '<ul class="ideas">'+HOME.moves.map(m=>'<li><b>'+esc(m[0])+'</b><span>'+esc(m[1])+'</span></li>').join('')+'</ul>'+
+     '<h4 class="subh">Do you run this group?</h4>'+
+     '<p>Turn this on to post to the angels wall and clear the check-in board.</p>'+
+     '<button class="btn wide" id="facil" aria-pressed="'+state.facilitator+'"><span class="tick"></span>'+
+     (state.facilitator?'You run this group':'I run this group')+'</button>'+
+     '</div></details>'+
 
-   '<details class="fold"><summary><span class="chev"></span>If someone gets activated'+
-   '<span class="foldnote">Read this once</span></summary>'+
-   '<div class="foldbody"><ol class="rules">'+HOME.activated.slice(1).map(r=>'<li>'+esc(r)+'</li>').join('')+'</ol></div></details>'+
-
-   '<details class="fold"><summary><span class="chev"></span>Facilitator moves</summary>'+
-   '<div class="foldbody"><ul class="ideas">'+HOME.moves.map(m=>'<li><b>'+esc(m[0])+'</b><span>'+esc(m[1])+'</span></li>').join('')+'</ul></div></details>'+
-
-   '<details class="fold"><summary><span class="chev"></span>Do you run this group?</summary>'+
-   '<div class="foldbody"><p>Turn this on to post to the angels wall and clear the check-in board. It is a role, not a lock.</p>'+
-   '<button class="btn wide" id="facil" aria-pressed="'+state.facilitator+'"><span class="tick"></span>'+
-   (state.facilitator?'You run this group':'I run this group')+'</button></div></details>'+
-
-   '<section><h3>Take the notes with you'+squiggle()+'</h3>'+
-   '<p>Notes, ticks and stars save on this device only.</p>'+
-   '<button class="btn wide" id="export">Build the export</button>'+
-   '<div id="exportbox"></div></section>'+
-
-   '<section><h3>Start over'+squiggle()+'</h3>'+
-   '<button class="btn wide warn" id="reset">Clear all notes and marks</button></section>'+
+   '<details class="fold"><summary><span class="chev"></span>Notes, and starting over</summary>'+
+     '<div class="foldbody">'+
+     '<p>Notes and ticks save on this device only.</p>'+
+     '<button class="btn wide" id="export">Build the export</button>'+
+     '<div id="exportbox"></div>'+
+     '<button class="btn wide warn" id="reset" style="margin-top:14px">Clear all notes and marks</button>'+
+     '</div></details>'+
   '</div></div>';
+
+  /* the wheel */
+  spinTo(DIAL.sel,false);
+  paintSnap();
+  wireDial();
+  document.getElementById('wprev').addEventListener('click',()=>nudge(-1));
+  document.getElementById('wnext').addEventListener('click',()=>nudge(1));
 
   v.querySelectorAll('[data-flow]').forEach(b=>b.addEventListener('click',()=>{
     state.flow=parseInt(b.dataset.flow,10); queueSave(); renderHome();
   }));
   v.querySelectorAll('[data-seg]').forEach(b=>b.addEventListener('click',()=>{
-    startFlow(segs,parseInt(b.dataset.seg,10));
+    startFlow(flowFor(),parseInt(b.dataset.seg,10));
   }));
+  const sf=document.getElementById('startflow');
+  if(sf) sf.addEventListener('click',()=>startFlow(flowFor(),0));
+  const xf=document.getElementById('stopflow');
+  if(xf) xf.addEventListener('click',stopTimer);
+
   v.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(parseInt(b.dataset.go,10))));
   v.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>{
     const [n,id]=b.dataset.jump.split('|'); jumpTo(parseInt(n,10),id);
@@ -1789,9 +2009,8 @@ function renderHome(){
   const rb=document.getElementById('reset');
   let armed=false;
   rb.addEventListener('click',()=>{
-    if(!armed){ armed=true; rb.textContent='Tap again. Your private page goes too.'; setTimeout(()=>{armed=false;rb.textContent='Clear all notes and marks';},4000); return; }
+    if(!armed){ armed=true; rb.textContent='Tap again to clear everything'; setTimeout(()=>{armed=false;rb.textContent='Clear all notes and marks';},4000); return; }
     state.done={};state.used={};state.picked={};state.notes={};state.covered={};state.focus=null;
-    state.ghosts=[];state.ghostsHide=false;
     queueSave(); render(); toast('Cleared');
   });
 }
@@ -2711,42 +2930,24 @@ function paintWall(){
    the thing itself rather than a slideshow about it.
    ============================================================ */
 const TUTORIAL=[
- {lab:"First thing", big:"Read out of order",
-  med:"Pick the section that matches your week. Sleep, tantrums, screens, a new baby. Nobody is grading you on finishing the book.",
+ {lab:"The wheel", big:"Turn it to look around",
+  med:"Drag it, tap a colour, or use the arrows. Whatever lands under the notch shows you how long it takes to read and what is in it, before you commit.",
+  nav:()=>go(0), find:()=>document.getElementById('wheel')},
+ {lab:"No order", big:"Or just one section",
+  med:"Search for what matches your week. Sleep, tantrums, screens. Fourteen minutes of reading is a real option.",
   nav:()=>go(0), find:()=>document.getElementById('findbtn')},
- {lab:"The rack", big:"Every session is a crayon",
-  med:"Twelve sheets. Tap a color to open one. Run the session on the far left. The angels wall on the far right.",
-  find:()=>document.getElementById('rail')},
  {lab:"Bring your own", big:"The thing you actually want to say",
-  med:"A question of yours, or a quote that got you. This is the point of the app. Everyone on the link sees what you bring.",
+  med:"Your question, or a quote that got you. This is the point of the app. Everyone on the link sees what you bring.",
   nav:()=>go(1), find:()=>document.getElementById('byosec')},
- {lab:"Section by section", big:"The chapter, split up",
-  med:"The book\u2019s own sections, in order, each with a reading time. Fourteen minutes is a real option on a Tuesday.",
-  nav:()=>{ go(1); shutSecs(); }, find:()=>document.querySelector('.secs .sec summary')},
- {lab:"Section by section", big:"Tick off what you covered",
-  med:"The count keeps score and it lands in the export. You are not going to do all nine in chapter eight.",
-  nav:()=>{ go(1); openSec(0); }, find:()=>document.querySelector('.sec .covbtn')},
  {lab:"Questions", big:"Star three. Only three.",
-  med:"Yours, the book\u2019s, or a section\u2019s. They collect in Tonight\u2019s three, further up.",
+  med:"Yours, the book\u2019s, or a section\u2019s. They collect in Tonight\u2019s three, further up the sheet.",
   nav:()=>go(1), find:()=>document.querySelector('#qsec .star')},
- {lab:"Angels", big:"What this word means here",
-  med:"Fraiberg named the ghosts: what was done to you that you catch yourself repeating. Lieberman\u2019s answer, in 2005, was angels: one specific memory of being loved exactly right when you were small.",
+ {lab:"Angels", big:"What that word means here",
+  med:"Fraiberg named the ghosts: what was done to you that you catch yourself repeating. Lieberman\u2019s answer, in 2005, was angels: one memory of being loved exactly right when you were small. Every sheet ends there.",
   nav:()=>go(1), find:()=>document.querySelector('.angels')},
- {lab:"Angels", big:"Why every sheet ends there",
-  med:"Vivid angel memories seem to buffer against a hard childhood. This book will pull up your own. Ending on the angels is how you close the room.",
-  nav:()=>go(1), find:()=>document.querySelector('.angels')},
- {lab:"Ghosts", big:"Somewhere to put the other half",
-  med:"The book will pull up your own childhood. Just for you is a private page on this phone. Never shared, never posted, not in the export. Put it down there instead of carrying it.",
+ {lab:"Two places", big:"Angels are shared. Ghosts are not.",
+  med:"The angels wall is the group\u2019s. Your private page is this device only, never posted, never shared. Both live in the strip at the top.",
   nav:()=>go(0), find:()=>document.getElementById('tab-98')},
- {lab:"The angels wall", big:"Where those memories collect",
-  med:"After a session, anyone can add one line about being loved right. By the end the group has a deck of them, and you can open a meeting by reading a few out.",
-  nav:()=>go(0), find:()=>document.querySelector('[data-go="99"]')},
- {lab:"Present", big:"Run it from your phone",
-  med:"Full screen cards for the room. Your opener, the ideas, your starred three, the angels prompt last.",
-  nav:()=>go(1), find:()=>document.getElementById('present')},
- {lab:"Time", big:"Fifteen minutes counts",
-  med:"Pick the length you actually have. The timer sticks to the bottom of the screen and tells you what you are meant to be doing.",
-  nav:()=>go(0), find:()=>document.querySelector('[data-flow="15"]')},
  {lab:"Anytime", big:"The tour lives down here",
   med:"Tap Show the tutorial whenever you want it again.",
   nav:()=>go(0), find:()=>document.getElementById('tutorialbtn')}
