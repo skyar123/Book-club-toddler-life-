@@ -74,8 +74,9 @@
   h1{
     font-family:'Baloo 2',ui-rounded,system-ui,sans-serif;
     font-weight:700;font-size:clamp(29px,7.2vw,42px);line-height:1.08;
-    margin:0 0 6px;letter-spacing:-.01em;
+    margin:0 0 6px;letter-spacing:-.01em;cursor:pointer;
   }
+  h1:hover{color:var(--accent)}
   h1 em{font-style:normal;display:block;color:var(--ink-soft);font-size:.5em;font-weight:600;letter-spacing:0;margin-top:7px}
   .themebtn{
     flex:0 0 auto;min-width:var(--tap);min-height:var(--tap);
@@ -157,28 +158,13 @@
   }
   .hubhint{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-mute)}
   .wheelhint{
-    font-size:13px;color:var(--ink-mute);text-align:center;margin:12px 0 0;
+    font-size:14px;color:var(--ink-soft);margin:2px 0 0;line-height:1.5;
   }
   .btn.round{
     width:44px;height:44px;padding:0;border-radius:50%;font-size:22px;line-height:1;
     display:flex;align-items:center;justify-content:center;
   }
 
-  /* the snapshot under the wheel */
-  .snap{
-    border:2px solid var(--c);border-radius:14px;padding:15px 16px 14px;margin-top:4px;
-    box-shadow:inset 6px 0 0 var(--c);
-  }
-  .snapkick{
-    font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;
-    color:var(--d);margin:0 0 5px;
-  }
-  html[data-theme="dark"] .snapkick{color:var(--c)}
-  .snap h4{font-family:'Baloo 2',sans-serif;font-weight:600;font-size:21px;line-height:1.2;margin:0 0 3px}
-  .snapcolor{font-size:13px;font-style:italic;color:var(--ink-soft);margin:0 0 10px}
-  .snapsum{font-size:15px;line-height:1.55;margin:0 0 10px}
-  .snapsecs{font-size:12.5px;color:var(--ink-mute);line-height:1.5;margin:0 0 13px}
-  .snapsecs b{color:var(--ink-soft)}
   .subh{
     font-family:'Baloo 2',sans-serif;font-weight:600;font-size:16px;
     margin:20px 0 6px;color:var(--accent);
@@ -450,7 +436,8 @@
     color:var(--accent);border:1.5px solid var(--accent);border-radius:99px;
     padding:1px 9px;margin-right:7px;vertical-align:1px;
   }
-  .rowbtns{display:flex;gap:10px;margin-top:14px}
+  .rowbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .rowbtns .btn{min-width:120px}
   .rowbtns .btn{flex:1;text-align:center;display:block}
   .warnbox{border:1.5px solid var(--rule);border-radius:12px;padding:13px 15px;margin-top:14px;font-size:14.5px;color:var(--ink-soft)}
   .warnbox b{color:var(--ink)}
@@ -488,7 +475,7 @@
   <div class="toprow">
     <div>
       <p class="kicker">Book club companion</p>
-      <h1>The Emotional Life of the Toddler<em>Alicia F. Lieberman, revised edition. Read it out of order.</em></h1>
+      <h1 id="hometitle" role="link" tabindex="0">The Emotional Life of the Toddler<em>Alicia F. Lieberman, revised edition. Read it out of order.</em></h1>
     </div>
     <button class="themebtn" id="themebtn" aria-label="Change light and dark mode">Auto</button>
   </div>
@@ -1336,8 +1323,7 @@ const HOME = {
    "Name it without opening it. Thank you for saying that. I am not going to make you do more with it.",
    "Move the group on yourself. No follow-up question, no going around the circle.",
    "Find them after. A text that night is fine.",
-   "If it is bigger than a book club, say so kindly and point to real support.",
-   "And for yourself: Just for you is a private page on this phone. Nobody sees it."
+   "If it is bigger than a book club, say so kindly and point to real support."
   ]
 };
 
@@ -1345,7 +1331,7 @@ const HOME = {
    STATE
    ============================================================ */
 const KEY='toddlerBookClub:v2', OLDKEY='toddlerBookClub:v1';
-let state={done:{},notes:{},covered:{},byo:{},theme:'auto',flow:25,facilitator:false,me:null,tutorialSeen:false};
+let state={done:{},notes:{},covered:{},byo:{},theme:'auto',flow:25,me:null,tutorialSeen:false};
 let current=0, saveTimer=null;
 
 /* ---- personal state: saved to this browser only, via localStorage ---- */
@@ -1381,7 +1367,7 @@ function saveNow(){
    via a small Netlify Function backed by Netlify Blobs ---- */
 const SHARE_API='/api/store';
 const SHARE_MAX=19000;   /* the function rejects anything over 20000 */
-const SK={ checkin:id=>'tbc:checkin:'+id, byo:id=>'tbc:byo:'+id, inbox:'tbc:angels:inbox', wall:'tbc:angels:wall' };
+const SK={ checkin:id=>'tbc:checkin:'+id, byo:id=>'tbc:byo:'+id, wall:'tbc:angels:wall' };
 let shareOK=true;
 async function sget(key,fallback){
   try{
@@ -1499,7 +1485,6 @@ function renderBox(){
 
 function renderDock(){
   const dock=document.getElementById('dock');
-  const ch=CH[DIAL.sel]||CH[0];
   dock.innerHTML=
     '<div class="dockwheel">'+wheelSVG()+
       '<div class="hub"><span id="hubn">Ch 1</span></div>'+
@@ -1508,15 +1493,13 @@ function renderDock(){
       '<p class="dockkick" id="dockkick"></p>'+
       '<b class="dockname" id="dockname"></b>'+
       '<div class="dockbtns">'+
-        '<button class="pill step" id="wprev" aria-label="Previous sheet">&lsaquo;</button>'+
-        '<button class="pill step" id="wnext" aria-label="Next sheet">&rsaquo;</button>'+
-        '<button class="pill go" id="dockopen">Open</button>'+
-        '<button class="pill'+(current===0?' on':'')+'" data-go="0">Run</button>'+
+        '<button class="pill step" id="wprev" aria-label="Previous chapter">&lsaquo;</button>'+
+        '<button class="pill step" id="wnext" aria-label="Next chapter">&rsaquo;</button>'+
+        '<button class="pill'+(current===0?' on':'')+'" data-go="0">Home</button>'+
         '<button class="pill'+(current===99?' on':'')+'" data-go="99">Angels</button>'+
       '</div>'+
     '</div>';
   dock.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(parseInt(b.dataset.go,10))));
-  document.getElementById('dockopen').addEventListener('click',()=>go(CH[dialSelected()].n));
   document.getElementById('wprev').addEventListener('click',()=>nudge(-1));
   document.getElementById('wnext').addEventListener('click',()=>nudge(1));
   wireDial();
@@ -1586,7 +1569,7 @@ function wheelSVG(){
          (ch.extra?'\u2605':ch.n)+'</text>';
   });
   return '<svg class="wheel" id="wheel" viewBox="0 0 200 200" tabindex="0" role="slider" '+
-    'aria-label="Choose a sheet. Left and right to turn, enter to open." '+
+    'aria-label="Chapter wheel. Left and right arrows move between chapters and open them. Tap the centre for home." '+
     'aria-valuemin="1" aria-valuemax="12" aria-valuenow="1" aria-valuetext="'+esc(CH[0].title)+'">'+
     '<g id="wrot">'+sec+lab+'</g>'+
     '<circle class="whub" cx="100" cy="100" r="32"></circle>'+
@@ -1617,7 +1600,7 @@ function paintDial(){
     t.setAttribute('transform','rotate('+(-DIAL.rot)+' '+t.dataset.cx+' '+t.dataset.cy+')');
   });
   const sel=dialSelected();
-  if(sel!==DIAL.sel){ DIAL.sel=sel; paintSnap(); }
+  DIAL.sel=sel;
   g.querySelectorAll('.wsec').forEach((p,i)=>p.classList.toggle('on',i===sel));
   const ch=CH[sel];
   const hubn=document.getElementById('hubn');
@@ -1636,38 +1619,6 @@ function paintDial(){
     svg.setAttribute('aria-valuetext',ch.title);
   }
 }
-/* first couple of sentences, up to about a phone-sized bite */
-function snapSum(text){
-  const parts=text.split(/(?<=\.)\s+/);
-  let out='';
-  for(const p of parts){
-    if(out && (out+' '+p).length>170) break;
-    out = out ? out+' '+p : p;
-  }
-  return out;
-}
-function paintSnap(){
-  const box=document.getElementById('snap');
-  if(!box) return;
-  const ch=CH[DIAL.sel];
-  const secs=ch.sections||[];
-  const t=chMins(ch);
-  box.style.setProperty('--c',ch.c);
-  box.style.setProperty('--d',ch.d);
-  box.innerHTML=
-    '<p class="snapkick">'+(ch.extra?'Extra sheet':'Chapter '+ch.n)+
-      (t?'  \u00b7  '+fmtMins(t)+' to read':'')+
-      (state.done[ch.n]?'  \u00b7  done':'')+'</p>'+
-    '<h4>'+esc(ch.title)+'</h4>'+
-    '<p class="snapcolor">'+esc(ch.color)+'</p>'+
-    '<p class="snapsum">'+esc(snapSum(ch.summary))+'</p>'+
-    (secs.length
-      ? '<p class="snapsecs"><b>'+secs.length+' sections</b> '+
-        esc(secs.slice(0,3).map(x=>x.t).join(' \u00b7 '))+(secs.length>3?' \u00b7 ...':'')+'</p>'
-      : '')+
-    '<button class="btn wide" id="snapgo">Open this sheet</button>';
-  document.getElementById('snapgo').addEventListener('click',()=>go(ch.n));
-}
 function spinTo(i,animate){
   const want = -(((i%12)+12)%12)*30;
   /* take the short way round, wherever the wheel happens to be */
@@ -1676,8 +1627,12 @@ function spinTo(i,animate){
   if(animate===false){ DIAL.rot=DIAL.rot+d; paintDial(); }
   else tweenTo(DIAL.rot+d);
 }
+/* turning the wheel is how you get somewhere, not a preview of it: a tap
+   on a sector, an arrow-key or arrow-button step, or letting go of a drag
+   all land straight on that chapter's page. */
 function nudge(d){
-  spinTo(dialSelected()+d,true);
+  const i=((dialSelected()+d)%12+12)%12;
+  go(CH[i].n);
 }
 function wireDial(){
   const svg=document.getElementById('wheel');
@@ -1688,10 +1643,23 @@ function wireDial(){
     const cx=r.left+r.width/2, cy=r.top+r.height/2;
     return Math.atan2(e.clientY-cy,e.clientX-cx)*180/Math.PI;
   };
+  /* what sits under a point at a given rotation: a sector index, or the
+     centre hub. Angle and radius based, rather than hit-testing the exact
+     painted path, so a slightly-off tap on a small dock wheel still lands
+     on the sector it looks like it landed on. */
+  const partAt=(e,rot)=>{
+    const r=svg.getBoundingClientRect();
+    const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    const dx=e.clientX-cx, dy=e.clientY-cy;
+    const distUnits=Math.hypot(dx,dy)*(200/r.width);
+    if(distUnits<36) return {hub:true};
+    const visual=(Math.atan2(dy,dx)*180/Math.PI)+90;
+    const a0=(((visual-rot)%360)+360)%360;
+    return {hub:false, idx:Math.round(a0/30)%12};
+  };
   svg.addEventListener('pointerdown',e=>{
-    const hit=e.target.closest&&e.target.closest('.wsec');
     svg.setPointerCapture(e.pointerId);
-    DIAL.drag={a:angleAt(e),rot:DIAL.rot,hit:hit?parseInt(hit.dataset.sec,10):null};
+    DIAL.drag={a:angleAt(e),rot:DIAL.rot,part:partAt(e,DIAL.rot)};
     DIAL.moved=false;
   });
   svg.addEventListener('pointermove',e=>{
@@ -1704,10 +1672,16 @@ function wireDial(){
   });
   const release=()=>{
     if(!DIAL.drag) return;
-    const hit=DIAL.drag.hit;
+    const part=DIAL.drag.part, moved=DIAL.moved;
     DIAL.drag=null;
-    if(DIAL.moved) spinTo(Math.round(-DIAL.rot/30),true);
-    else if(hit!==null) spinTo(hit,true);   /* a tap: bring that sector to the top */
+    if(moved){
+      const i=((Math.round(-DIAL.rot/30)%12)+12)%12;
+      go(CH[i].n);
+    }else if(part.hub){
+      go(0);
+    }else{
+      go(CH[part.idx].n);
+    }
   };
   svg.addEventListener('pointerup',release);
   svg.addEventListener('pointercancel',()=>{ DIAL.drag=null; });
@@ -1734,8 +1708,7 @@ function renderHome(){
   v.setAttribute('aria-label','Start here');
   v.innerHTML=
   '<div class="sheet"><div class="band"></div><div class="sheet-in">'+
-   '<div class="snap" id="snap"></div>'+
-   '<p class="wheelhint">Turn the wheel to see another chapter.</p>'+
+   '<p class="wheelhint">Turn the wheel up top to jump straight into a chapter. Tap its centre, or the title above it, to come back here.</p>'+
    '<div class="slip"><p>'+esc(HOME.slips[Math.floor(Math.random()*HOME.slips.length)])+'</p></div>'+
 
    '<section><h3>Find a bit'+squiggle()+'</h3>'+
@@ -1764,9 +1737,6 @@ function renderHome(){
      '<ol class="rules">'+HOME.rules.map(r=>'<li>'+esc(r)+'</li>').join('')+'</ol>'+
      '<h4 class="subh">Facilitator moves</h4>'+
      '<ul class="ideas">'+HOME.moves.map(m=>'<li><b>'+esc(m[0])+'</b><span>'+esc(m[1])+'</span></li>').join('')+'</ul>'+
-     '<h4 class="subh">Do you run this group?</h4>'+
-     '<button class="btn wide" id="facil" aria-pressed="'+state.facilitator+'"><span class="tick"></span>'+
-     (state.facilitator?'You run this group':'I run this group')+'</button>'+
      '</div></details>'+
 
    '<details class="fold"><summary><span class="chev"></span>Notes, and starting over</summary>'+
@@ -1778,16 +1748,9 @@ function renderHome(){
      '</div></details>'+
   '</div></div>';
 
-  paintSnap();
   wireCommon(v);
   document.getElementById('findbtn').addEventListener('click',openFinder);
   document.getElementById('export').addEventListener('click',buildExport);
-  const fb=document.getElementById('facil');
-  fb.classList.add('done');
-  fb.addEventListener('click',()=>{
-    state.facilitator=!state.facilitator; queueSave(); renderHome();
-    toast(state.facilitator?'Facilitator tools on':'Facilitator tools off');
-  });
   const rb=document.getElementById('reset');
   let armed=false;
   rb.addEventListener('click',()=>{
@@ -2121,7 +2084,7 @@ function paintCheckin(sc){
           '" style="transform:rotate('+tilt[i%tilt.length]+')">'+esc(w.w)+'</span>').join('')+'</div>'
       : '<p class="legend">'+(shareOK?'Nobody has typed one yet.':'The shared board is not reachable right now.')+'</p>')+
     '<div class="inline"><input id="wordin" maxlength="24" placeholder="'+(mine?'Change your word':'Your one word')+'" aria-label="Your one word"><button class="btn" id="wordgo">'+(mine?'Change':'Add')+'</button></div>'+
-    (state.facilitator?'<button class="btn wide warn" id="wordclear" style="margin-top:10px">Clear the board</button>':'');
+    (LIVE.words.length?'<button class="btn wide warn" id="wordclear" style="margin-top:10px">Clear the board</button>':'');
 
   const inp=document.getElementById('wordin');
   const submit=async()=>{
@@ -2142,14 +2105,15 @@ function paintCheckin(sc){
 /* ============================================================
    THE ANGELS WALL
    ============================================================ */
-let WALL={wall:[],inbox:[],at:0};
+let WALL={wall:[],at:0};
 
 /* ============================================================
-   RENDER: the private page
+   RENDER: the angels wall
 
-   Ghosts go here. This never touches sset, never goes in the export,
-   and has no share affordance anywhere on it. The only thing that can
-   leave is an angel the person deliberately sends to the wall.
+   Nobody moderates this. Whoever writes a line posts it straight to
+   the wall, and anyone on the link can take one down, same as anyone
+   could rip a page off a real corkboard. No one facilitator, no queue,
+   no approval step.
    ============================================================ */
 async function renderWall(){
   applyColors({c:'#F6E3B8',d:'#7E5F14'});
@@ -2160,14 +2124,12 @@ async function renderWall(){
     '<p class="colorname">Being loved right, remembered. One line each.</p>'+
     '<p class="legend">Loading...</p></div></div>';
   WALL.wall=await sget(SK.wall,[])||[];
-  WALL.inbox=await sget(SK.inbox,[])||[];
   if(current===99) paintWall();
 }
 
 function paintWall(){
   const v=document.getElementById('view');
   const w=WALL.wall, cur=w.length?w[WALL.at%w.length]:null;
-  const mineInbox=WALL.inbox.filter(x=>x.by===state.me);
   v.innerHTML='<div class="sheet"><div class="band"></div><div class="sheet-in">'+
    '<p class="eyebrow">Together</p>'+
    '<h2>The angels wall</h2>'+
@@ -2178,77 +2140,71 @@ function paintWall(){
      '<li><b>Ghosts</b><span>Fraiberg\u2019s word. What was done to you that you now catch yourself repeating.</span></li>'+
      '<li><b>Angels</b><span>Lieberman\u2019s answer, 2005. One specific moment of being loved exactly right when you were small. Not a happy childhood. One moment.</span></li>'+
      '<li><b>Why</b><span>Those memories appear to buffer against a hard childhood. They are part of what stops the cycle.</span></li>'+
-     '<li><b>This page</b><span>Where the group\u2019s collect. Add one after a session. Read a few out to open the next one.</span></li>'+
+     '<li><b>This page</b><span>Where the group\u2019s collect. Add one after a session. Read a few out to open the next one. Anyone can take one down.</span></li>'+
    '</ul>'+
-   '<div class="warnbox"><b>Before you write.</b> No names here, but that is not the same as anonymous. This is a small team, and a specific detail will give you away. Write only what you would be fine hearing read out loud. Lines go to the facilitator first.</div></section>'+
+   '<div class="warnbox"><b>Before you write.</b> No names here, but that is not the same as anonymous. This is a small team, and a specific detail will give you away. Write only what you would be fine hearing read out loud. It posts straight to the wall, no approval needed.</div></section>'+
 
    '<section><h3>The wall'+squiggle()+'</h3>'+
    (cur
     ? '<div class="wallbig">'+esc(cur.text)+'</div>'+
-      '<div class="rowbtns"><button class="btn" id="wshuffle">Another one</button><button class="btn" id="wall-all">See all '+w.length+'</button></div>'+
+      '<div class="rowbtns"><button class="btn" id="wshuffle">Another one</button><button class="btn" id="wall-all">See all '+w.length+'</button>'+
+      '<button class="btn warn" id="walldelcur">Take this down</button></div>'+
       '<div id="walllist"></div>'
     : '<p class="legend">Nothing on the wall yet. It fills up after your first angels prompt.</p>')+
    '</section>'+
 
    '<section><h3>Add a line'+squiggle()+'</h3>'+
-   (WALL.prefill?'<p class="legend">Carried over from your private page. Only this line came with you.</p>':'')+
    '<textarea id="wtext" maxlength="280" aria-label="Your angel memory" placeholder="One moment. Where you were, who it was, what they did."></textarea>'+
-   '<button class="btn wide" id="wsend">Send it to the facilitator</button>'+
-   (mineInbox.length?'<p class="legend">You have '+mineInbox.length+' waiting to be posted.</p>':'')+
+   '<button class="btn wide" id="wsend">Add it to the wall</button>'+
    '</section>'+
-
-   (state.facilitator
-    ? '<section><h3>Waiting for you'+squiggle()+'</h3>'+
-      (WALL.inbox.length
-        ? WALL.inbox.map(x=>'<div class="wallcard">'+esc(x.text)+
-            '<div class="rowbtns"><button class="btn" data-post="'+x.id+'">Post to the wall</button>'+
-            '<button class="btn warn" data-drop="'+x.id+'">Delete</button></div></div>').join('')
-        : '<p class="legend">Nothing waiting.</p>')+
-      '</section>'
-    : '')+
 
    '<button class="btn wide" id="wrefresh">Refresh the wall</button>'+
   '</div></div>';
-
-  if(WALL.prefill){
-    const t=document.getElementById('wtext');
-    if(t){ t.value=WALL.prefill; }
-    WALL.prefill=null;
-  }
 
   const sh=document.getElementById('wshuffle');
   if(sh) sh.addEventListener('click',()=>{ WALL.at=Math.floor(Math.random()*WALL.wall.length); paintWall(); });
   const all=document.getElementById('wall-all');
   if(all) all.addEventListener('click',()=>{
-    document.getElementById('walllist').innerHTML=WALL.wall.map(x=>'<div class="wallcard">'+esc(x.text)+'</div>').join('');
+    document.getElementById('walllist').innerHTML=WALL.wall.map(x=>
+      '<div class="wallcard">'+esc(x.text)+
+      '<div class="rowbtns"><button class="btn warn" data-walldel="'+x.id+'">Take this down</button></div></div>').join('');
     all.remove();
+    wireWallDelete(v);
+  });
+
+  const delcur=document.getElementById('walldelcur');
+  if(delcur) delcur.addEventListener('click',async()=>{
+    if(!cur) return;
+    WALL.wall=WALL.wall.filter(x=>x.id!==cur.id);
+    await sset(SK.wall,WALL.wall);
+    toast('Taken down');
+    paintWall();
   });
 
   document.getElementById('wsend').addEventListener('click',async()=>{
     const t=document.getElementById('wtext').value.trim();
-    if(!t) return toast('Nothing to send');
-    WALL.inbox.push({id:newId(),text:t.slice(0,280),by:state.me});
-    await sset(SK.inbox,WALL.inbox);
+    if(!t) return toast('Nothing to add');
+    WALL.wall.push({id:newId(),text:t.slice(0,280),by:state.me});
+    await sset(SK.wall,WALL.wall);
     document.getElementById('wtext').value='';
-    toast('Sent. It appears once the facilitator posts it.');
+    toast('On the wall');
     paintWall();
   });
 
-  v.querySelectorAll('[data-post]').forEach(b=>b.addEventListener('click',async()=>{
-    const item=WALL.inbox.find(x=>x.id===b.dataset.post); if(!item) return;
-    WALL.wall.push({id:item.id,text:item.text});
-    WALL.inbox=WALL.inbox.filter(x=>x.id!==item.id);
-    await sset(SK.wall,WALL.wall); await sset(SK.inbox,WALL.inbox);
-    paintWall(); toast('Posted');
-  }));
-  v.querySelectorAll('[data-drop]').forEach(b=>b.addEventListener('click',async()=>{
-    WALL.inbox=WALL.inbox.filter(x=>x.id!==b.dataset.drop);
-    await sset(SK.inbox,WALL.inbox); paintWall();
-  }));
   document.getElementById('wrefresh').addEventListener('click',async()=>{
-    WALL.wall=await sget(SK.wall,[])||[]; WALL.inbox=await sget(SK.inbox,[])||[];
+    WALL.wall=await sget(SK.wall,[])||[];
     paintWall(); toast('Refreshed');
   });
+
+  wireWallDelete(v);
+}
+function wireWallDelete(v){
+  v.querySelectorAll('[data-walldel]').forEach(b=>b.addEventListener('click',async()=>{
+    WALL.wall=WALL.wall.filter(x=>x.id!==b.dataset.walldel);
+    await sset(SK.wall,WALL.wall);
+    toast('Taken down');
+    paintWall();
+  }));
 }
 
 /* ============================================================
@@ -2260,7 +2216,7 @@ function paintWall(){
    ============================================================ */
 const TUTORIAL=[
  {lab:"The wheel", big:"Pick a chapter",
-  med:"It stays at the top of every screen. Drag it, tap a colour, or use the arrows. Open takes you to that chapter\u2019s list.",
+  med:"It stays at the top of every screen. Drag it or tap a colour and it takes you straight there. Tap the centre, or the title above it, to come back here.",
   nav:()=>go(0), find:()=>document.getElementById('wheel')},
  {lab:"Then one bit", big:"A section, not a chapter",
   med:"Chapters are long. Sections are not. Each one says how many minutes it is to read. Tap one.",
@@ -2420,6 +2376,12 @@ function render(){
   else if(current===99) renderWall();
   else renderChapter(CH.find(c=>c.n===current));
 }
+
+const hometitle=document.getElementById('hometitle');
+hometitle.addEventListener('click',()=>go(0));
+hometitle.addEventListener('keydown',e=>{
+  if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(0); }
+});
 
 const themebtn=document.getElementById('themebtn');
 function paintTheme(){
