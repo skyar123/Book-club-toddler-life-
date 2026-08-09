@@ -19,7 +19,12 @@ export default async (req) => {
   if (req.method === 'GET') {
     const value = await store.get(key);
     return new Response(JSON.stringify({ value: value ?? null }), {
-      headers: { 'content-type': 'application/json' }
+      headers: {
+        'content-type': 'application/json',
+        /* shared answers go stale the moment somebody else posts one, and a
+           phone that serves this from cache shows an out of date room */
+        'cache-control': 'no-store, max-age=0'
+      }
     });
   }
 
