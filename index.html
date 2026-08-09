@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBF6EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17150F" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Book Club">
 <title>The Emotional Life of the Toddler: Book Club</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,6 +56,11 @@
   }
 
   *{box-sizing:border-box}
+  /* iOS: no grey flash on tap, no text auto-inflation in landscape */
+  *{-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  /* kills the 300ms double-tap-to-zoom delay on everything you can touch */
+  button,summary,input,textarea,select,a,label,[role="button"]{touch-action:manipulation}
   html,body{margin:0;padding:0}
   body{
     background:var(--paper);
@@ -99,6 +110,9 @@
 
   /* ---------- crayon rack ---------- */
   .rack{position:sticky;top:0;z-index:30;background:var(--paper);padding:10px 0 8px}
+  /* the dock is sticky, so anything we scroll to must stop clear of it */
+  .bigq,.anspanel,.byo,#byosec{scroll-margin-top:150px}
+  @media(max-width:380px){ .bigq,.anspanel,.byo,#byosec{scroll-margin-top:134px} }
   .rack:after{
     content:"";position:absolute;left:0;right:0;top:100%;height:16px;
     background:linear-gradient(var(--paper),transparent);pointer-events:none;
@@ -122,7 +136,8 @@
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   }
   .dockbtns{display:flex;gap:5px;flex-wrap:wrap}
-  .pill.step{padding:6px 10px;font-size:15px;line-height:1}
+  /* the two wheel arrows are thumb targets, so give them thumb-sized boxes */
+  .pill.step{padding:0 10px;font-size:19px;line-height:1;min-width:42px;min-height:38px}
   .pill{
     border:1.5px solid var(--rule);background:transparent;color:var(--ink-soft);
     border-radius:99px;padding:6px 11px;font:inherit;font-size:12.5px;font-weight:700;
@@ -213,8 +228,8 @@
   .byobody{flex:1;min-width:0;padding-top:9px}
   .byokind{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;
     color:var(--accent);margin:0 0 4px}
-  .byotext{margin:0;font-size:16px;line-height:1.5}
-  .byox{flex:0 0 auto;width:34px;height:34px;border:0;background:transparent;color:var(--ink-mute);
+  .byotext{margin:0;font-size:16px;line-height:1.5;overflow-wrap:anywhere}
+  .byox{flex:0 0 auto;width:var(--tap);height:var(--tap);border:0;background:transparent;color:var(--ink-mute);
     font-size:21px;line-height:1;cursor:pointer;border-radius:9px}
   .byoempty{margin-top:12px}
   .justadded{animation:pop .5s ease}
@@ -402,11 +417,51 @@
     color:var(--accent);margin-bottom:4px;
   }
   .watchbox p{margin:0;font-size:15px;line-height:1.55;color:var(--ink-soft)}
-  .bigq{border:2px solid var(--c);border-radius:14px;padding:16px 17px;margin-top:16px}
+  /* the question is a button now: tap it and it opens to be answered */
+  .bigq{
+    display:block;width:100%;text-align:left;cursor:pointer;
+    border:2px solid var(--c);border-radius:14px;padding:16px 17px;margin-top:16px;
+    background:transparent;color:inherit;font:inherit;
+  }
   .bigq p{
     margin:0;font-family:'Baloo 2',sans-serif;font-weight:500;
-    font-size:clamp(18px,4.6vw,22px);line-height:1.4;
+    font-size:clamp(18px,4.6vw,22px);line-height:1.4;overflow-wrap:anywhere;
   }
+
+  /* ---------- answers ---------- */
+  .qfoot{display:flex;align-items:center;gap:7px;margin-top:11px}
+  .anstag{font-size:12.5px;font-weight:700;letter-spacing:.03em;color:var(--accent)}
+  .qchev{
+    flex:0 0 auto;width:7px;height:7px;
+    border-right:2.2px solid var(--accent);border-bottom:2.2px solid var(--accent);
+    transform:rotate(45deg);transition:transform .18s ease;margin-bottom:2px;
+  }
+  [aria-expanded="true"] .qchev{transform:rotate(225deg);margin-bottom:-2px}
+  .ansopen{
+    display:flex;align-items:center;gap:7px;min-height:var(--tap);
+    background:transparent;border:0;padding:8px 8px 8px 0;margin-top:2px;
+    font:inherit;cursor:pointer;color:var(--accent);
+  }
+  .anspanel{padding:14px 0 4px}
+  .anspanel[hidden]{display:none}
+  .anshint{font-size:12.5px;color:var(--ink-mute);margin:0 0 12px}
+  .anslist{list-style:none;margin:0 0 4px;padding:0}
+  .ansitem{border-left:3px solid var(--rule);padding:1px 0 1px 12px;margin:0 0 13px}
+  .ansitem.mine{border-left-color:var(--c)}
+  .ansmeta{
+    font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;
+    color:var(--ink-mute);margin:0 0 3px;
+  }
+  .anstext{margin:0;font-size:15.5px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+  .ansdel{
+    border:0;background:transparent;color:var(--ink-mute);cursor:pointer;
+    font:inherit;font-size:12.5px;font-weight:700;padding:8px 8px 8px 0;margin-top:2px;
+  }
+  .anspanel textarea{min-height:92px;margin-top:4px}
+  .anspending{opacity:.7}
+  /* both controls do not fit across a small phone, so let them wrap */
+  .anspanel .rowbtns{flex-wrap:wrap}
+  .anspanel .rowbtns .btn{flex:1 1 44%;min-width:128px;font-size:14.5px;padding:10px 12px}
   ul.plainq{list-style:none;margin:10px 0 0;padding:0}
   ul.plainq li{
     border-left:3px solid var(--rule);padding:2px 0 2px 13px;margin-bottom:13px;
@@ -415,17 +470,13 @@
   ul.plainq .qnote{display:block;font-size:13.5px;color:var(--ink-soft);margin-top:5px}
   .legend{font-size:13.5px;color:var(--ink-soft);margin:14px 0 2px}
 
-  /* ---------- chips and inputs ---------- */
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-  .chip{
-    font-family:'Baloo 2',sans-serif;font-weight:600;font-size:16px;
-    padding:6px 14px;border-radius:99px;background:var(--c);color:#22201C;
-    transform:rotate(var(--tilt,0deg));
-  }
-  .chip.mine{box-shadow:0 0 0 2px var(--accent)}
+  /* ---------- inputs ---------- */
   .inline{display:flex;gap:8px;margin-top:14px}
   .inline input{
-    flex:1;min-height:var(--tap);padding:10px 14px;border-radius:12px;
+    /* min-width:0 or the placeholder sets a floor on the input and shoves
+       the button off the right edge of a small phone */
+    flex:1 1 auto;min-width:0;
+    min-height:var(--tap);padding:10px 14px;border-radius:12px;
     border:1.5px solid var(--rule);background:var(--sheet);color:var(--ink);
     font-family:'Karla',sans-serif;font-size:16px;
   }
@@ -535,8 +586,8 @@ const CH = [
 {
   n:1, short:"Early Relationships", color:"Come Back Pink", c:"#F9C5D5", d:"#9C3E59",
   title:"The Emotional Importance of Early Relationships",
-  send:"Chapter 1 for our first session. Come with one word for how your week has been. That is the whole prep.",
-  opener:"We are starting with the chapter that sets the terms for everything else. Before we get into it: one word each for how your week has been.",
+  send:"Chapter 1 for our first session. Open the link, tap the question, and leave an answer before we meet. That is the whole prep.",
+  opener:"We are starting with the chapter that sets the terms for everything else. Before we get into it: everyone say their name and how far they got.",
   summary:"Toddlers do things that look irrational. Head-banging. Refusing food while hungry. Bolting for the street. Lieberman says none of it is misbehavior. It is a feeling with no words yet. The answer is a secure base: one person reliable enough to leave and come back to.",
   ideas:[
    ["Two feelings at once","Joy and fury run on the same wiring in a brain that cannot yet hold a contradiction."],
@@ -1268,14 +1319,14 @@ const HOME = {
    wall:"The angels wall is where those memories collect. After a session, anyone can add one line. By the end the group has a deck of them, and you can open a meeting by reading a few out."
   },
   flow15:[
-   ["0 to 2","One word each. How is your week.",120],
+   ["0 to 2","Land. Read out what people answered.",120],
    ["2 to 4","Read the section out loud. Just the one.",120],
    ["4 to 11","One question. Let it run long.",420],
    ["11 to 14","Angels. Slow down.",180],
    ["14 to 15","Next date. Done.",60]
   ],
   flow25:[
-   ["0 to 3","Land. One word each.",180],
+   ["0 to 3","Land. Read out what people answered.",180],
    ["3 to 5","Ground rules, if the group is new.",120],
    ["5 to 8","The section in short.",180],
    ["8 to 13","One warm up question.",300],
@@ -1284,7 +1335,7 @@ const HOME = {
    ["24 to 25","Next time. Done.",60]
   ],
   flow45:[
-   ["0 to 5","Arrive. One word each.",300],
+   ["0 to 5","Arrive. Read out what people answered.",300],
    ["5 to 8","Ground rules out loud.",180],
    ["8 to 13","The chapter in short. Say what you are skipping.",300],
    ["13 to 22","Warm up. Everyone speaks once.",540],
@@ -1315,7 +1366,7 @@ const HOME = {
    "Skipping the chapter that is too close to home right now is a skill, not a failure.",
    "Nobody is being graded. There is no grade.",
    "Half-read and present beats fully-read and dreading it.",
-   "If the only thing you do tonight is the one word check-in, that counted."
+   "If the only thing you do tonight is answer one question on the link, that counted."
   ],
   activated:[
    "Someone will get hit by this book. Here is the whole move.",
@@ -1331,7 +1382,7 @@ const HOME = {
    STATE
    ============================================================ */
 const KEY='toddlerBookClub:v2', OLDKEY='toddlerBookClub:v1';
-let state={done:{},notes:{},covered:{},byo:{},theme:'auto',flow:25,me:null,tutorialSeen:false};
+let state={done:{},notes:{},covered:{},byo:{},theme:'auto',flow:25,me:null,name:'',outbox:[],tutorialSeen:false};
 let current=0, saveTimer=null;
 
 /* ---- personal state: saved to this browser only, via localStorage ---- */
@@ -1351,6 +1402,9 @@ function loadState(){
 }
 function ensureState(){
   ['done','notes','covered','byo'].forEach(k=>{ if(!state[k]||typeof state[k]!=='object') state[k]={}; });
+  if(!Array.isArray(state.outbox)) state.outbox=[];
+  state.outbox=state.outbox.filter(x=>x&&x.item&&x.item.id&&x.qid);
+  if(typeof state.name!=='string') state.name='';
   if(![15,25,45].includes(state.flow)) state.flow=25;
 }
 function queueSave(){
@@ -1367,11 +1421,13 @@ function saveNow(){
    via a small Netlify Function backed by Netlify Blobs ---- */
 const SHARE_API='/api/store';
 const SHARE_MAX=19000;   /* the function rejects anything over 20000 */
-const SK={ checkin:id=>'tbc:checkin:'+id, byo:id=>'tbc:byo:'+id, wall:'tbc:angels:wall' };
+const SK={ ans:id=>'tbc:ans:'+id, byo:id=>'tbc:byo:'+id, wall:'tbc:angels:wall' };
 let shareOK=true;
 async function sget(key,fallback){
   try{
-    const r=await fetch(SHARE_API+'?key='+encodeURIComponent(key));
+    /* belt and braces with the no-store header on the function: iOS is
+       enthusiastic about reusing a GET it has already made */
+    const r=await fetch(SHARE_API+'?key='+encodeURIComponent(key)+'&t='+Date.now(),{cache:'no-store'});
     if(!r.ok) throw new Error('status '+r.status);
     const j=await r.json();
     shareOK=true;
@@ -1402,6 +1458,11 @@ function announce(msg){ document.getElementById('announce').textContent=msg; }
    HELPERS
    ============================================================ */
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+/* esc is for text nodes. anything going inside an attribute needs the quotes too */
+function attr(s){return esc(s).replace(/"/g,'&quot;');}
+function cssEsc(s){
+  return (window.CSS&&CSS.escape)?CSS.escape(String(s)):String(s).replace(/["\\]/g,'\\$&');
+}
 function squiggle(){
   return '<svg viewBox="0 0 200 7" preserveAspectRatio="none" aria-hidden="true">'+
     '<path d="M1 5.2 C 26 1.6, 47 6.4, 72 3.4 S 121 1.4, 146 4.6 S 182 2.2, 199 4.2" fill="none" stroke="var(--accent)" stroke-width="3.4" stroke-linecap="round"/></svg>';
@@ -1433,21 +1494,34 @@ function allQ(ch){ return [...voteQ(ch),...secQ(ch),...byoQ(ch)]; }
 /* ============================================================
    TIMER
    ============================================================ */
-let T={segs:null,i:0,left:0,tick:null,running:false};
+/* Counted off the clock, not off a tick. iOS throttles or stops timers
+   the moment the phone locks, and a session timer that quietly loses
+   four minutes in your pocket is worse than no timer. */
+let T={segs:null,i:0,left:0,tick:null,running:false,deadline:0,buzzed:false};
 function startFlow(segs,i){
-  T.segs=segs; T.i=i; T.left=segs[i][2]; T.running=true;
+  if(!segs||!segs[i]) return;
+  T.segs=segs; T.i=i; setSeg(segs[i][2]);
   document.getElementById('timer').classList.add('show');
   paintTimer(); runTick();
   if(current===0) renderHome();
 }
+function setSeg(secs){
+  T.left=secs; T.deadline=Date.now()+secs*1000; T.running=true; T.buzzed=false;
+}
 function runTick(){
   clearInterval(T.tick);
-  T.tick=setInterval(()=>{
-    if(!T.running) return;
-    T.left--;
-    if(T.left===0 && navigator.vibrate) try{navigator.vibrate([120,60,120]);}catch(e){}
-    paintTimer();
-  },1000);
+  T.tick=setInterval(tickNow,250);
+}
+function tickNow(){
+  if(!T.segs||!T.running) return;
+  const left=Math.ceil((T.deadline-Date.now())/1000);
+  if(left===T.left) return;
+  T.left=left;
+  if(left<=0 && !T.buzzed){
+    T.buzzed=true;
+    if(navigator.vibrate) try{navigator.vibrate([120,60,120]);}catch(e){}
+  }
+  paintTimer();
 }
 function paintTimer(){
   const bar=document.getElementById('timer');
@@ -1460,15 +1534,20 @@ function paintTimer(){
 }
 function nextSeg(){
   if(!T.segs) return;
-  if(T.i<T.segs.length-1){ T.i++; T.left=T.segs[T.i][2]; T.running=true; paintTimer(); if(current===0) renderHome(); }
+  if(T.i<T.segs.length-1){ T.i++; setSeg(T.segs[T.i][2]); paintTimer(); if(current===0) renderHome(); }
   else stopTimer();
 }
 function stopTimer(){
-  clearInterval(T.tick); T.segs=null; T.running=false;
+  clearInterval(T.tick); T.segs=null; T.running=false; T.tick=null;
   document.getElementById('timer').classList.remove('show');
   if(current===0) renderHome();
 }
-document.getElementById('tpause').addEventListener('click',()=>{T.running=!T.running;paintTimer();});
+document.getElementById('tpause').addEventListener('click',()=>{
+  if(!T.segs) return;
+  if(T.running){ T.running=false; T.left=Math.ceil((T.deadline-Date.now())/1000); }
+  else{ T.running=true; T.deadline=Date.now()+T.left*1000; }
+  paintTimer();
+});
 document.getElementById('tnext').addEventListener('click',nextSeg);
 document.getElementById('tstop').addEventListener('click',stopTimer);
 
@@ -1793,19 +1872,53 @@ function openFinder(){
   paint(); inp.focus();
 }
 
-function buildExport(){
+/* run the fetches a few at a time: there are 67 sections and firing them
+   all at once is a good way to get throttled */
+async function pooled(items,size,fn){
+  const out=[];
+  for(let i=0;i<items.length;i+=size){
+    out.push(...await Promise.all(items.slice(i,i+size).map(fn)));
+  }
+  return out;
+}
+
+async function buildExport(){
+  const btn=document.getElementById('export');
+  if(btn) btn.textContent='Building...';
+  const secs=allSections();
+  const answers={};
+  await pooled(secs,8,async({sc})=>{
+    const a=await sget(SK.ans(sc.id),null);
+    if(a && typeof a==='object' && !Array.isArray(a)) answers[sc.id]=a;
+  });
+  if(btn) btn.textContent='Build the export';
+
   const lines=['THE EMOTIONAL LIFE OF THE TODDLER: book club notes','Exported '+new Date().toLocaleDateString(),''];
-  allSections().forEach(({ch,sc})=>{
+  secs.forEach(({ch,sc})=>{
     const note=(state.notes[sc.id]||'').trim();
     const brought=byoOf(sc);
     const cov=!!state.covered[sc.id];
-    if(!note && !brought.length && !cov) return;
+    const ans=answers[sc.id]||{};
+    const answered=Object.keys(ans).filter(k=>(ans[k]||[]).length);
+    if(!note && !brought.length && !cov && !answered.length) return;
     lines.push('----------------------------------------');
     lines.push(ch.short.toUpperCase()+'  /  '+sc.t+(cov?'  [done]':''));
     if(brought.length){
       lines.push('');
       lines.push('Brought by the group:');
       brought.forEach(b=>lines.push('  - ['+(b.kind==='quote'?'quote':'question')+'] '+b.text));
+    }
+    if(answered.length){
+      const label={}; brought.forEach(b=>label[b.id]=b.text);
+      lines.push('');
+      lines.push('What the group answered:');
+      answered.forEach(id=>{
+        lines.push('');
+        lines.push('  '+(id===sc.id ? (sc.q||sc.t) : (label[id]||'(since deleted)')));
+        (ans[id]||[]).forEach(a=>{
+          lines.push('    - '+(a.name||(a.by===state.me?'You':'Someone'))+': '+a.text);
+        });
+      });
     }
     if(note){ lines.push(''); lines.push('Notes:'); lines.push(note); }
     lines.push('');
@@ -1895,7 +2008,11 @@ function secNeighbours(id){
 
 function renderSection(ch,sc){
   applyColors(ch);
-  if(LIVE.forSec!==sc.id){ LIVE.words=[]; LIVE.forSec=sc.id; }
+  if(LIVE.forSec!==sc.id){
+    LIVE.ans={}; LIVE.forSec=null;
+    OPEN_ANS.clear();
+    Object.keys(ANS_DRAFT).forEach(k=>delete ANS_DRAFT[k]);
+  }
   const cov=!!state.covered[sc.id];
   const nb=secNeighbours(sc.id);
   const v=document.getElementById('view');
@@ -1914,11 +2031,14 @@ function renderSection(ch,sc){
    '</section>'+
 
    (sc.q?'<section><h3>Talk about'+squiggle()+'</h3>'+
-     '<div class="bigq"><p>'+esc(sc.q)+'</p></div></section>':'')+
-
-   '<section><h3>One word each'+squiggle()+'</h3>'+
-   '<p class="legend">How is your week. Everyone on this link sees it.</p>'+
-   '<div id="checkin"><p class="legend">Loading...</p></div></section>'+
+     /* the open set survives a re-render, so the markup has to agree with
+        it or the next tap closes a panel that looks shut */
+     '<button class="bigq" data-ans="'+attr(sc.id)+'" aria-expanded="'+OPEN_ANS.has(sc.id)+'" aria-controls="ans-'+attr(sc.id)+'">'+
+       '<p>'+esc(sc.q)+'</p>'+
+       '<span class="qfoot"><span class="anstag" id="anstag-'+attr(sc.id)+'">'+ansLabel(sc.id)+'</span><span class="qchev"></span></span>'+
+     '</button>'+
+     '<div class="anspanel" id="ans-'+attr(sc.id)+'"'+(OPEN_ANS.has(sc.id)?'':' hidden')+'>'+
+       (OPEN_ANS.has(sc.id)?ansPanel(sc.id):'')+'</div></section>':'')+
 
    byoList(sc)+
 
@@ -2001,13 +2121,17 @@ function byoCards(sc){
   const items=byoOf(sc);
   if(!items.length) return '<p class="empty byoempty">Nothing brought yet. Yours would be the first.</p>';
   return items.map(b=>{
-    const me=b.by===state.me;
-    return '<div class="byo'+(b.kind==='quote'?' isquote':'')+(me?' ismine':'')+'" id="byo-'+b.id+'">'+
+    const me=b.by===state.me, open=OPEN_ANS.has(b.id);
+    return '<div class="byo'+(b.kind==='quote'?' isquote':'')+(me?' ismine':'')+'" id="byo-'+attr(b.id)+'">'+
       '<div class="byobody">'+
         '<p class="byokind">'+(b.kind==='quote'?'Quote':'Question')+(me?' · yours':'')+'</p>'+
         '<p class="byotext">'+esc(b.text)+'</p>'+
+        '<button class="ansopen" data-ans="'+attr(b.id)+'" aria-expanded="'+open+'" aria-controls="ans-'+attr(b.id)+'">'+
+          '<span class="anstag" id="anstag-'+attr(b.id)+'">'+ansLabel(b.id)+'</span><span class="qchev"></span>'+
+        '</button>'+
+        '<div class="anspanel" id="ans-'+attr(b.id)+'"'+(open?'':' hidden')+'>'+(open?ansPanel(b.id):'')+'</div>'+
       '</div>'+
-      (me?'<button class="byox" data-byox="'+b.id+'" aria-label="Delete this">&times;</button>':'')+
+      (me?'<button class="byox" data-byox="'+attr(b.id)+'" aria-label="Delete this">&times;</button>':'')+
     '</div>';
   }).join('');
 }
@@ -2040,12 +2164,87 @@ function wireByo(v,sc){
     const shared=await sset(SK.byo(sc.id),state.byo[sc.id],true);
     celebrate(kind,shared);
   });
-  v.addEventListener('click',async e=>{
-    const del=e.target.closest('[data-byox]'); if(!del) return;
-    state.byo[sc.id]=byoOf(sc).filter(b=>b.id!==del.dataset.byox);
-    queueSave(); repaintByo(sc);
-    await sset(SK.byo(sc.id),state.byo[sc.id],true);
+  /* deleting is handled by the one delegated listener on #view. Bound
+     here it would stack a fresh copy on every render, each still
+     holding the section it was born in. */
+}
+
+/* ---- one listener on the view, wired once at boot ---- */
+function wireView(){
+  const v=document.getElementById('view');
+
+  v.addEventListener('click',e=>{
+    const t=e.target;
+    if(!t||!t.closest) return;
+
+    const ans=t.closest('[data-ans]');
+    if(ans){ toggleAnswers(ans.dataset.ans); return; }
+
+    const post=t.closest('[data-anspost]');
+    if(post){ postAnswer(post.dataset.anspost); return; }
+
+    const refresh=t.closest('[data-ansrefresh]');
+    if(refresh){ refreshAnswers(refresh.dataset.ansrefresh); return; }
+
+    const del=t.closest('[data-ansdel]');
+    if(del){ armed(del,'Tap again to delete','Delete',()=>delAnswer(del.dataset.ansq,del.dataset.ansdel)); return; }
+
+    const clr=t.closest('[data-ansclear]');
+    if(clr){ armed(clr,'Tap again to clear','Clear answers',()=>clearAnswers(clr.dataset.ansclear)); return; }
+
+    const byox=t.closest('[data-byox]');
+    if(byox){ deleteByo(byox.dataset.byox); return; }
   });
+
+  /* keep what you typed, so a refresh or a repaint cannot eat it */
+  v.addEventListener('input',e=>{
+    const t=e.target;
+    if(t&&t.dataset&&t.dataset.ansbox!==undefined) ANS_DRAFT[t.dataset.ansbox]=t.value;
+  });
+
+  /* the name field is one line, so the return key means post */
+  v.addEventListener('keydown',e=>{
+    const t=e.target;
+    if(!t||!t.dataset||t.dataset.ansname===undefined) return;
+    if(e.key!=='Enter') return;
+    e.preventDefault();
+    postAnswer(t.dataset.ansname);
+  });
+}
+
+/* two-tap confirm, the pattern the rest of the app already uses */
+function armed(btn,warn,back,run){
+  if(btn.dataset.armed==='1'){
+    btn.dataset.armed='';
+    clearTimeout(+btn.dataset.armtimer||0);
+    run();
+    return;
+  }
+  btn.dataset.armed='1';
+  btn.textContent=warn;
+  btn.dataset.armtimer=String(setTimeout(()=>{
+    btn.dataset.armed=''; btn.textContent=back;
+  },4000));
+}
+
+async function deleteByo(id){
+  const hit=SECV&&findSec(SECV); if(!hit) return;
+  const sc=hit.sc;
+  state.byo[sc.id]=byoOf(sc).filter(b=>b.id!==id);
+  OPEN_ANS.delete(id);
+  delete ANS_DRAFT[id];
+  state.outbox=(state.outbox||[]).filter(x=>x.qid!==id);
+  queueSave(); repaintByo(sc);
+  await sset(SK.byo(sc.id),state.byo[sc.id],true);
+  /* take the question's answers with it, or they sit in the blob forever
+     with nothing to attach to, eating the size budget */
+  if(LIVE.ans && LIVE.ans[id]){
+    const latest=await sget(SK.ans(sc.id),null);
+    const base=(latest&&typeof latest==='object'&&!Array.isArray(latest))?latest:{};
+    const next=mergeAns(base,LIVE.ans);
+    delete next[id];
+    if(await sset(SK.ans(sc.id),next,true) && SECV===sc.id) LIVE.ans=next;
+  }
 }
 
 function celebrate(kind,shared){
@@ -2063,43 +2262,224 @@ function celebrate(kind,shared){
 }
 
 /* ============================================================
-   LIVE: one word check-in, per section (shared)
+   ANSWERS
+
+   Tap the question, type an answer, everybody on the link reads it.
+   One blob per section, keyed by question id, so the section page
+   needs exactly one extra fetch. A write merges against whatever is
+   on the server first, so two people answering at the same moment
+   do not overwrite each other.
    ============================================================ */
-const LIVE={words:[],forSec:null};
+const LIVE={ans:{},forSec:null};
+const OPEN_ANS=new Set();   /* which panels are open on this screen */
+const ANS_DRAFT={};         /* what you have typed but not posted yet */
+const ANS_MAX=600;
 
 async function loadLive(sc){
-  LIVE.words = await sget(SK.checkin(sc.id),[]) || [];
-  const brought = await sget(SK.byo(sc.id),null);
+  const [ans,brought]=await Promise.all([
+    sget(SK.ans(sc.id),{}),
+    sget(SK.byo(sc.id),null)
+  ]);
+  /* a slow reply for a section you have already left must not land on
+     the one you are looking at now */
+  if(SECV!==sc.id) return;
+  LIVE.ans = (ans&&typeof ans==='object'&&!Array.isArray(ans))?ans:{};
+  LIVE.forSec = sc.id;
   if(brought){ state.byo[sc.id]=brought; queueSave(); }
-  if(SECV===sc.id){ paintCheckin(sc); repaintByo(sc); }
+  repaintByo(sc);
+  paintAllAnsToggles();
+  OPEN_ANS.forEach(id=>paintAnsPanel(id));
 }
 
-function paintCheckin(sc){
-  const box=document.getElementById('checkin'); if(!box) return;
-  const mine=LIVE.words.find(w=>w.by===state.me);
-  const tilt=['-3deg','2deg','-1.5deg','3deg','0deg','-2.5deg'];
-  box.innerHTML=
-    (LIVE.words.length
-      ? '<div class="chips">'+LIVE.words.map((w,i)=>'<span class="chip'+(w.by===state.me?' mine':'')+
-          '" style="transform:rotate('+tilt[i%tilt.length]+')">'+esc(w.w)+'</span>').join('')+'</div>'
-      : '<p class="legend">'+(shareOK?'Nobody has typed one yet.':'The shared board is not reachable right now.')+'</p>')+
-    '<div class="inline"><input id="wordin" maxlength="24" placeholder="'+(mine?'Change your word':'Your one word')+'" aria-label="Your one word"><button class="btn" id="wordgo">'+(mine?'Change':'Add')+'</button></div>'+
-    (LIVE.words.length?'<button class="btn wide warn" id="wordclear" style="margin-top:10px">Clear the board</button>':'');
-
-  const inp=document.getElementById('wordin');
-  const submit=async()=>{
-    const w=inp.value.trim(); if(!w) return;
-    LIVE.words=LIVE.words.filter(x=>x.by!==state.me);
-    LIVE.words.push({w:w.slice(0,24),by:state.me});
-    inp.value=''; paintCheckin(sc);
-    await sset(SK.checkin(sc.id),LIVE.words);
-  };
-  document.getElementById('wordgo').addEventListener('click',submit);
-  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); submit(); } });
-  const clr=document.getElementById('wordclear');
-  if(clr) clr.addEventListener('click',async()=>{
-    LIVE.words=[]; await sset(SK.checkin(sc.id),[]); paintCheckin(sc);
+function ansOf(id){
+  const list=(LIVE.ans&&LIVE.ans[id])||[];
+  const pend=(state.outbox||[]).filter(x=>x.qid===id&&!list.some(a=>a.id===x.item.id))
+                               .map(x=>Object.assign({pending:true},x.item));
+  return list.concat(pend);
+}
+function ansLabel(id){
+  const n=ansOf(id).length;
+  return n===0 ? 'Answer this' : n===1 ? '1 answer' : n+' answers';
+}
+function ansName(a){
+  if(a.by===state.me) return a.name ? a.name+' (you)' : 'You';
+  return a.name || 'Someone';
+}
+function paintAnsToggle(id){
+  const tag=document.getElementById('anstag-'+id);
+  if(tag) tag.textContent=ansLabel(id);
+}
+function paintAllAnsToggles(){
+  document.querySelectorAll('#view [data-ans]').forEach(b=>paintAnsToggle(b.dataset.ans));
+}
+/* union of two answer maps, deduped by answer id, server order first */
+function mergeAns(a,b){
+  const out={};
+  const keys=new Set([].concat(Object.keys(a||{}),Object.keys(b||{})));
+  keys.forEach(k=>{
+    const seen={}, list=[];
+    [].concat((a&&a[k])||[],(b&&b[k])||[]).forEach(x=>{
+      if(!x||!x.id||seen[x.id]) return;
+      seen[x.id]=1; list.push({id:x.id,by:x.by,name:x.name||'',text:x.text,at:x.at||''});
+    });
+    if(list.length) out[k]=list;
   });
+  return out;
+}
+
+function ansPanel(id){
+  const list=ansOf(id);
+  return '<p class="anshint">'+
+      (shareOK
+        ? 'Everyone with this link can read what goes in here.'
+        : 'The group cannot be reached right now. What you write is kept on this phone and sent when you are back online.')+
+    '</p>'+
+    (list.length
+      ? '<ul class="anslist">'+list.map(a=>
+          '<li class="ansitem'+(a.by===state.me?' mine':'')+(a.pending?' anspending':'')+'">'+
+            '<p class="ansmeta">'+esc(ansName(a))+(a.at?'  ·  '+esc(a.at):'')+
+              (a.pending?'  ·  not sent yet':'')+'</p>'+
+            '<p class="anstext">'+esc(a.text)+'</p>'+
+            (a.by===state.me?'<button class="ansdel" data-ansdel="'+attr(a.id)+'" data-ansq="'+attr(id)+'">Delete</button>':'')+
+          '</li>').join('')+'</ul>'
+      : '<p class="empty">No answers yet. Yours would be the first.</p>')+
+    '<textarea data-ansbox="'+attr(id)+'" maxlength="'+ANS_MAX+'" aria-label="Your answer" '+
+      'placeholder="Answer it how you would say it out loud.">'+esc(ANS_DRAFT[id]||'')+'</textarea>'+
+    '<div class="inline">'+
+      '<input class="ansname" data-ansname="'+attr(id)+'" maxlength="24" aria-label="Your name, optional" '+
+        'placeholder="Your name. Optional." value="'+attr(state.name||'')+'">'+
+      '<button class="btn" data-anspost="'+attr(id)+'">Post</button>'+
+    '</div>'+
+    '<div class="rowbtns">'+
+      '<button class="btn" data-ansrefresh="'+attr(id)+'">Refresh</button>'+
+      '<button class="btn warn" data-ansclear="'+attr(id)+'">Clear answers</button>'+
+    '</div>';
+}
+
+/* redraw one panel in place, keeping it open and keeping your draft */
+function paintAnsPanel(id){
+  const box=document.getElementById('ans-'+id);
+  if(!box || box.hidden) return;
+  box.innerHTML=ansPanel(id);
+  paintAnsToggle(id);
+}
+
+function toggleAnswers(id){
+  const box=document.getElementById('ans-'+id);
+  const btn=document.querySelector('[data-ans="'+cssEsc(id)+'"]');
+  if(!box||!btn) return;
+  if(OPEN_ANS.has(id)){
+    OPEN_ANS.delete(id);
+    box.hidden=true; box.innerHTML='';
+    btn.setAttribute('aria-expanded','false');
+  }else{
+    OPEN_ANS.add(id);
+    box.innerHTML=ansPanel(id);
+    box.hidden=false;
+    btn.setAttribute('aria-expanded','true');
+    /* only scroll if the question you just tapped is hidden behind the
+       sticky dock. otherwise leave the page where the thumb left it. */
+    const rack=document.querySelector('.rack');
+    const floor=rack?rack.getBoundingClientRect().bottom:0;
+    if(btn.getBoundingClientRect().top < floor+8){
+      btn.scrollIntoView({block:'start',behavior:'smooth'});
+    }
+  }
+  paintAnsToggle(id);
+}
+
+async function postAnswer(id){
+  const secId=SECV; if(!secId) return;
+  const box=document.querySelector('[data-ansbox="'+cssEsc(id)+'"]');
+  const nameIn=document.querySelector('[data-ansname="'+cssEsc(id)+'"]');
+  const text=(box?box.value:'').trim();
+  if(!text) return toast('Nothing to post yet');
+  const name=(nameIn?nameIn.value:'').trim().slice(0,24);
+  if(name!==(state.name||'')){ state.name=name; queueSave(); }
+
+  const item={id:'a'+newId(),by:state.me,name:name,text:text.slice(0,ANS_MAX),
+              at:new Date().toLocaleDateString()};
+
+  /* pull the latest first so a second answer posted at the same moment survives */
+  const latest=await sget(SK.ans(secId),null);
+  const base=(latest&&typeof latest==='object'&&!Array.isArray(latest))?latest:{};
+  const next=mergeAns(base,LIVE.ans);
+  /* anything that never made it out before rides along with this one */
+  outboxFor(secId).forEach(x=>{
+    const l=next[x.qid]=next[x.qid]||[];
+    if(!l.some(a=>a.id===x.item.id)) l.push(x.item);
+  });
+  (next[id]=next[id]||[]).push(item);
+
+  if(JSON.stringify(next).length>SHARE_MAX){
+    return toast('This section’s answers are full. Delete a few first.');
+  }
+
+  ANS_DRAFT[id]='';
+  if(box) box.value='';
+  const ok=await sset(SK.ans(secId),next,true);
+  if(ok){
+    if(SECV===secId) LIVE.ans=next;
+    dropOutbox(secId);
+    toast('Posted. Everyone on the link can see it.');
+    if(navigator.vibrate) try{navigator.vibrate(14);}catch(e){}
+  }else{
+    /* keep it, show it, send it with the next post that gets through */
+    state.outbox=(state.outbox||[]).concat([{sec:secId,qid:id,item:item}]);
+    queueSave();
+    toast('Saved on this phone. It goes to the group when you are back online.');
+  }
+  paintAnsPanel(id);
+}
+
+function outboxFor(secId){ return (state.outbox||[]).filter(x=>x.sec===secId); }
+function dropOutbox(secId){
+  if(!state.outbox||!state.outbox.length) return;
+  state.outbox=state.outbox.filter(x=>x.sec!==secId);
+  queueSave();
+}
+
+async function delAnswer(qid,aid){
+  const secId=SECV; if(!secId) return;
+  if((state.outbox||[]).some(x=>x.item&&x.item.id===aid)){
+    state.outbox=state.outbox.filter(x=>!(x.item&&x.item.id===aid));
+    queueSave(); paintAnsPanel(qid); toast('Gone');
+    return;
+  }
+  const latest=await sget(SK.ans(secId),null);
+  const base=(latest&&typeof latest==='object'&&!Array.isArray(latest))?latest:{};
+  const next=mergeAns(base,LIVE.ans);
+  /* only ever your own, whatever the server came back with */
+  next[qid]=(next[qid]||[]).filter(a=>!(a.id===aid&&a.by===state.me));
+  if(!next[qid].length) delete next[qid];
+  const ok=await sset(SK.ans(secId),next,true);
+  if(ok){ if(SECV===secId) LIVE.ans=next; toast('Gone'); }
+  else toast('Could not reach the group. Try again in a moment.');
+  paintAnsPanel(qid);
+}
+
+async function refreshAnswers(id){
+  const secId=SECV; if(!secId) return;
+  const latest=await sget(SK.ans(secId),null);
+  if(latest===null && !shareOK){ toast('Cannot reach the group right now'); return; }
+  if(SECV!==secId) return;
+  LIVE.ans=(latest&&typeof latest==='object'&&!Array.isArray(latest))?latest:{};
+  paintAnsPanel(id);
+  toast('Refreshed');
+}
+
+async function clearAnswers(id){
+  const secId=SECV; if(!secId) return;
+  const latest=await sget(SK.ans(secId),null);
+  const base=(latest&&typeof latest==='object'&&!Array.isArray(latest))?latest:{};
+  const next=mergeAns(base,LIVE.ans);
+  delete next[id];
+  state.outbox=(state.outbox||[]).filter(x=>!(x.sec===secId&&x.qid===id));
+  queueSave();
+  const ok=await sset(SK.ans(secId),next,true);
+  if(ok){ if(SECV===secId) LIVE.ans=next; toast('Answers cleared'); }
+  else toast('Could not reach the group. Nothing was cleared.');
+  paintAnsPanel(id);
 }
 
 /* ============================================================
@@ -2221,8 +2601,8 @@ const TUTORIAL=[
  {lab:"Then one bit", big:"A section, not a chapter",
   med:"Chapters are long. Sections are not. Each one says how many minutes it is to read. Tap one.",
   nav:()=>go(8), find:()=>document.querySelector('.secs .secgo')},
- {lab:"The session", big:"Everything for that one bit",
-  med:"What it says, one question, what people brought, angels, notes, a clock. That is the whole session.",
+ {lab:"The question", big:"Tap it. Answer it.",
+  med:"Every section has one question. Tap it and it opens: type an answer and everyone on this link can read it, before you meet or during.",
   nav:()=>goSec('c8s3'), find:()=>document.querySelector('.bigq')},
  {lab:"Bring your own", big:"The thing you want to say",
   med:"Your question, or a quote that got you. Everyone on this link sees it.",
@@ -2401,10 +2781,19 @@ if(window.matchMedia){
 window.addEventListener('pagehide',saveNow);
 window.addEventListener('beforeunload',saveNow);
 
+/* come back to the tab and the group may have answered while you were away */
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState!=='visible') return;
+  tickNow();                       /* catch the clock up after a locked screen */
+  const hit=SECV&&findSec(SECV);
+  if(hit && LIVE.forSec===SECV) loadLive(hit.sc);
+});
+
 (function init(){
   loadState();
   ensureState();
   if(!state.me){ state.me=newId(); queueSave(); }
+  wireView();
   paintTheme();
   render();
   if(!state.tutorialSeen) openTutorial();
